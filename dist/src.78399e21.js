@@ -31480,11 +31480,19 @@ function (_React$Component) {
   }
 
   _createClass(MovieView, [{
+    key: "keypressCallback",
+    value: function keypressCallback(event) {
+      console.log(event.key);
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      document.addEventListener('keypress', function (event) {
-        console.log(event.key);
-      });
+      document.addEventListener('keypress', this.keypressCallback);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      document.removeEventListener('keypress', this.keypressCallback);
     }
   }, {
     key: "render",
