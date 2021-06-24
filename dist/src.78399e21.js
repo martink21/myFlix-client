@@ -32473,7 +32473,7 @@ MovieCard.propTypes = {
   movie: _propTypes.default.shape({
     Title: _propTypes.default.string.isRequired,
     Description: _propTypes.default.string.isRequired,
-    ImagePath: _propTypes.default.string.isRequired
+    ImagePath: _propTypes.default.string
   }).isRequired,
   onMovieClick: _propTypes.default.func.isRequired
 };
@@ -32832,6 +32832,13 @@ function (_React$Component) {
       });
     }
   }, {
+    key: "onRegister",
+    value: function onRegister(register) {
+      this.setState({
+        register: register
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this3 = this;
@@ -32846,14 +32853,12 @@ function (_React$Component) {
       if (register) return _react.default.createElement(_registrationView.RegistrationView, {
         onRegister: function onRegister(register) {
           return _this3.onRegister(register);
-        },
-        toggleRegister: this.toggleRegister
+        }
       });
       if (!user) return _react.default.createElement(_loginView.LoginView, {
         onLoggedIn: function onLoggedIn(user) {
           return _this3.onLoggedIn(user);
-        },
-        toggleRegister: this.toggleRegister
+        }
       }); // Before the movies have been loaded
 
       if (movies.length === 0) return _react.default.createElement("div", {
@@ -32980,7 +32985,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63674" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61545" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
