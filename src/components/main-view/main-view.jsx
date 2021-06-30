@@ -72,8 +72,8 @@ render() {
       <div className="main-view">
         {selectedMovie
           ? (
-            <Row>
-              <Col>
+            <Row className="justify-content-md-center">
+              <Col md={8}>
                 <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }}/>
               </Col>
             </Row>
