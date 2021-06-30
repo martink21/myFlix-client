@@ -69,21 +69,21 @@ render() {
     if (movies.length === 0) return <div className="main-view" />;
 
     return (
-      <div className="main-view">
+      <Row className="main-view justify-content-md-center">
         {selectedMovie
           ? (
-            <Row className="justify-content-md-center">
-              <Col md={8}>
-                <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }}/>
-              </Col>
-            </Row>
+            <Col md={8}>
+              <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }} />
+            </Col>
           )
           : movies.map(movie => (
-            <MovieCard key={movie._id} movie={movie} onMovieClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }}/>
+            <Col md={3}>
+              <MovieCard key={movie._id} movie={movie} onMovieClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }}/>
+            </Col>
           ))
         }
-      </div>
-    );  
+      </Row>
+    ); 
   }
 
 }
