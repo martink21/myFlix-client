@@ -56,6 +56,14 @@ export class MainView extends React.Component {
     });
 }
 
+toggleRegister = (e) => {
+    e.preventDefault();
+    this.setState({
+      register: !this.state.register
+    })
+}
+
+
 render() {
     const { movies, selectedMovie, user, register } = this.state;
     
@@ -73,12 +81,14 @@ render() {
         {selectedMovie
           ? (
             <Col md={8}>
-              <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }} />
+              <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => 
+               { this.setSelectedMovie(newSelectedMovie); }} />
             </Col>
           )
           : movies.map(movie => (
             <Col md={3}>
-              <MovieCard key={movie._id} movie={movie} onMovieClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }}/>
+              <MovieCard key={movie._id} movie={movie} onMovieClick={newSelectedMovie => 
+                { this.setSelectedMovie(newSelectedMovie); }}/>
             </Col>
           ))
         }
