@@ -34124,30 +34124,49 @@ function LoginView(props) {
     props.onLoggedIn(username);
   };
 
-  return _react.default.createElement(_Form.default, null, _react.default.createElement(_Form.default.Group, {
-    controlId: "formUsername"
-  }, _react.default.createElement(_Form.default.Label, null, "Username:"), _react.default.createElement(_Form.default.Control, {
-    type: "text",
-    onChange: function onChange(e) {
-      return setUsername(e.target.value);
-    }
-  })), _react.default.createElement(_Form.default.Group, {
-    controlId: "formPassword"
-  }, _react.default.createElement(_Form.default.Label, null, "Password:"), _react.default.createElement(_Form.default.Control, {
-    type: "password",
-    onChange: function onChange(e) {
-      return setPassword(e.target.value);
-    }
-  })), _react.default.createElement(_Button.default, {
-    variant: "primary",
-    type: "submit",
-    onClick: handleSubmit
-  }, "Submit"), _react.default.createElement(_Button.default, {
-    variant: "outline-secondary",
-    className: "button-float-right",
-    type: "button",
-    onClick: props.toggleRegister
-  }, "Register"));
+  return (
+    /*#__PURE__*/
+    _react.default.createElement(_Form.default, null,
+    /*#__PURE__*/
+    _react.default.createElement(_Form.default.Group, {
+      controlId: "formUsername"
+    },
+    /*#__PURE__*/
+    _react.default.createElement(_Form.default.Label, null, "Username:"),
+    /*#__PURE__*/
+    _react.default.createElement(_Form.default.Control, {
+      type: "text",
+      onChange: function onChange(e) {
+        return setUsername(e.target.value);
+      }
+    })),
+    /*#__PURE__*/
+    _react.default.createElement(_Form.default.Group, {
+      controlId: "formPassword"
+    },
+    /*#__PURE__*/
+    _react.default.createElement(_Form.default.Label, null, "Password:"),
+    /*#__PURE__*/
+    _react.default.createElement(_Form.default.Control, {
+      type: "password",
+      onChange: function onChange(e) {
+        return setPassword(e.target.value);
+      }
+    })),
+    /*#__PURE__*/
+    _react.default.createElement(_Button.default, {
+      variant: "primary",
+      type: "submit",
+      onClick: handleSubmit
+    }, "Submit"),
+    /*#__PURE__*/
+    _react.default.createElement(_Button.default, {
+      variant: "outline-secondary",
+      className: "button-float-right",
+      type: "button",
+      onClick: props.toggleRegister
+    }, "Register"))
+  );
 }
 },{"react":"../node_modules/react/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js"}],"../node_modules/react-bootstrap/esm/divWithClassName.js":[function(require,module,exports) {
 "use strict";
@@ -34412,15 +34431,28 @@ function (_React$Component) {
       var _this$props = this.props,
           movie = _this$props.movie,
           onMovieClick = _this$props.onMovieClick;
-      return _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Img, {
-        variant: "top",
-        src: movie.ImagePath
-      }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, movie.Title), _react.default.createElement(_Card.default.Text, null, movie.Description), _react.default.createElement(_Button.default, {
-        onClick: function onClick() {
-          return onMovieClick(movie);
-        },
-        variant: "link"
-      }, "Open")));
+      return (
+        /*#__PURE__*/
+        _react.default.createElement(_Card.default, null,
+        /*#__PURE__*/
+        _react.default.createElement(_Card.default.Img, {
+          variant: "top",
+          src: movie.ImagePath
+        }),
+        /*#__PURE__*/
+        _react.default.createElement(_Card.default.Body, null,
+        /*#__PURE__*/
+        _react.default.createElement(_Card.default.Title, null, movie.Title),
+        /*#__PURE__*/
+        _react.default.createElement(_Card.default.Text, null, movie.Description),
+        /*#__PURE__*/
+        _react.default.createElement(_Button.default, {
+          onClick: function onClick() {
+            return onMovieClick(movie);
+          },
+          variant: "link"
+        }, "Open")))
+      );
     }
   }]);
 
@@ -34504,29 +34536,50 @@ function (_React$Component) {
       var _this$props = this.props,
           movie = _this$props.movie,
           onBackClick = _this$props.onBackClick;
-      return _react.default.createElement("div", {
-        className: "movie-view"
-      }, _react.default.createElement("div", {
-        className: "movie-poster"
-      }, _react.default.createElement("img", {
-        src: movie.ImagePath
-      })), _react.default.createElement("div", {
-        className: "movie-title"
-      }, _react.default.createElement("span", {
-        className: "label"
-      }, "Title: "), _react.default.createElement("span", {
-        className: "value"
-      }, movie.Title)), _react.default.createElement("div", {
-        className: "movie-description"
-      }, _react.default.createElement("span", {
-        className: "label"
-      }, "Description: "), _react.default.createElement("span", {
-        className: "value"
-      }, movie.Description)), _react.default.createElement("button", {
-        onClick: function onClick() {
-          onBackClick(null);
-        }
-      }, "Back"));
+      return (
+        /*#__PURE__*/
+        _react.default.createElement("div", {
+          className: "movie-view"
+        },
+        /*#__PURE__*/
+        _react.default.createElement("div", {
+          className: "movie-poster"
+        },
+        /*#__PURE__*/
+        _react.default.createElement("img", {
+          src: movie.ImagePath
+        })),
+        /*#__PURE__*/
+        _react.default.createElement("div", {
+          className: "movie-title"
+        },
+        /*#__PURE__*/
+        _react.default.createElement("span", {
+          className: "label"
+        }, "Title: "),
+        /*#__PURE__*/
+        _react.default.createElement("span", {
+          className: "value"
+        }, movie.Title)),
+        /*#__PURE__*/
+        _react.default.createElement("div", {
+          className: "movie-description"
+        },
+        /*#__PURE__*/
+        _react.default.createElement("span", {
+          className: "label"
+        }, "Description: "),
+        /*#__PURE__*/
+        _react.default.createElement("span", {
+          className: "value"
+        }, movie.Description)),
+        /*#__PURE__*/
+        _react.default.createElement("button", {
+          onClick: function onClick() {
+            onBackClick(null);
+          }
+        }, "Back"))
+      );
     }
   }]);
 
@@ -34737,56 +34790,89 @@ function RegistrationView(props) {
     props.onRegister(username);
   };
 
-  return _react.default.createElement(_Row.default, {
-    className: "reg-margin-top justify-content-md-center"
-  }, _react.default.createElement(_Col.default, {
-    sm: 12,
-    md: 6,
-    lg: 6,
-    xl: 4
-  }, _react.default.createElement(_Form.default.Group, null, _react.default.createElement(_Form.default.Label, {
-    controlId: "username"
-  }, "Username: "), _react.default.createElement(_Form.default.Control, {
-    type: "text",
-    value: username,
-    onChange: function onChange(e) {
-      return setUsername(e.target.value);
-    }
-  })), _react.default.createElement(_Form.default.Group, null, _react.default.createElement(_Form.default.Label, {
-    controlId: "password"
-  }, "Password: "), _react.default.createElement(_Form.default.Control, {
-    type: "password",
-    value: password,
-    onChange: function onChange(e) {
-      return setPassword(e.target.value);
-    }
-  })), _react.default.createElement(_Form.default.Group, null, _react.default.createElement(_Form.default.Label, {
-    controlId: "email"
-  }, "eMail: "), _react.default.createElement(_Form.default.Control, {
-    type: "email",
-    value: email,
-    onChange: function onChange(e) {
-      return setEmail(e.target.value);
-    }
-  })), _react.default.createElement(_Form.default.Group, null, _react.default.createElement(_Form.default.Label, {
-    controlId: "birthday"
-  }, "Date of Birth: "), _react.default.createElement(_Form.default.Control, {
-    type: "date",
-    value: birthday,
-    onChange: function onChange(e) {
-      return setBirthday(e.target.value);
-    }
-  })), _react.default.createElement(_Button.default, {
-    variant: "danger",
-    type: "submit",
-    onClick: handleSubmit
-  }, "Submit"), ' ', _react.default.createElement(_Button.default, {
-    variant: "outline-secondary",
-    className: "button-float-right",
-    onClick: function onClick() {
-      onBackClick(null);
-    }
-  }, "Back")));
+  return (
+    /*#__PURE__*/
+    _react.default.createElement(_Row.default, {
+      className: "reg-margin-top justify-content-md-center"
+    },
+    /*#__PURE__*/
+    _react.default.createElement(_Col.default, {
+      sm: 12,
+      md: 6,
+      lg: 6,
+      xl: 4
+    },
+    /*#__PURE__*/
+    _react.default.createElement(_Form.default.Group, null,
+    /*#__PURE__*/
+    _react.default.createElement(_Form.default.Label, {
+      controlid: "username"
+    }, "Username: "),
+    /*#__PURE__*/
+    _react.default.createElement(_Form.default.Control, {
+      type: "text",
+      value: username,
+      onChange: function onChange(e) {
+        return setUsername(e.target.value);
+      }
+    })),
+    /*#__PURE__*/
+    _react.default.createElement(_Form.default.Group, null,
+    /*#__PURE__*/
+    _react.default.createElement(_Form.default.Label, {
+      controlid: "password"
+    }, "Password: "),
+    /*#__PURE__*/
+    _react.default.createElement(_Form.default.Control, {
+      type: "password",
+      value: password,
+      onChange: function onChange(e) {
+        return setPassword(e.target.value);
+      }
+    })),
+    /*#__PURE__*/
+    _react.default.createElement(_Form.default.Group, null,
+    /*#__PURE__*/
+    _react.default.createElement(_Form.default.Label, {
+      controlid: "email"
+    }, "eMail: "),
+    /*#__PURE__*/
+    _react.default.createElement(_Form.default.Control, {
+      type: "email",
+      value: email,
+      onChange: function onChange(e) {
+        return setEmail(e.target.value);
+      }
+    })),
+    /*#__PURE__*/
+    _react.default.createElement(_Form.default.Group, null,
+    /*#__PURE__*/
+    _react.default.createElement(_Form.default.Label, {
+      controlid: "birthday"
+    }, "Date of Birth: "),
+    /*#__PURE__*/
+    _react.default.createElement(_Form.default.Control, {
+      type: "date",
+      value: birthday,
+      onChange: function onChange(e) {
+        return setBirthday(e.target.value);
+      }
+    })),
+    /*#__PURE__*/
+    _react.default.createElement(_Button.default, {
+      variant: "danger",
+      type: "submit",
+      onClick: handleSubmit
+    }, "Submit"), ' ',
+    /*#__PURE__*/
+    _react.default.createElement(_Button.default, {
+      variant: "outline-secondary",
+      className: "button-float-right",
+      onClick: function onClick() {
+        onBackClick(null);
+      }
+    }, "Back")))
+  );
 }
 },{"react":"../node_modules/react/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","./registration-view.scss":"components/registration-view/registration-view.scss"}],"components/main-view/main-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
@@ -34843,6 +34929,8 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var MainView =
 /*#__PURE__*/
 function (_React$Component) {
@@ -34856,6 +34944,15 @@ function (_React$Component) {
     _classCallCheck(this, MainView);
 
     _this = _super.call(this);
+
+    _defineProperty(_assertThisInitialized(_this), "toggleRegister", function (e) {
+      e.preventDefault();
+
+      _this.setState({
+        register: !_this.state.register
+      });
+    });
+
     _this.state = {
       movies: [],
       selectedMovie: null,
@@ -34914,42 +35011,63 @@ function (_React$Component) {
           register = _this$state.register;
       /* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView*/
 
-      if (register) return _react.default.createElement(_registrationView.RegistrationView, {
-        onRegister: function onRegister(register) {
-          return _this3.onRegister(register);
-        },
-        toggleRegister: this.toggleRegister
-      });
-      if (!user) return _react.default.createElement(_loginView.LoginView, {
-        onLoggedIn: function onLoggedIn(user) {
-          return _this3.onLoggedIn(user);
-        },
-        toggleRegister: this.toggleRegister
-      }); // Before the movies have been loaded
+      if (register) return (
+        /*#__PURE__*/
+        _react.default.createElement(_registrationView.RegistrationView, {
+          onRegister: function onRegister(register) {
+            return _this3.onRegister(register);
+          },
+          toggleRegister: this.toggleRegister
+        })
+      );
+      if (!user) return (
+        /*#__PURE__*/
+        _react.default.createElement(_loginView.LoginView, {
+          onLoggedIn: function onLoggedIn(user) {
+            return _this3.onLoggedIn(user);
+          },
+          toggleRegister: this.toggleRegister
+        })
+      ); // Before the movies have been loaded
 
-      if (movies.length === 0) return _react.default.createElement("div", {
-        className: "main-view"
-      });
-      return _react.default.createElement(_Row.default, {
-        className: "main-view justify-content-md-center"
-      }, selectedMovie ? _react.default.createElement(_Col.default, {
-        md: 8
-      }, _react.default.createElement(_movieView.MovieView, {
-        movie: selectedMovie,
-        onBackClick: function onBackClick(newSelectedMovie) {
-          _this3.setSelectedMovie(newSelectedMovie);
-        }
-      })) : movies.map(function (movie) {
-        return _react.default.createElement(_Col.default, {
-          md: 3
-        }, _react.default.createElement(_movieCard.MovieCard, {
-          key: movie._id,
-          movie: movie,
-          onMovieClick: function onMovieClick(newSelectedMovie) {
+      if (movies.length === 0) return (
+        /*#__PURE__*/
+        _react.default.createElement("div", {
+          className: "main-view"
+        })
+      );
+      return (
+        /*#__PURE__*/
+        _react.default.createElement(_Row.default, {
+          className: "main-view justify-content-md-center"
+        }, selectedMovie ?
+        /*#__PURE__*/
+        _react.default.createElement(_Col.default, {
+          md: 8
+        },
+        /*#__PURE__*/
+        _react.default.createElement(_movieView.MovieView, {
+          movie: selectedMovie,
+          onBackClick: function onBackClick(newSelectedMovie) {
             _this3.setSelectedMovie(newSelectedMovie);
           }
-        }));
-      }));
+        })) : movies.map(function (movie) {
+          return (
+            /*#__PURE__*/
+            _react.default.createElement(_Col.default, {
+              md: 3
+            },
+            /*#__PURE__*/
+            _react.default.createElement(_movieCard.MovieCard, {
+              key: movie._id,
+              movie: movie,
+              onMovieClick: function onMovieClick(newSelectedMovie) {
+                _this3.setSelectedMovie(newSelectedMovie);
+              }
+            }))
+          );
+        }))
+      );
     }
   }]);
 
@@ -35018,7 +35136,12 @@ function (_React$Component) {
   _createClass(MyFlixApplication, [{
     key: "render",
     value: function render() {
-      return _react.default.createElement(_Container.default, null, _react.default.createElement(_mainView.default, null));
+      return (
+        /*#__PURE__*/
+        _react.default.createElement(_Container.default, null,
+        /*#__PURE__*/
+        _react.default.createElement(_mainView.default, null))
+      );
     }
   }]);
 
@@ -35028,7 +35151,9 @@ function (_React$Component) {
 
 var container = document.getElementsByClassName('app-container')[0]; // Tells React to render your app in the root DOM element
 
-_reactDom.default.render(_react.default.createElement(MyFlixApplication), container);
+_reactDom.default.render(
+/*#__PURE__*/
+_react.default.createElement(MyFlixApplication), container);
 },{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","./components/main-view/main-view":"components/main-view/main-view.jsx","./index.scss":"index.scss"}],"D:/nvm/v14.17.0/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -35057,7 +35182,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55965" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56065" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
