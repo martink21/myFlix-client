@@ -15,6 +15,8 @@ export function LoginView(props) {
 
 
   return (
+    <Row className="main-view justify-content-md-center">
+    <Col md={8}>
     <Form>
       <Form.Group controlId="formUsername">
         <Form.Label>Username:</Form.Label>
