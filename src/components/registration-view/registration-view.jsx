@@ -15,10 +15,27 @@ export function RegistrationView(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(username, password.email, birthday);
-        props.onRegister(username);
-    }
+        axios.post('https://myflix-21.herokuapp.com/users', {
+          Username: username,
+          Password: password,
+          Email: email,
+          Birthdate: birthdate
+        })
+          .then(response => {
+            const data = response.data;
+            console.log(data);
+            window.open('/', '_self');
+            alert("You have sucessfully registered.");
+          })
+          .catch(error => {
+            if (error.response && error.response.status === 400) {
+              alert('The value you entered is not valid.')
+            }
+          });
+        console.log(username, password, email, birthdate);
+      };
     
+      
         return (
             <Row className="reg-margin-top justify-content-md-center">
                 <Col sm={12} md={6} lg={6} xl={4}>
