@@ -34986,15 +34986,14 @@ function (_React$Component) {
   _createClass(MainView, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this2 = this;
+      var accessToken = localStorage.getItem('token');
 
-      _axios.default.get('https://myflix-21.herokuapp.com/movies').then(function (response) {
-        _this2.setState({
-          movies: response.data
+      if (accessToken !== null) {
+        this.setState({
+          user: localStorage.getItem('user')
         });
-      }).catch(function (error) {
-        console.log(error);
-      });
+        this.getMovies(accessToken);
+      }
     }
     /*When a movie is clicked, this function is invoked and updates the state of the `selectedMovie` *property to that movie*/
 
@@ -35021,7 +35020,7 @@ function (_React$Component) {
   }, {
     key: "getMovies",
     value: function getMovies(token) {
-      var _this3 = this;
+      var _this2 = this;
 
       _axios.default.get('https://myflix-21.herokuapp.com/movies', {
         headers: {
@@ -35029,7 +35028,7 @@ function (_React$Component) {
         }
       }).then(function (response) {
         // Assign the result to the state
-        _this3.setState({
+        _this2.setState({
           movies: response.data
         });
       }).catch(function (error) {
@@ -35046,7 +35045,7 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this3 = this;
 
       var _this$state = this.state,
           movies = _this$state.movies,
@@ -35059,7 +35058,7 @@ function (_React$Component) {
         /*#__PURE__*/
         _react.default.createElement(_registrationView.RegistrationView, {
           onRegister: function onRegister(register) {
-            return _this4.onRegister(register);
+            return _this3.onRegister(register);
           },
           toggleRegister: this.toggleRegister
         })
@@ -35068,7 +35067,7 @@ function (_React$Component) {
         /*#__PURE__*/
         _react.default.createElement(_loginView.LoginView, {
           onLoggedIn: function onLoggedIn(user) {
-            return _this4.onLoggedIn(user);
+            return _this3.onLoggedIn(user);
           },
           toggleRegister: this.toggleRegister
         })
@@ -35093,7 +35092,7 @@ function (_React$Component) {
         _react.default.createElement(_movieView.MovieView, {
           movie: selectedMovie,
           onBackClick: function onBackClick(newSelectedMovie) {
-            _this4.setSelectedMovie(newSelectedMovie);
+            _this3.setSelectedMovie(newSelectedMovie);
           }
         })) : movies.map(function (movie) {
           return (
@@ -35106,7 +35105,7 @@ function (_React$Component) {
               key: movie._id,
               movie: movie,
               onMovieClick: function onMovieClick(newSelectedMovie) {
-                _this4.setSelectedMovie(newSelectedMovie);
+                _this3.setSelectedMovie(newSelectedMovie);
               }
             }))
           );
@@ -35226,7 +35225,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49671" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61360" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
