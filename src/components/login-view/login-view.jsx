@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button';
 
 import axios from 'axios';
 
+import { Link } from "react-router-dom";
+
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
@@ -42,13 +44,13 @@ export function LoginView(props) {
                         <Form.Label>Password:</Form.Label>
                         <Form.Control type="password" onChange={e => setPassword(e.target.value)} />
                     </Form.Group>
-                    <Button variant="primary" type="submit" onClick={handleSubmit}>
-                        Submit
-                    </Button>
-
-                    <Button variant="outline-secondary" className="float-right" type="button"
-                        onClick={props.toggleRegister}>Register</Button>
-
+                    <span>
+                        <Button variant="primary" onClick={handleSubmit}>Submit</Button>
+                        {' '}
+                        <Link to={`/register`}>
+                            <Button variant="link">Register</Button>
+                        </Link>
+                    </span>
                 </Form>
             </Col>
         </Row>
