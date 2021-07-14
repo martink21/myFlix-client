@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
 
 export class MovieView extends React.Component {
 
@@ -16,7 +17,7 @@ export class MovieView extends React.Component {
   }
 
   render() {
-    const { onBackClick } = this.props;
+    const { movie, onBackClick } = this.props;
 
     return (
       <div className="movie-view">
