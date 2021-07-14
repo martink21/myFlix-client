@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+import axios from 'axios';
+
 import './registration-view.scss';
 
 export function RegistrationView(props) {
@@ -19,7 +21,7 @@ export function RegistrationView(props) {
           Username: username,
           Password: password,
           Email: email,
-          Birthdate: birthdate
+          Birthday: birthday
         })
           .then(response => {
             const data = response.data;
@@ -32,10 +34,10 @@ export function RegistrationView(props) {
               alert('The value you entered is not valid.')
             }
           });
-        console.log(username, password, email, birthdate);
+        console.log(username, password, email, birthday);
       };
     
-      
+
         return (
             <Row className="reg-margin-top justify-content-md-center">
                 <Col sm={12} md={6} lg={6} xl={4}>
