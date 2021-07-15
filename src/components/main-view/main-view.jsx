@@ -3,16 +3,19 @@ import axios from 'axios';
 
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
-import { LoginView } from '../login-view/login-view';
-import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
-import { RegistrationView } from '../registration-view/registration-view';
+import { LoginView } from '../login-view/login-view';
 import { GenreView } from '../genre-view/genre-view';
 import { DirectorView } from '../director-view/director-view';
+import { RegistrationView } from '../registration-view/registration-view';
 import { ProfileView } from '../profile-view/profile-view';
+import { MovieCard } from '../movie-card/movie-card';
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import { Container, Navbar } from 'react-bootstrap';
+import { Link } from "react-router-dom";
 
 import './main-view.scss';
 
@@ -22,7 +25,8 @@ export class MainView extends React.Component {
     super();
     this.state = {
       movies: [],
-      user: null
+      user: null,
+      userData: null
     }
   }
 
@@ -64,14 +68,41 @@ export class MainView extends React.Component {
     localStorage.setItem('user', authData.user.Username);
     this.getMovies(authData.token);
   }
-
+  
+  onLoggedOut() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.setState({
+      user: null
+    });
+  }
 
   render() {
-    const { movies, user } = this.state;
+  
+    let { movies, user, history} = this.state;
 
     return (
       <Router>
         <Row className="main-view justify-content-md-center">
+          
+          <Container>
+            <Navbar bg="dark" variant="dark" >
+              <Navbar.Brand>Welcome to MyFlix!</Navbar.Brand>
+              <ul>
+                <Link to={`/`}>
+                  <Button variant="link" className="navbar-link text-light">Movies</Button>
+                </Link >
+                <Link to={`/users/${user}`}>
+                  <Button variant="link" className="navbar-link text-light">Profile</Button>
+                </Link>
+                <Link to={`/`}>
+                  <Button variant="link" className="navbar-link text-light" onClick={() => this.onLoggedOut()}>Logout</Button>
+                </Link >
+              </ul>
+            </Navbar >
+          </Container>
+          
+        
           <Route exact path="/" render={() => {
             if (!user) return <Col>
               <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
@@ -136,7 +167,7 @@ export class MainView extends React.Component {
               onBackClick={() => history.goBack()} />
             </Col>
           }} />
-
+      
         </Row>
       </Router>
     );
