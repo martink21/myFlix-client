@@ -26,10 +26,24 @@ export class MainView extends React.Component {
     this.state = {
       movies: [],
       user: null,
-      userData: null
+      userData: null,
+      token: null
     }
   }
 
+  componentDidMount() {
+    let accessToken = localStorage.getItem('token');
+    let userToken = localStorage.getItem('user');
+    if (accessToken !== null) {
+      this.setState({
+        user: localStorage.getItem('user'),
+        token: localStorage.getItem('token')
+      });
+      this.getAcc(accessToken, userToken);
+      this.getMovies(accessToken);
+    }
+  }
+  
   getMovies(token) {
     axios.get('https://myflix-21.herokuapp.com/movies', {
       headers: { Authorization: `Bearer ${token}` }
@@ -45,41 +59,80 @@ export class MainView extends React.Component {
       });
   }
 
-  componentDidMount() {
-    let accessToken = localStorage.getItem('token');
-    if (accessToken !== null) {
+ 
+
+  newUser(newData) {
+    localStorage.setItem('user', newData.Username);
+    this.setState({
+      userData: newData,
+      user: newData.Username
+    });
+  }
+
+  setSelectedMovie(newSelectedMovie) {
+    this.setState({
+      selectedMovie: newSelectedMovie
+    });
+  }
+
+  getAcc(token, user) {
+    axios.get(`https://myflix-21.herokuapp.com/users/${user}`, {
+      headers: { Authorization: `Bearer ${token}`}
+    })
+    .then(response => {
+      console.log('Success with getAcc');
       this.setState({
-        user: localStorage.getItem('user')
+        userData: response.data
       });
-      this.getMovies(accessToken);
-    }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  getMovies(token) {
+    axios.get('https://myflix-21.herokuapp.com/movies', {
+      headers: { Authorization: `Bearer ${token}`}
+    })
+    .then(response => {
+      // Assign the result to the state
+      this.setState({
+        movies: response.data
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
 
   /* When a user successfully logs in, this function updates the `user` property 
      in state to that *particular user*/
 
-  onLoggedIn(authData) {
-    console.log(authData);
-    this.setState({
-      user: authData.user.Username
-    });
-
-    localStorage.setItem('token', authData.token);
-    localStorage.setItem('user', authData.user.Username);
-    this.getMovies(authData.token);
-  }
+     onLoggedIn(authData) {
+      console.log(authData);
+      this.setState({
+        user: authData.user.Username,
+        token: authData.token
+      });
+      localStorage.setItem('token', authData.token);
+      localStorage.setItem('user', authData.user.Username);
+      this.getAcc(authData.token, authData.user.Username);
+      this.getMovies(authData.token);
+    }
   
-  onLoggedOut() {
+  onLoggedOut(signState) {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     this.setState({
-      user: null
+      user: signState,
+      token: null,
+      userData: null
     });
   }
 
   render() {
   
-    let { movies, user, history} = this.state;
+    let { movies, user, history, token, userData} = this.state;
 
     return (
       <Router>
@@ -145,15 +198,15 @@ export class MainView extends React.Component {
           }
           } />
 
-          <Route path="/users/:userId" render={() => {
+          <Route path="/users/${user}" render={() => {
             if (movies.length === 0) return <div className="main-view" />;
             if (!user) return <Col>
               <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
             </Col>
             return <Col>
-              <ProfileView onLoggedIn={user => this.onLoggedIn(user)}
-                movies={movies} user={user}
-                onBackClick={() => history.goBack()} />
+              <ProfileView user={user} token={token} history={history} userData={userData} 
+              onNewUser={newData => { this.newUser(newData); }} 
+              onLoggedOut={signState => { this.onLoggedOut(signState); }}/>
             </Col>
           }} />
 
