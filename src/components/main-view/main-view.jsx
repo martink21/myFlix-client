@@ -43,7 +43,7 @@ export class MainView extends React.Component {
       this.getMovies(accessToken);
     }
   }
-  
+
   getMovies(token) {
     axios.get('https://myflix-21.herokuapp.com/movies', {
       headers: { Authorization: `Bearer ${token}` }
@@ -59,7 +59,6 @@ export class MainView extends React.Component {
       });
   }
 
- 
 
   newUser(newData) {
     localStorage.setItem('user', newData.Username);
@@ -198,7 +197,7 @@ export class MainView extends React.Component {
           }
           } />
 
-          <Route path="/users/${user}" render={() => {
+          <Route path="/users/:username" render={() => {
             if (movies.length === 0) return <div className="main-view" />;
             if (!user) return <Col>
               <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
