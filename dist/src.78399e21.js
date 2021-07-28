@@ -54237,7 +54237,8 @@ function (_React$Component) {
       UsernameError: "",
       EmailError: "",
       PasswordError: "",
-      BirthdateError: ""
+      BirthdateError: "",
+      movies: []
     };
     return _this;
   }
@@ -54393,6 +54394,7 @@ function (_React$Component) {
       var _this$props = this.props,
           user = _this$props.user,
           movies = _this$props.movies;
+      console.log(this.props);
       var _this$state = this.state,
           UsernameError = _this$state.UsernameError,
           EmailError = _this$state.EmailError,
@@ -54656,7 +54658,7 @@ var mapStateToProps = function mapStateToProps(state) {
     user: state.user,
     movies: state.movies
   };
-}; //export default //connect(mapStateToProps, { setUser, updateUser })(ProfileView);
+}; //export default //connect(mapStateToProps, { //setUser, updateUser })(ProfileView);
 },{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-redux":"../node_modules/react-redux/es/index.js","./profile-view.scss":"components/profile-view/profile-view.scss"}],"components/movie-card/movie-card.jsx":[function(require,module,exports) {
 "use strict";
 
@@ -55131,7 +55133,7 @@ function (_React$Component) {
         }),
         /*#__PURE__*/
         _react.default.createElement(_reactRouterDom.Route, {
-          path: "/users/${user}",
+          path: "/users/:username",
           render: function render() {
             if (movies.length === 0) return (
               /*#__PURE__*/
@@ -55154,6 +55156,7 @@ function (_React$Component) {
               _react.default.createElement(_Col.default, null,
               /*#__PURE__*/
               _react.default.createElement(_profileView.ProfileView, {
+                movies: movies,
                 user: user,
                 token: token,
                 history: history,
@@ -55322,7 +55325,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59747" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55834" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
