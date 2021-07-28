@@ -22,6 +22,7 @@ export class ProfileView extends React.Component {
       EmailError: "",
       PasswordError: "",
       BirthdateError: "",
+      movies: []
     };
   }
   componentDidMount() {
@@ -151,6 +152,7 @@ export class ProfileView extends React.Component {
 
   render() {
     const { user, movies } = this.props;
+    console.log(this.props);
     const { UsernameError, EmailError, PasswordError, BirthdateError } = this.state;
     const FavoriteMovieList = movies.filter((movie) => {
       return this.state.FavoriteMovies.includes(movie._id);
@@ -292,4 +294,4 @@ let mapStateToProps = state => {
   }
 }
 
-//export default //connect(mapStateToProps, { setUser, updateUser })(ProfileView);
+//export default //connect(mapStateToProps, { //setUser, updateUser })(ProfileView);
