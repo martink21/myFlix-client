@@ -203,7 +203,7 @@ export class MainView extends React.Component {
               <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
             </Col>
             return <Col>
-              <ProfileView user={user} token={token} history={history} userData={userData} 
+              <ProfileView movies={movies} user={user} token={token} history={history} userData={userData} 
               onNewUser={newData => { this.newUser(newData); }} 
               onLoggedOut={signState => { this.onLoggedOut(signState); }}/>
             </Col>
