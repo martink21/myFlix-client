@@ -54247,26 +54247,27 @@ function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       var accessToken = localStorage.getItem("token");
-      this.getUsers(accessToken);
+      this.getUser(accessToken);
     }
   }, {
-    key: "getUsers",
-    value: function getUsers(token) {
+    key: "getUser",
+    value: function getUser(token) {
       var _this2 = this;
 
-      _axios.default.get('https://myflix-21.herokuapp.com/users', {
+      var url = 'https://myflix-21.herokuapp.com/users/' + localStorage.getItem('user');
+
+      _axios.default.get(url, {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
       }).then(function (response) {
-        // Assign the result to the state
         _this2.setState({
-          users: response.data
+          Username: response.data.Username,
+          Password: response.data.Password,
+          Email: response.data.Email,
+          Birthday: response.data.Birthday,
+          FavoriteMovies: response.data.FavoriteMovies
         });
-
-        console.log(response);
-      }).catch(function (error) {
-        console.log(error);
       });
     }
   }, {
@@ -54276,7 +54277,7 @@ function (_React$Component) {
 
       var token = localStorage.getItem("token");
 
-      var url = "https://https://myflix-21.herokuapp.com/users" + localStorage.getItem("user") + "/movies/" + movie._id;
+      var url = "https://myflix-21.herokuapp.com/users/" + localStorage.getItem("user") + "/movies/" + movie._id;
 
       _axios.default.delete(url, {
         headers: {
@@ -55325,7 +55326,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55834" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55483" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
