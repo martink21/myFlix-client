@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 
 export class MovieView extends React.Component {
 
@@ -16,17 +17,19 @@ export class MovieView extends React.Component {
     document.removeEventListener('keypress', this.keypressCallback);
   }
 
-  handleAdd() {
+  addFavorite(movie) {
     const token = localStorage.getItem("token");
-    const user = localStorage.getItem("user");
-    axios.post(`https://myflix-21.herokuapp.com/users/${user}/` + `movies/` +
-      this.props.movie._id,
-      { headers: { Authorization: `Bearer ${token}` } }
-    )
+    const url =
+      "https://myflix-21.herokuapp.com/users/" +
+      localStorage.getItem("user") + "/movies/" + movie._id;
+
+    axios.post(url, "", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
       .then((response) => {
         console.log(response);
-        alert(this.props.movie.Title + " has been added to your favorites!");
-      })
+        alert(movie.Title + " has been added to favorites!");
+      });
   }
 
   render() {
@@ -53,7 +56,7 @@ export class MovieView extends React.Component {
           <Button variant="link">Genre</Button>
         </Link>
 
-        <Button block type="button" variant="success" onClick={() => this.handleAdd(movie)}>Add to favorites</Button>
+        <button onClick={() => this.addFavorite(movie)}>Add to favorites</button>
           
         <button onClick={() => { onBackClick(null); }}>Back</button>
 
