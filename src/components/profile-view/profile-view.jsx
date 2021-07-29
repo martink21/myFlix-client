@@ -27,29 +27,31 @@ export class ProfileView extends React.Component {
   }
   componentDidMount() {
     let accessToken = localStorage.getItem("token");
-    this.getUsers(accessToken);
+    this.getUser(accessToken);
   }
 
-  getUsers(token) {
-    axios.get('https://myflix-21.herokuapp.com/users', {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then(response => {
-        // Assign the result to the state
-        this.setState({
-          users: response.data
+  getUser(token) {
+    let url = 'https://myflix-21.herokuapp.com/users/' +
+        localStorage.getItem('user');
+    axios
+        .get(url, {
+            headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+            this.setState({
+                Username: response.data.Username,
+                Password: response.data.Password,
+                Email: response.data.Email,
+                Birthday: response.data.Birthday,
+                FavoriteMovies: response.data.FavoriteMovies,
+            });
         });
-        console.log(response)
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
   }
 
   removeFavorite(movie) {
     const token = localStorage.getItem("token");
     const url =
-      "https://https://myflix-21.herokuapp.com/users" +
+      "https://myflix-21.herokuapp.com/users/" +
       localStorage.getItem("user") +
       "/movies/" +
       movie._id;
