@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { Jumbotron } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import './profile-view.scss';
+import { setUser } from "../../actions/actions";
 
 export class ProfileView extends React.Component {
   constructor(props) {
@@ -77,6 +78,7 @@ export class ProfileView extends React.Component {
         alert(user + " has been deleted.");
         localStorage.removeItem("user");
         localStorage.removeItem("token");
+        setUser('');
         window.location.pathname = "/";
       })
       .catch(function (error) {
@@ -105,6 +107,7 @@ export class ProfileView extends React.Component {
           localStorage.setItem("user", data.Username);
           console.log(data);
           alert(user + " has been updated.");
+          setUser(data.Username);
           console.log(response);
         })
         .catch(function (error) {
@@ -296,4 +299,4 @@ let mapStateToProps = state => {
   }
 }
 
-//export default //connect(mapStateToProps, { //setUser, updateUser })(ProfileView);
+export default connect(mapStateToProps, { setUser })(ProfileView);
