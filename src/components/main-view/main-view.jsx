@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
-import { setMovies, setFilter, setUser} from '../../actions/actions';
+import { setMovies, setFilter, setUser, setUserData} from '../../actions/actions';
 
 import MoviesList from '../movies-list/movies-list';
 import { MovieView } from '../movie-view/movie-view';
@@ -29,7 +29,7 @@ class MainView extends React.Component {
   constructor() {
     super();
     this.state = {
-    userData: null,
+    // userData: null,
     token: null
     }
   }
@@ -63,10 +63,12 @@ class MainView extends React.Component {
 
   newUser(newData) {
     localStorage.setItem('user', newData.Username);
-    this.setState({
+    /* this.setState({
       userData: newData,
       user: newData.Username
-    });
+    }); */
+    this.props.setUserData(newData);
+    this.props.setUser(newData.Username)
   }
 
   setSelectedMovie(newSelectedMovie) {
@@ -81,9 +83,10 @@ class MainView extends React.Component {
     })
     .then(response => {
       console.log('Success with getAcc');
-      this.setState({
+      this.props.setUserData(response.data);
+      /* this.setState({
         userData: response.data
-      });
+      }); */
     })
     .catch(function (error) {
       console.log(error);
@@ -110,8 +113,8 @@ class MainView extends React.Component {
 
   render() {
   
-    let { history, token, userData} = this.state;
-    let { movies, user } = this.props;
+    let { history, token } = this.state;
+    let { movies, user, userData} = this.props;
 
   
     return (
@@ -214,10 +217,11 @@ class MainView extends React.Component {
 let mapStateToProps = state => {
   return { 
     movies: state.movies, 
-    user: state.user
+    user: state.user,
+    userData: state.userData
 
   }
 }
 
 // #8
-export default connect(mapStateToProps, { setMovies, setFilter, setUser } )(MainView);
+export default connect(mapStateToProps, { setMovies, setFilter, setUser, setUserData } )(MainView);
