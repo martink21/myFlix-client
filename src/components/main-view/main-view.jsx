@@ -113,7 +113,7 @@ class MainView extends React.Component {
     let { history, token, userData} = this.state;
     let { movies, user } = this.props;
 
-    if (user)
+  
     return (
       <Router>
         <Row className="main-view justify-content-md-center">
@@ -122,15 +122,18 @@ class MainView extends React.Component {
             <Navbar bg="dark" variant="dark" >
               <Navbar.Brand>Welcome to MyFlix!</Navbar.Brand>
               <ul>
-                <Link to={`/`}>
+                {user && <Link to={`/`}>
                   <Button variant="link" className="navbar-link text-light">Movies</Button>
                 </Link >
-                <Link to={`/users/${user}`}>
+                }
+                {user && <Link to={`/users/${user}`}>
                   <Button variant="link" className="navbar-link text-light">Profile</Button>
                 </Link>
-                <Link to={`/`}>
+                }
+                { user && <Link to={`/`}>
                   <Button variant="link" className="navbar-link text-light" onClick={() => this.onLoggedOut()}>Logout</Button>
                 </Link >
+                }
               </ul>
             </Navbar >
           </Container>
