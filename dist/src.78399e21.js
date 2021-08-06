@@ -55986,7 +55986,7 @@ function (_React$Component) {
       var _this$props = this.props,
           movies = _this$props.movies,
           user = _this$props.user;
-      return (
+      if (user) return (
         /*#__PURE__*/
         _react.default.createElement(_reactRouterDom.BrowserRouter, null,
         /*#__PURE__*/
