@@ -33362,13 +33362,16 @@ Object.defineProperty(exports, "__esModule", {
 exports.setMovies = setMovies;
 exports.setFilter = setFilter;
 exports.setUser = setUser;
-exports.SET_USER = exports.SET_FILTER = exports.SET_MOVIES = void 0;
+exports.setUserData = setUserData;
+exports.SET_USER_DATA = exports.SET_USER = exports.SET_FILTER = exports.SET_MOVIES = void 0;
 var SET_MOVIES = 'SET_MOVIES';
 exports.SET_MOVIES = SET_MOVIES;
 var SET_FILTER = 'SET_FILTER';
 exports.SET_FILTER = SET_FILTER;
 var SET_USER = 'SET_USER';
 exports.SET_USER = SET_USER;
+var SET_USER_DATA = 'SET_USER_DATA';
+exports.SET_USER_DATA = SET_USER_DATA;
 
 function setMovies(value) {
   return {
@@ -33387,6 +33390,13 @@ function setFilter(value) {
 function setUser(value) {
   return {
     type: SET_USER,
+    value: value
+  };
+}
+
+function setUserData(value) {
+  return {
+    type: SET_USER_DATA,
     value: value
   };
 }
@@ -33441,10 +33451,24 @@ function user() {
   }
 }
 
+function userData() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _actions.SET_USER_DATA:
+      return action.value;
+
+    default:
+      return state;
+  }
+}
+
 var moviesApp = (0, _redux.combineReducers)({
   visibilityFilter: visibilityFilter,
   movies: movies,
-  user: user
+  user: user,
+  userData: userData
 });
 var _default = moviesApp;
 exports.default = _default;
@@ -55882,7 +55906,7 @@ function (_React$Component) {
 
     _this = _super.call(this);
     _this.state = {
-      userData: null,
+      // userData: null,
       token: null
     };
     return _this;
@@ -55923,10 +55947,13 @@ function (_React$Component) {
     key: "newUser",
     value: function newUser(newData) {
       localStorage.setItem('user', newData.Username);
-      this.setState({
+      /* this.setState({
         userData: newData,
         user: newData.Username
-      });
+      }); */
+
+      this.props.setUserData(newData);
+      this.props.setUser(newData.Username);
     }
   }, {
     key: "setSelectedMovie",
@@ -55947,9 +55974,11 @@ function (_React$Component) {
       }).then(function (response) {
         console.log('Success with getAcc');
 
-        _this3.setState({
+        _this3.props.setUserData(response.data);
+        /* this.setState({
           userData: response.data
-        });
+        }); */
+
       }).catch(function (error) {
         console.log(error);
       });
@@ -55981,11 +56010,11 @@ function (_React$Component) {
 
       var _this$state = this.state,
           history = _this$state.history,
-          token = _this$state.token,
-          userData = _this$state.userData;
+          token = _this$state.token;
       var _this$props = this.props,
           movies = _this$props.movies,
-          user = _this$props.user;
+          user = _this$props.user,
+          userData = _this$props.userData;
       return (
         /*#__PURE__*/
         _react.default.createElement(_reactRouterDom.BrowserRouter, null,
@@ -56254,7 +56283,8 @@ function (_React$Component) {
 var mapStateToProps = function mapStateToProps(state) {
   return {
     movies: state.movies,
-    user: state.user
+    user: state.user,
+    userData: state.userData
   };
 }; // #8
 
@@ -56262,7 +56292,8 @@ var mapStateToProps = function mapStateToProps(state) {
 var _default = (0, _reactRedux.connect)(mapStateToProps, {
   setMovies: _actions.setMovies,
   setFilter: _actions.setFilter,
-  setUser: _actions.setUser
+  setUser: _actions.setUser,
+  setUserData: _actions.setUserData
 })(MainView);
 
 exports.default = _default;
