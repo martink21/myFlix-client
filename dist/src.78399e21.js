@@ -55882,8 +55882,6 @@ function (_React$Component) {
 
     _this = _super.call(this);
     _this.state = {
-      //movies: [],
-      //user: null,
       userData: null,
       token: null
     };
@@ -55913,16 +55911,14 @@ function (_React$Component) {
         }
       }).then(function (response) {
         // Assign the result to the state
-        _this2.setState({
-          movies: response.data
-        });
+
+        /* this.setState({
+          movies: response.data */
+        _this2.props.setMovies(response.data);
       }).catch(function (error) {
         console.log(error);
       });
     }
-    /* When a user successfully logs in, this function updates the `user` property 
-       in state to that *particular user*/
-
   }, {
     key: "newUser",
     value: function newUser(newData) {
@@ -55958,6 +55954,9 @@ function (_React$Component) {
         console.log(error);
       });
     }
+    /* When a user successfully logs in, this function updates the `user` property 
+       in state to that *particular user*/
+
   }, {
     key: "onLoggedIn",
     value: function onLoggedIn(authData) {
@@ -55981,11 +55980,12 @@ function (_React$Component) {
       var _this4 = this;
 
       var _this$state = this.state,
-          user = _this$state.user,
           history = _this$state.history,
           token = _this$state.token,
           userData = _this$state.userData;
-      var movies = this.props.movies;
+      var _this$props = this.props,
+          movies = _this$props.movies,
+          user = _this$props.user;
       return (
         /*#__PURE__*/
         _react.default.createElement(_reactRouterDom.BrowserRouter, null,
@@ -56384,7 +56384,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53011" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58671" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
