@@ -29,8 +29,7 @@ class MainView extends React.Component {
   constructor() {
     super();
     this.state = {
-      //movies: [],
-      //user: null,
+    
       userData: null,
       token: null
     }
@@ -92,21 +91,6 @@ class MainView extends React.Component {
     });
   }
 
-  getMovies(token) {
-    axios.get('https://myflix-21.herokuapp.com/movies', {
-      headers: { Authorization: `Bearer ${token}`}
-    })
-    .then(response => {
-      // Assign the result to the state
-      this.setState({
-        movies: response.data
-      });
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
-
   /* When a user successfully logs in, this function updates the `user` property 
      in state to that *particular user*/
 
@@ -127,8 +111,8 @@ class MainView extends React.Component {
 
   render() {
   
-    let { user, history, token, userData} = this.state;
-    let { movies } = this.props;
+    let { history, token, userData} = this.state;
+    let { movies, user } = this.props;
 
     return (
       <Router>
