@@ -55298,7 +55298,7 @@ module.hot.accept(reloadCSS);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ProfileView = void 0;
+exports.default = exports.ProfileView = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -55315,6 +55315,8 @@ var _reactRouterDom = require("react-router-dom");
 var _reactRedux = require("react-redux");
 
 require("./profile-view.scss");
+
+var _actions = require("../../actions/actions");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -55433,6 +55435,7 @@ function (_React$Component) {
         alert(user + " has been deleted.");
         localStorage.removeItem("user");
         localStorage.removeItem("token");
+        (0, _actions.setUser)('');
         window.location.pathname = "/";
       }).catch(function (error) {
         console.log(error);
@@ -55462,6 +55465,7 @@ function (_React$Component) {
           localStorage.setItem("user", data.Username);
           console.log(data);
           alert(user + " has been updated.");
+          (0, _actions.setUser)(data.Username);
           console.log(response);
         }).catch(function (error) {
           console.log(error.response.data);
@@ -55786,8 +55790,14 @@ var mapStateToProps = function mapStateToProps(state) {
     user: state.user,
     movies: state.movies
   };
-}; //export default //connect(mapStateToProps, { //setUser, updateUser })(ProfileView);
-},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-redux":"../node_modules/react-redux/es/index.js","./profile-view.scss":"components/profile-view/profile-view.scss"}],"components/main-view/main-view.scss":[function(require,module,exports) {
+};
+
+var _default = (0, _reactRedux.connect)(mapStateToProps, {
+  setUser: _actions.setUser
+})(ProfileView);
+
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-redux":"../node_modules/react-redux/es/index.js","./profile-view.scss":"components/profile-view/profile-view.scss","../../actions/actions":"actions/actions.js"}],"components/main-view/main-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -56374,7 +56384,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52079" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53011" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
