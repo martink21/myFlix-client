@@ -55986,7 +55986,7 @@ function (_React$Component) {
       var _this$props = this.props,
           movies = _this$props.movies,
           user = _this$props.user;
-      if (user) return (
+      return (
         /*#__PURE__*/
         _react.default.createElement(_reactRouterDom.BrowserRouter, null,
         /*#__PURE__*/
@@ -56003,7 +56003,7 @@ function (_React$Component) {
         /*#__PURE__*/
         _react.default.createElement(_reactBootstrap.Navbar.Brand, null, "Welcome to MyFlix!"),
         /*#__PURE__*/
-        _react.default.createElement("ul", null,
+        _react.default.createElement("ul", null, user &&
         /*#__PURE__*/
         _react.default.createElement(_reactRouterDom.Link, {
           to: "/"
@@ -56012,7 +56012,7 @@ function (_React$Component) {
         _react.default.createElement(_Button.default, {
           variant: "link",
           className: "navbar-link text-light"
-        }, "Movies")),
+        }, "Movies")), user &&
         /*#__PURE__*/
         _react.default.createElement(_reactRouterDom.Link, {
           to: "/users/".concat(user)
@@ -56021,7 +56021,7 @@ function (_React$Component) {
         _react.default.createElement(_Button.default, {
           variant: "link",
           className: "navbar-link text-light"
-        }, "Profile")),
+        }, "Profile")), user &&
         /*#__PURE__*/
         _react.default.createElement(_reactRouterDom.Link, {
           to: "/"
@@ -56384,7 +56384,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58671" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53619" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
