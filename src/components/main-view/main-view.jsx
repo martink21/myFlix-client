@@ -29,9 +29,8 @@ class MainView extends React.Component {
   constructor() {
     super();
     this.state = {
-    
-      userData: null,
-      token: null
+    userData: null,
+    token: null
     }
   }
 
@@ -114,10 +113,11 @@ class MainView extends React.Component {
     let { history, token, userData} = this.state;
     let { movies, user } = this.props;
 
+    if (user)
     return (
       <Router>
         <Row className="main-view justify-content-md-center">
-          
+        
           <Container>
             <Navbar bg="dark" variant="dark" >
               <Navbar.Brand>Welcome to MyFlix!</Navbar.Brand>
