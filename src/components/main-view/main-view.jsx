@@ -1,19 +1,74 @@
 import React from 'react';
-import { MovieCard } from '../movie-card/movie-card';
-import { MovieView } from '../movie-view/movie-view';
+import axios from 'axios';
 
-export class MainView extends React.Component {
+import { connect } from 'react-redux';
+
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+
+import { setMovies, setFilter, setUser, setUserData} from '../../actions/actions';
+
+import MoviesList from '../movies-list/movies-list';
+import { MovieView } from '../movie-view/movie-view';
+import { LoginView } from '../login-view/login-view';
+import { GenreView } from '../genre-view/genre-view';
+import { DirectorView } from '../director-view/director-view';
+import { RegistrationView } from '../registration-view/registration-view';
+import { ProfileView } from '../profile-view/profile-view';
+//import { MovieCard } from '../movie-card/movie-card';
+
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import { Container, Navbar } from 'react-bootstrap';
+import { Link } from "react-router-dom";
+
+import './main-view.scss';
+
+class MainView extends React.Component {
 
   constructor() {
     super();
     this.state = {
-      movies: [
-        { _id: 1, Title: 'Inception', Description: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.', ImagePath: 'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_.jpg' },
-        { _id: 2, Title: 'The Shawshank Redemption', Description: 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.', ImagePath: 'https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_UY1200_CR89,0,630,1200_AL_.jpg' },
-        { _id: 3, Title: 'Gladiator', Description: 'A former Roman General sets out to exact vengeance against the corrupt emperor who murdered his family and sent him into slavery.', ImagePath: 'https://m.media-amazon.com/images/M/MV5BMDliMmNhNDEtODUyOS00MjNlLTgxODEtN2U3NzIxMGVkZTA1L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_UY1200_CR90,0,630,1200_AL_.jpg' }
-      ],
-      selectedMovie: null
+    // userData: null,
+    token: null
     }
+  }
+
+  componentDidMount() {
+    let accessToken = localStorage.getItem('token');
+    let userToken = localStorage.getItem('user');
+    if (accessToken !== null) {
+      this.props.setUser(localStorage.getItem("user"));
+      this.getAcc(accessToken, userToken);
+      this.getMovies(accessToken);
+    }
+  }
+
+  getMovies(token) {
+    axios.get('https://myflix-21.herokuapp.com/movies', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(response => {
+        // Assign the result to the state
+        /* this.setState({
+          movies: response.data */
+          this.props.setMovies(response.data);
+        
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+
+  newUser(newData) {
+    localStorage.setItem('user', newData.Username);
+    /* this.setState({
+      userData: newData,
+      user: newData.Username
+    }); */
+    this.props.setUserData(newData);
+    this.props.setUser(newData.Username)
   }
 
   setSelectedMovie(newSelectedMovie) {
@@ -22,24 +77,151 @@ export class MainView extends React.Component {
     });
   }
 
-  render() {
-    const { movies, selectedMovie } = this.state;
-
-
-    if (movies.length === 0) return <div className="main-view">The list is empty!</div>;
-
-    return (
-      <div className="main-view">
-        {selectedMovie
-          ? <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }}/>
-          : movies.map(movie => (
-            <MovieCard key={movie._id} movie={movie} onMovieClick={(movie) => { this.setSelectedMovie(movie) }}/>
-          ))
-        }
-      </div>
-    );
+  getAcc(token, user) {
+    axios.get(`https://myflix-21.herokuapp.com/users/${user}`, {
+      headers: { Authorization: `Bearer ${token}`}
+    })
+    .then(response => {
+      console.log('Success with getAcc');
+      this.props.setUserData(response.data);
+      /* this.setState({
+        userData: response.data
+      }); */
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
 
+  /* When a user successfully logs in, this function updates the `user` property 
+     in state to that *particular user*/
+
+     onLoggedIn(authData) {
+      console.log(authData);
+      this.props.setUser(authData.user.Username);
+      localStorage.setItem('token', authData.token);
+      localStorage.setItem('user', authData.user.Username);
+      this.getAcc(authData.token, authData.user.Username);
+      this.getMovies(authData.token);
+    }
+  
+  onLoggedOut(signState) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.props.setUser('');
+  }
+
+  render() {
+  
+    let { history, token } = this.state;
+    let { movies, user, userData} = this.props;
+
+  
+    return (
+      <Router>
+        <Row className="main-view justify-content-md-center">
+        
+          <Container>
+            <Navbar bg="dark" variant="dark" >
+              <Navbar.Brand>Welcome to MyFlix!</Navbar.Brand>
+              <ul>
+                {user && <Link to={`/`}>
+                  <Button variant="link" className="navbar-link text-light">Movies</Button>
+                </Link >
+                }
+                {user && <Link to={`/users/${user}`}>
+                  <Button variant="link" className="navbar-link text-light">Profile</Button>
+                </Link>
+                }
+                { user && <Link to={`/`}>
+                  <Button variant="link" className="navbar-link text-light" onClick={() => this.onLoggedOut()}>Logout</Button>
+                </Link >
+                }
+              </ul>
+            </Navbar >
+          </Container>
+          
+        
+          <Route exact path="/" render={() => {
+            if (!user) return <Col>
+              <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+            </Col>
+            if (movies.length === 0) return <div className="main-view" />;
+            /* return movies.map(m => (
+              <Col md={3} key={m._id}>
+                <MovieCard movie={m} />
+              </Col>
+            )) */
+            return <MoviesList movies={movies}/>;
+          }} />
+
+          <Route path="/register" render={() => {
+            if (user) return <Redirect to="/" />
+            return <Col>
+              <RegistrationView />
+            </Col>
+          }} />
+
+          <Route path="/movies/:movieId" render={({ match, history }) => {
+            if (movies.length === 0) return <div className="main-view" />;
+            if (!user) return <Col>
+              <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+            </Col>
+            return <Col md={8}>
+              <MovieView movie={movies.find(m => m._id === match.params.movieId)} 
+               onBackClick={() => history.goBack()} />
+            </Col>
+          }} />
+
+          <Route path="/directors/:name" render={({ match, history }) => {
+            if (movies.length === 0) return <div className="main-view" />;
+            if (!user) return <Col>
+              <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+            </Col>
+            return <Col md={8}>
+              <DirectorView director={movies.find(m => m.Director.Name === match.params.name).Director} 
+               onBackClick={() => history.goBack()} />
+            </Col>
+          }
+          } />
+
+          <Route path="/users/:username" render={() => {
+            if (movies.length === 0) return <div className="main-view" />;
+            if (!user) return <Col>
+              <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+            </Col>
+            return <Col>
+              <ProfileView movies={movies} user={user} token={token} history={history} userData={userData} 
+              onNewUser={newData => { this.newUser(newData); }} 
+              onLoggedOut={signState => { this.onLoggedOut(signState); }}/>
+            </Col>
+          }} />
+
+          <Route path="/genres/:name" render={({ match, history }) => {
+            if (movies.length === 0) return <div className="main-view" />;
+            if (!user) return <Col>
+              <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+            </Col>
+            return <Col md={8}>
+              <GenreView genre={movies.find(m => m.Genre.Name === match.params.name).Genre} 
+              onBackClick={() => history.goBack()} />
+            </Col>
+          }} />
+      
+        </Row>
+      </Router>
+    );
+  }
 }
 
-export default MainView;
+let mapStateToProps = state => {
+  return { 
+    movies: state.movies, 
+    user: state.user,
+    userData: state.userData
+
+  }
+}
+
+// #8
+export default connect(mapStateToProps, { setMovies, setFilter, setUser, setUserData } )(MainView);
