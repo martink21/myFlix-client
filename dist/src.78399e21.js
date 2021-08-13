@@ -10608,7 +10608,7 @@ if ("development" !== "production") {
       }
 
       var eventName = 'on' + eventNameSuffix;
-      var isSupported = eventName in document;
+      var isSupported = (eventName in document);
 
       if (!isSupported) {
         var element = document.createElement('div');
@@ -23123,18 +23123,18 @@ if ("development" !== "production") {
 
                   if (renderState.tail === null && renderState.tailMode === 'hidden' && !renderedTail.alternate && !getIsHydrating() // We don't cut it if we're hydrating.
                   ) {
-                      // We need to delete the row we just rendered.
-                      // Reset the effect list to what it was before we rendered this
-                      // child. The nested children have already appended themselves.
-                      var lastEffect = workInProgress.lastEffect = renderState.lastEffect; // Remove any effects that were appended after this point.
+                    // We need to delete the row we just rendered.
+                    // Reset the effect list to what it was before we rendered this
+                    // child. The nested children have already appended themselves.
+                    var lastEffect = workInProgress.lastEffect = renderState.lastEffect; // Remove any effects that were appended after this point.
 
-                      if (lastEffect !== null) {
-                        lastEffect.nextEffect = null;
-                      } // We're done.
+                    if (lastEffect !== null) {
+                      lastEffect.nextEffect = null;
+                    } // We're done.
 
 
-                      return null;
-                    }
+                    return null;
+                  }
                 } else if ( // The time it took to render last row is greater than the remaining
                 // time we have to render. So rendering one more row would likely
                 // exceed it.
@@ -29694,9 +29694,7 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ThemeContext =
-/*#__PURE__*/
-_react.default.createContext({});
+var ThemeContext = /*#__PURE__*/_react.default.createContext({});
 
 var Consumer = ThemeContext.Consumer,
     Provider = ThemeContext.Provider;
@@ -29708,12 +29706,9 @@ function ThemeProvider(_ref) {
   var copiedPrefixes = (0, _react.useMemo)(function () {
     return (0, _extends2.default)({}, prefixes);
   }, [prefixes]);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Provider, {
-      value: copiedPrefixes
-    }, children)
-  );
+  return /*#__PURE__*/_react.default.createElement(Provider, {
+    value: copiedPrefixes
+  }, children);
 }
 
 function useBootstrapPrefix(prefix, defaultPrefix) {
@@ -29732,18 +29727,13 @@ function createBootstrapComponent(Component, opts) {
       _opts$forwardRefAs = _opts.forwardRefAs,
       forwardRefAs = _opts$forwardRefAs === void 0 ? isClassy ? 'ref' : 'innerRef' : _opts$forwardRefAs;
 
-  var Wrapped =
-  /*#__PURE__*/
-  _react.default.forwardRef(function (_ref2, ref) {
+  var Wrapped = /*#__PURE__*/_react.default.forwardRef(function (_ref2, ref) {
     var props = (0, _extends2.default)({}, _ref2);
     props[forwardRefAs] = ref;
     var bsPrefix = useBootstrapPrefix(props.bsPrefix, prefix);
-    return (
-      /*#__PURE__*/
-      _react.default.createElement(Component, (0, _extends2.default)({}, props, {
-        bsPrefix: bsPrefix
-      }))
-    );
+    return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({}, props, {
+      bsPrefix: bsPrefix
+    }));
   });
 
   Wrapped.displayName = "Bootstrap(" + (Component.displayName || Component.name) + ")";
@@ -29777,9 +29767,7 @@ var defaultProps = {
   fluid: false
 };
 
-var Container =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var Container = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       fluid = _ref.fluid,
       _ref$as = _ref.as,
@@ -29788,14 +29776,11 @@ _react.default.forwardRef(function (_ref, ref) {
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   var prefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'container');
   var suffix = typeof fluid === 'string' ? "-" + fluid : '-fluid';
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      className: (0, _classnames.default)(className, fluid ? "" + prefix + suffix : prefix)
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    className: (0, _classnames.default)(className, fluid ? "" + prefix + suffix : prefix)
+  }));
 });
 
 Container.displayName = 'Container';
@@ -29940,61 +29925,61 @@ function isPlainObject(obj) {
   }
 
   return Object.getPrototypeOf(obj) === proto;
+} // Inlined / shortened version of `kindOf` from https://github.com/jonschlinkert/kind-of
+
+
+function miniKindOf(val) {
+  if (val === void 0) return 'undefined';
+  if (val === null) return 'null';
+  var type = typeof val;
+
+  switch (type) {
+    case 'boolean':
+    case 'string':
+    case 'number':
+    case 'symbol':
+    case 'function':
+      {
+        return type;
+      }
+  }
+
+  if (Array.isArray(val)) return 'array';
+  if (isDate(val)) return 'date';
+  if (isError(val)) return 'error';
+  var constructorName = ctorName(val);
+
+  switch (constructorName) {
+    case 'Symbol':
+    case 'Promise':
+    case 'WeakMap':
+    case 'WeakSet':
+    case 'Map':
+    case 'Set':
+      return constructorName;
+  } // other
+
+
+  return type.slice(8, -1).toLowerCase().replace(/\s/g, '');
+}
+
+function ctorName(val) {
+  return typeof val.constructor === 'function' ? val.constructor.name : null;
+}
+
+function isError(val) {
+  return val instanceof Error || typeof val.message === 'string' && val.constructor && typeof val.constructor.stackTraceLimit === 'number';
+}
+
+function isDate(val) {
+  if (val instanceof Date) return true;
+  return typeof val.toDateString === 'function' && typeof val.getDate === 'function' && typeof val.setDate === 'function';
 }
 
 function kindOf(val) {
   var typeOfVal = typeof val;
 
   if ("development" !== 'production') {
-    // Inlined / shortened version of `kindOf` from https://github.com/jonschlinkert/kind-of
-    function miniKindOf(val) {
-      if (val === void 0) return 'undefined';
-      if (val === null) return 'null';
-      var type = typeof val;
-
-      switch (type) {
-        case 'boolean':
-        case 'string':
-        case 'number':
-        case 'symbol':
-        case 'function':
-          {
-            return type;
-          }
-      }
-
-      if (Array.isArray(val)) return 'array';
-      if (isDate(val)) return 'date';
-      if (isError(val)) return 'error';
-      var constructorName = ctorName(val);
-
-      switch (constructorName) {
-        case 'Symbol':
-        case 'Promise':
-        case 'WeakMap':
-        case 'WeakSet':
-        case 'Map':
-        case 'Set':
-          return constructorName;
-      } // other
-
-
-      return type.slice(8, -1).toLowerCase().replace(/\s/g, '');
-    }
-
-    function ctorName(val) {
-      return typeof val.constructor === 'function' ? val.constructor.name : null;
-    }
-
-    function isError(val) {
-      return val instanceof Error || typeof val.message === 'string' && val.constructor && typeof val.constructor.stackTraceLimit === 'number';
-    }
-
-    function isDate(val) {
-      if (val instanceof Date) return true;
-      return typeof val.toDateString === 'function' && typeof val.getDate === 'function' && typeof val.setDate === 'function';
-    }
-
     typeOfVal = miniKindOf(val);
   }
 
@@ -31558,9 +31543,7 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ReactReduxContext =
-/*#__PURE__*/
-_react.default.createContext(null);
+var ReactReduxContext = /*#__PURE__*/_react.default.createContext(null);
 
 exports.ReactReduxContext = ReactReduxContext;
 
@@ -31678,9 +31661,7 @@ function createListenerCollection() {
   };
 }
 
-var Subscription =
-/*#__PURE__*/
-function () {
+var Subscription = /*#__PURE__*/function () {
   function Subscription(store, parentSub) {
     this.store = store;
     this.parentSub = parentSub;
@@ -31803,12 +31784,9 @@ function Provider(_ref) {
     };
   }, [contextValue, previousState]);
   var Context = context || _Context.ReactReduxContext;
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Context.Provider, {
-      value: contextValue
-    }, children)
-  );
+  return /*#__PURE__*/_react.default.createElement(Context.Provider, {
+    value: contextValue
+  }, children);
 }
 
 if ("development" !== 'production') {
@@ -32182,9 +32160,7 @@ _ref) {
       var ContextToUse = (0, _react.useMemo)(function () {
         // Users may optionally pass in a custom context instance to use instead of our ReactReduxContext.
         // Memoize the check that determines which context instance we should use.
-        return propsContext && propsContext.Consumer && (0, _reactIs.isContextConsumer)(
-        /*#__PURE__*/
-        _react.default.createElement(propsContext.Consumer, null)) ? propsContext : Context;
+        return propsContext && propsContext.Consumer && (0, _reactIs.isContextConsumer)( /*#__PURE__*/_react.default.createElement(propsContext.Consumer, null)) ? propsContext : Context;
       }, [propsContext, Context]); // Retrieve the store and ancestor subscription via context, if available
 
       var contextValue = (0, _react.useContext)(ContextToUse); // The store _must_ exist as either a prop or in context.
@@ -32280,12 +32256,9 @@ _ref) {
       // We memoize the elements for the rendered child component as an optimization.
 
       var renderedWrappedComponent = (0, _react.useMemo)(function () {
-        return (
-          /*#__PURE__*/
-          _react.default.createElement(WrappedComponent, (0, _extends2.default)({}, actualChildProps, {
-            ref: reactReduxForwardedRef
-          }))
-        );
+        return /*#__PURE__*/_react.default.createElement(WrappedComponent, (0, _extends2.default)({}, actualChildProps, {
+          ref: reactReduxForwardedRef
+        }));
       }, [reactReduxForwardedRef, WrappedComponent, actualChildProps]); // If React sees the exact same element reference as last time, it bails out of re-rendering
       // that child, same as if it was wrapped in React.memo() or returned false from shouldComponentUpdate.
 
@@ -32294,12 +32267,9 @@ _ref) {
           // If this component is subscribed to store updates, we need to pass its own
           // subscription instance down to our descendants. That means rendering the same
           // Context instance, and putting a different value into the context.
-          return (
-            /*#__PURE__*/
-            _react.default.createElement(ContextToUse.Provider, {
-              value: overriddenContextValue
-            }, renderedWrappedComponent)
-          );
+          return /*#__PURE__*/_react.default.createElement(ContextToUse.Provider, {
+            value: overriddenContextValue
+          }, renderedWrappedComponent);
         }
 
         return renderedWrappedComponent;
@@ -32314,12 +32284,9 @@ _ref) {
 
     if (forwardRef) {
       var forwarded = _react.default.forwardRef(function forwardConnectRef(props, ref) {
-        return (
-          /*#__PURE__*/
-          _react.default.createElement(Connect, (0, _extends2.default)({}, props, {
-            reactReduxForwardedRef: ref
-          }))
-        );
+        return /*#__PURE__*/_react.default.createElement(Connect, (0, _extends2.default)({}, props, {
+          reactReduxForwardedRef: ref
+        }));
       });
 
       forwarded.displayName = displayName;
@@ -32908,9 +32875,7 @@ function createConnect(_temp) {
   };
 }
 
-var _default =
-/*#__PURE__*/
-createConnect();
+var _default = /*#__PURE__*/createConnect();
 
 exports.default = _default;
 },{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","../components/connectAdvanced":"../node_modules/react-redux/es/components/connectAdvanced.js","../utils/shallowEqual":"../node_modules/react-redux/es/utils/shallowEqual.js","./mapDispatchToProps":"../node_modules/react-redux/es/connect/mapDispatchToProps.js","./mapStateToProps":"../node_modules/react-redux/es/connect/mapStateToProps.js","./mergeProps":"../node_modules/react-redux/es/connect/mergeProps.js","./selectorFactory":"../node_modules/react-redux/es/connect/selectorFactory.js"}],"../node_modules/react-redux/es/hooks/useReduxContext.js":[function(require,module,exports) {
@@ -33003,9 +32968,7 @@ function createStoreHook(context) {
  */
 
 
-var useStore =
-/*#__PURE__*/
-createStoreHook();
+var useStore = /*#__PURE__*/createStoreHook();
 exports.useStore = useStore;
 },{"react":"../node_modules/react/index.js","../components/Context":"../node_modules/react-redux/es/components/Context.js","./useReduxContext":"../node_modules/react-redux/es/hooks/useReduxContext.js"}],"../node_modules/react-redux/es/hooks/useDispatch.js":[function(require,module,exports) {
 "use strict";
@@ -33060,9 +33023,7 @@ function createDispatchHook(context) {
  */
 
 
-var useDispatch =
-/*#__PURE__*/
-createDispatchHook();
+var useDispatch = /*#__PURE__*/createDispatchHook();
 exports.useDispatch = useDispatch;
 },{"../components/Context":"../node_modules/react-redux/es/components/Context.js","./useStore":"../node_modules/react-redux/es/hooks/useStore.js"}],"../node_modules/react-redux/es/hooks/useSelector.js":[function(require,module,exports) {
 "use strict";
@@ -33233,9 +33194,7 @@ function createSelectorHook(context) {
  */
 
 
-var useSelector =
-/*#__PURE__*/
-createSelectorHook();
+var useSelector = /*#__PURE__*/createSelectorHook();
 exports.useSelector = useSelector;
 },{"react":"../node_modules/react/index.js","./useReduxContext":"../node_modules/react-redux/es/hooks/useReduxContext.js","../utils/Subscription":"../node_modules/react-redux/es/utils/Subscription.js","../utils/useIsomorphicLayoutEffect":"../node_modules/react-redux/es/utils/useIsomorphicLayoutEffect.js","../components/Context":"../node_modules/react-redux/es/components/Context.js"}],"../node_modules/react-redux/es/utils/reactBatchedUpdates.js":[function(require,module,exports) {
 "use strict";
@@ -34537,7 +34496,7 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-},{"./../utils":"../node_modules/axios/lib/utils.js","./../core/settle":"../node_modules/axios/lib/core/settle.js","./../helpers/cookies":"../node_modules/axios/lib/helpers/cookies.js","./../helpers/buildURL":"../node_modules/axios/lib/helpers/buildURL.js","../core/buildFullPath":"../node_modules/axios/lib/core/buildFullPath.js","./../helpers/parseHeaders":"../node_modules/axios/lib/helpers/parseHeaders.js","./../helpers/isURLSameOrigin":"../node_modules/axios/lib/helpers/isURLSameOrigin.js","../core/createError":"../node_modules/axios/lib/core/createError.js"}],"D:/nvm/v14.17.0/node_modules/parcel/node_modules/process/browser.js":[function(require,module,exports) {
+},{"./../utils":"../node_modules/axios/lib/utils.js","./../core/settle":"../node_modules/axios/lib/core/settle.js","./../helpers/cookies":"../node_modules/axios/lib/helpers/cookies.js","./../helpers/buildURL":"../node_modules/axios/lib/helpers/buildURL.js","../core/buildFullPath":"../node_modules/axios/lib/core/buildFullPath.js","./../helpers/parseHeaders":"../node_modules/axios/lib/helpers/parseHeaders.js","./../helpers/isURLSameOrigin":"../node_modules/axios/lib/helpers/isURLSameOrigin.js","../core/createError":"../node_modules/axios/lib/core/createError.js"}],"D:/nvm/v14.17.0/node_modules/parcel-bundler/node_modules/process/browser.js":[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {}; // cached from whatever global is present so that test runners that stub it
@@ -34847,7 +34806,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-},{"./utils":"../node_modules/axios/lib/utils.js","./helpers/normalizeHeaderName":"../node_modules/axios/lib/helpers/normalizeHeaderName.js","./adapters/xhr":"../node_modules/axios/lib/adapters/xhr.js","./adapters/http":"../node_modules/axios/lib/adapters/xhr.js","process":"D:/nvm/v14.17.0/node_modules/parcel/node_modules/process/browser.js"}],"../node_modules/axios/lib/core/dispatchRequest.js":[function(require,module,exports) {
+},{"./utils":"../node_modules/axios/lib/utils.js","./helpers/normalizeHeaderName":"../node_modules/axios/lib/helpers/normalizeHeaderName.js","./adapters/xhr":"../node_modules/axios/lib/adapters/xhr.js","./adapters/http":"../node_modules/axios/lib/adapters/xhr.js","process":"D:/nvm/v14.17.0/node_modules/parcel-bundler/node_modules/process/browser.js"}],"../node_modules/axios/lib/core/dispatchRequest.js":[function(require,module,exports) {
 'use strict';
 
 var utils = require('./../utils');
@@ -36511,9 +36470,7 @@ function createReactContext(defaultValue, calculateChangedBits) {
 
   var contextProp = '__create-react-context-' + getUniqueId() + '__';
 
-  var Provider =
-  /*#__PURE__*/
-  function (_Component) {
+  var Provider = /*#__PURE__*/function (_Component) {
     (0, _inheritsLoose2.default)(Provider, _Component);
 
     function Provider() {
@@ -36565,9 +36522,7 @@ function createReactContext(defaultValue, calculateChangedBits) {
 
   Provider.childContextTypes = (_Provider$childContex = {}, _Provider$childContex[contextProp] = _propTypes.default.object.isRequired, _Provider$childContex);
 
-  var Consumer =
-  /*#__PURE__*/
-  function (_Component2) {
+  var Consumer = /*#__PURE__*/function (_Component2) {
     (0, _inheritsLoose2.default)(Consumer, _Component2);
 
     function Consumer() {
@@ -36638,12 +36593,12 @@ function createReactContext(defaultValue, calculateChangedBits) {
 var index = _react.default.createContext || createReactContext;
 var _default = index;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","@babel/runtime/helpers/esm/inheritsLoose":"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","prop-types":"../node_modules/prop-types/index.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js"}],"../node_modules/isarray/index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@babel/runtime/helpers/esm/inheritsLoose":"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","prop-types":"../node_modules/prop-types/index.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js"}],"../node_modules/react-router/node_modules/isarray/index.js":[function(require,module,exports) {
 module.exports = Array.isArray || function (arr) {
   return Object.prototype.toString.call(arr) == '[object Array]';
 };
 
-},{}],"../node_modules/path-to-regexp/index.js":[function(require,module,exports) {
+},{}],"../node_modules/react-router/node_modules/path-to-regexp/index.js":[function(require,module,exports) {
 var isarray = require('isarray')
 
 /**
@@ -37071,7 +37026,7 @@ function pathToRegexp (path, keys, options) {
   return stringToRegexp(/** @type {string} */ (path), /** @type {!Array} */ (keys), options)
 }
 
-},{"isarray":"../node_modules/isarray/index.js"}],"../node_modules/react-router/esm/react-router.js":[function(require,module,exports) {
+},{"isarray":"../node_modules/react-router/node_modules/isarray/index.js"}],"../node_modules/react-router/esm/react-router.js":[function(require,module,exports) {
 var global = arguments[3];
 "use strict";
 
@@ -37122,9 +37077,7 @@ var createNamedContext = function createNamedContext(name) {
   return context;
 };
 
-var historyContext =
-/*#__PURE__*/
-createNamedContext("Router-History"); // TODO: Replace with React.createContext once we can assume React 16+
+var historyContext = /*#__PURE__*/createNamedContext("Router-History"); // TODO: Replace with React.createContext once we can assume React 16+
 
 exports.__HistoryContext = historyContext;
 
@@ -37134,18 +37087,14 @@ var createNamedContext$1 = function createNamedContext(name) {
   return context;
 };
 
-var context =
-/*#__PURE__*/
-createNamedContext$1("Router");
+var context = /*#__PURE__*/createNamedContext$1("Router");
 /**
  * The public API for putting history on context.
  */
 
 exports.__RouterContext = context;
 
-var Router =
-/*#__PURE__*/
-function (_React$Component) {
+var Router = /*#__PURE__*/function (_React$Component) {
   (0, _inheritsLoose2.default)(Router, _React$Component);
 
   Router.computeRootMatch = function computeRootMatch(pathname) {
@@ -37238,9 +37187,7 @@ if ("development" !== "production") {
  */
 
 
-var MemoryRouter =
-/*#__PURE__*/
-function (_React$Component) {
+var MemoryRouter = /*#__PURE__*/function (_React$Component) {
   (0, _inheritsLoose2.default)(MemoryRouter, _React$Component);
 
   function MemoryRouter() {
@@ -37283,9 +37230,7 @@ if ("development" !== "production") {
   };
 }
 
-var Lifecycle =
-/*#__PURE__*/
-function (_React$Component) {
+var Lifecycle = /*#__PURE__*/function (_React$Component) {
   (0, _inheritsLoose2.default)(Lifecycle, _React$Component);
 
   function Lifecycle() {
@@ -37531,9 +37476,7 @@ function evalChildrenDev(children, props, path) {
  */
 
 
-var Route =
-/*#__PURE__*/
-function (_React$Component) {
+var Route = /*#__PURE__*/function (_React$Component) {
   (0, _inheritsLoose2.default)(Route, _React$Component);
 
   function Route() {
@@ -37642,9 +37585,7 @@ function noop() {}
  */
 
 
-var StaticRouter =
-/*#__PURE__*/
-function (_React$Component) {
+var StaticRouter = /*#__PURE__*/function (_React$Component) {
   (0, _inheritsLoose2.default)(StaticRouter, _React$Component);
 
   function StaticRouter() {
@@ -37738,9 +37679,7 @@ if ("development" !== "production") {
  */
 
 
-var Switch =
-/*#__PURE__*/
-function (_React$Component) {
+var Switch = /*#__PURE__*/function (_React$Component) {
   (0, _inheritsLoose2.default)(Switch, _React$Component);
 
   function Switch() {
@@ -37882,7 +37821,7 @@ if ("development" !== "production") {
     global[key] = "esm";
   }
 }
-},{"@babel/runtime/helpers/esm/inheritsLoose":"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","history":"../node_modules/history/esm/history.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js","mini-create-react-context":"../node_modules/mini-create-react-context/dist/esm/index.js","tiny-invariant":"../node_modules/tiny-invariant/dist/tiny-invariant.esm.js","@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","path-to-regexp":"../node_modules/path-to-regexp/index.js","react-is":"../node_modules/react-is/index.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","hoist-non-react-statics":"../node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js"}],"../node_modules/react-router-dom/esm/react-router-dom.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/esm/inheritsLoose":"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","history":"../node_modules/history/esm/history.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js","mini-create-react-context":"../node_modules/mini-create-react-context/dist/esm/index.js","tiny-invariant":"../node_modules/tiny-invariant/dist/tiny-invariant.esm.js","@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","path-to-regexp":"../node_modules/react-router/node_modules/path-to-regexp/index.js","react-is":"../node_modules/react-is/index.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","hoist-non-react-statics":"../node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js"}],"../node_modules/react-router-dom/esm/react-router-dom.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37997,9 +37936,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * The public API for a <Router> that uses HTML5 history.
  */
-var BrowserRouter =
-/*#__PURE__*/
-function (_React$Component) {
+var BrowserRouter = /*#__PURE__*/function (_React$Component) {
   (0, _inheritsLoose2.default)(BrowserRouter, _React$Component);
 
   function BrowserRouter() {
@@ -38046,9 +37983,7 @@ if ("development" !== "production") {
  */
 
 
-var HashRouter =
-/*#__PURE__*/
-function (_React$Component) {
+var HashRouter = /*#__PURE__*/function (_React$Component) {
   (0, _inheritsLoose2.default)(HashRouter, _React$Component);
 
   function HashRouter() {
@@ -38132,9 +38067,9 @@ var LinkAnchor = forwardRef(function (_ref, forwardedRef) {
       !target || target === "_self") && // let browser handle "target=_blank" etc.
       !isModifiedEvent(event) // ignore clicks with modifier keys
       ) {
-          event.preventDefault();
-          navigate();
-        }
+        event.preventDefault();
+        navigate();
+      }
     }
   }); // React 15 compat
 
@@ -38321,9 +38256,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var _excluded = ["bsPrefix", "className", "as"];
 var DEVICE_SIZES = ['xl', 'lg', 'md', 'sm', 'xs'];
 
-var Col =
-/*#__PURE__*/
-_react.default.forwardRef( // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+var Col = /*#__PURE__*/_react.default.forwardRef( // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
 function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       className = _ref.className,
@@ -38359,13 +38292,10 @@ function (_ref, ref) {
     spans.push(prefix); // plain 'col'
   }
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({}, props, {
-      ref: ref,
-      className: _classnames.default.apply(void 0, [className].concat(spans, classes))
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({}, props, {
+    ref: ref,
+    className: _classnames.default.apply(void 0, [className].concat(spans, classes))
+  }));
 });
 
 Col.displayName = 'Col';
@@ -38492,9 +38422,7 @@ var propTypes = {
   as: _propTypes.default.elementType
 };
 
-var Feedback =
-/*#__PURE__*/
-_react.default.forwardRef( // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+var Feedback = /*#__PURE__*/_react.default.forwardRef( // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
 function (_ref, ref) {
   var _ref$as = _ref.as,
       Component = _ref$as === void 0 ? 'div' : _ref$as,
@@ -38504,13 +38432,10 @@ function (_ref, ref) {
       _ref$tooltip = _ref.tooltip,
       tooltip = _ref$tooltip === void 0 ? false : _ref$tooltip,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({}, props, {
-      ref: ref,
-      className: (0, _classnames.default)(className, type + "-" + (tooltip ? 'tooltip' : 'feedback'))
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({}, props, {
+    ref: ref,
+    className: (0, _classnames.default)(className, type + "-" + (tooltip ? 'tooltip' : 'feedback'))
+  }));
 });
 
 Feedback.displayName = 'Feedback';
@@ -38530,9 +38455,7 @@ var _react = _interopRequireDefault(require("react"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // TODO
-var FormContext =
-/*#__PURE__*/
-_react.default.createContext({
+var FormContext = /*#__PURE__*/_react.default.createContext({
   controlId: undefined
 });
 
@@ -38566,9 +38489,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["id", "bsPrefix", "bsCustomPrefix", "className", "type", "isValid", "isInvalid", "isStatic", "as"];
 
-var FormCheckInput =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var FormCheckInput = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var id = _ref.id,
       bsPrefix = _ref.bsPrefix,
       bsCustomPrefix = _ref.bsCustomPrefix,
@@ -38593,15 +38514,12 @@ _react.default.forwardRef(function (_ref, ref) {
       defaultPrefix = _ref2[1];
 
   bsPrefix = (0, _ThemeProvider.useBootstrapPrefix)(prefix, defaultPrefix);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({}, props, {
-      ref: ref,
-      type: type,
-      id: id || controlId,
-      className: (0, _classnames.default)(className, bsPrefix, isValid && 'is-valid', isInvalid && 'is-invalid', isStatic && 'position-static')
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({}, props, {
+    ref: ref,
+    type: type,
+    id: id || controlId,
+    className: (0, _classnames.default)(className, bsPrefix, isValid && 'is-valid', isInvalid && 'is-invalid', isStatic && 'position-static')
+  }));
 });
 
 FormCheckInput.displayName = 'FormCheckInput';
@@ -38635,9 +38553,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["bsPrefix", "bsCustomPrefix", "className", "htmlFor"];
 
-var FormCheckLabel =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var FormCheckLabel = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       bsCustomPrefix = _ref.bsCustomPrefix,
       className = _ref.className,
@@ -38653,14 +38569,11 @@ _react.default.forwardRef(function (_ref, ref) {
       defaultPrefix = _ref2[1];
 
   bsPrefix = (0, _ThemeProvider.useBootstrapPrefix)(prefix, defaultPrefix);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement("label", (0, _extends2.default)({}, props, {
-      ref: ref,
-      htmlFor: htmlFor || controlId,
-      className: (0, _classnames.default)(className, bsPrefix)
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement("label", (0, _extends2.default)({}, props, {
+    ref: ref,
+    htmlFor: htmlFor || controlId,
+    className: (0, _classnames.default)(className, bsPrefix)
+  }));
 });
 
 FormCheckLabel.displayName = 'FormCheckLabel';
@@ -38702,9 +38615,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["id", "bsPrefix", "bsCustomPrefix", "inline", "disabled", "isValid", "isInvalid", "feedbackTooltip", "feedback", "className", "style", "title", "type", "label", "children", "custom", "as"];
 
-var FormCheck =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var FormCheck = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var id = _ref.id,
       bsPrefix = _ref.bsPrefix,
       bsCustomPrefix = _ref.bsCustomPrefix,
@@ -38750,9 +38661,7 @@ _react.default.forwardRef(function (_ref, ref) {
   }, [controlId, custom, id]);
   var hasLabel = custom || label != null && label !== false && !children;
 
-  var input =
-  /*#__PURE__*/
-  _react.default.createElement(_FormCheckInput.default, (0, _extends2.default)({}, props, {
+  var input = /*#__PURE__*/_react.default.createElement(_FormCheckInput.default, (0, _extends2.default)({}, props, {
     type: type === 'switch' ? 'checkbox' : type,
     ref: ref,
     isValid: isValid,
@@ -38762,28 +38671,17 @@ _react.default.forwardRef(function (_ref, ref) {
     as: as
   }));
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_FormContext.default.Provider, {
-      value: innerFormContext
-    },
-    /*#__PURE__*/
-    _react.default.createElement("div", {
-      style: style,
-      className: (0, _classnames.default)(className, bsPrefix, custom && "custom-" + type, inline && bsPrefix + "-inline")
-    }, children ||
-    /*#__PURE__*/
-    _react.default.createElement(_react.default.Fragment, null, input, hasLabel &&
-    /*#__PURE__*/
-    _react.default.createElement(_FormCheckLabel.default, {
-      title: title
-    }, label), (isValid || isInvalid) &&
-    /*#__PURE__*/
-    _react.default.createElement(_Feedback.default, {
-      type: isValid ? 'valid' : 'invalid',
-      tooltip: feedbackTooltip
-    }, feedback))))
-  );
+  return /*#__PURE__*/_react.default.createElement(_FormContext.default.Provider, {
+    value: innerFormContext
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    style: style,
+    className: (0, _classnames.default)(className, bsPrefix, custom && "custom-" + type, inline && bsPrefix + "-inline")
+  }, children || /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, input, hasLabel && /*#__PURE__*/_react.default.createElement(_FormCheckLabel.default, {
+    title: title
+  }, label), (isValid || isInvalid) && /*#__PURE__*/_react.default.createElement(_Feedback.default, {
+    type: isValid ? 'valid' : 'invalid',
+    tooltip: feedbackTooltip
+  }, feedback))));
 });
 
 FormCheck.displayName = 'FormCheck';
@@ -38819,9 +38717,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["id", "bsPrefix", "bsCustomPrefix", "className", "isValid", "isInvalid", "lang", "as"];
 
-var FormFileInput =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var FormFileInput = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var id = _ref.id,
       bsPrefix = _ref.bsPrefix,
       bsCustomPrefix = _ref.bsCustomPrefix,
@@ -38844,16 +38740,13 @@ _react.default.forwardRef(function (_ref, ref) {
       defaultPrefix = _ref2[1];
 
   bsPrefix = (0, _ThemeProvider.useBootstrapPrefix)(prefix, defaultPrefix);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({}, props, {
-      ref: ref,
-      id: id || controlId,
-      type: type,
-      lang: lang,
-      className: (0, _classnames.default)(className, bsPrefix, isValid && 'is-valid', isInvalid && 'is-invalid')
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({}, props, {
+    ref: ref,
+    id: id || controlId,
+    type: type,
+    lang: lang,
+    className: (0, _classnames.default)(className, bsPrefix, isValid && 'is-valid', isInvalid && 'is-invalid')
+  }));
 });
 
 FormFileInput.displayName = 'FormFileInput';
@@ -38887,9 +38780,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["bsPrefix", "bsCustomPrefix", "className", "htmlFor"];
 
-var FormFileLabel =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var FormFileLabel = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       bsCustomPrefix = _ref.bsCustomPrefix,
       className = _ref.className,
@@ -38905,15 +38796,12 @@ _react.default.forwardRef(function (_ref, ref) {
       defaultPrefix = _ref2[1];
 
   bsPrefix = (0, _ThemeProvider.useBootstrapPrefix)(prefix, defaultPrefix);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement("label", (0, _extends2.default)({}, props, {
-      ref: ref,
-      htmlFor: htmlFor || controlId,
-      className: (0, _classnames.default)(className, bsPrefix),
-      "data-browse": props['data-browse']
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement("label", (0, _extends2.default)({}, props, {
+    ref: ref,
+    htmlFor: htmlFor || controlId,
+    className: (0, _classnames.default)(className, bsPrefix),
+    "data-browse": props['data-browse']
+  }));
 });
 
 FormFileLabel.displayName = 'FormFileLabel';
@@ -38955,9 +38843,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["id", "bsPrefix", "bsCustomPrefix", "disabled", "isValid", "isInvalid", "feedbackTooltip", "feedback", "className", "style", "label", "children", "custom", "lang", "data-browse", "as", "inputAs"];
 
-var FormFile =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var FormFile = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var id = _ref.id,
       bsPrefix = _ref.bsPrefix,
       bsCustomPrefix = _ref.bsCustomPrefix,
@@ -39001,9 +38887,7 @@ _react.default.forwardRef(function (_ref, ref) {
   }, [controlId, custom, id]);
   var hasLabel = label != null && label !== false && !children;
 
-  var input =
-  /*#__PURE__*/
-  _react.default.createElement(_FormFileInput.default, (0, _extends2.default)({}, props, {
+  var input = /*#__PURE__*/_react.default.createElement(_FormFileInput.default, (0, _extends2.default)({}, props, {
     ref: ref,
     isValid: isValid,
     isInvalid: isInvalid,
@@ -39012,34 +38896,17 @@ _react.default.forwardRef(function (_ref, ref) {
     lang: lang
   }));
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_FormContext.default.Provider, {
-      value: innerFormContext
-    },
-    /*#__PURE__*/
-    _react.default.createElement(Component, {
-      style: style,
-      className: (0, _classnames.default)(className, bsPrefix, custom && "custom-" + type)
-    }, children ||
-    /*#__PURE__*/
-    _react.default.createElement(_react.default.Fragment, null, custom ?
-    /*#__PURE__*/
-    _react.default.createElement(_react.default.Fragment, null, input, hasLabel &&
-    /*#__PURE__*/
-    _react.default.createElement(_FormFileLabel.default, {
-      "data-browse": dataBrowse
-    }, label)) :
-    /*#__PURE__*/
-    _react.default.createElement(_react.default.Fragment, null, hasLabel &&
-    /*#__PURE__*/
-    _react.default.createElement(_FormFileLabel.default, null, label), input), (isValid || isInvalid) &&
-    /*#__PURE__*/
-    _react.default.createElement(_Feedback.default, {
-      type: isValid ? 'valid' : 'invalid',
-      tooltip: feedbackTooltip
-    }, feedback))))
-  );
+  return /*#__PURE__*/_react.default.createElement(_FormContext.default.Provider, {
+    value: innerFormContext
+  }, /*#__PURE__*/_react.default.createElement(Component, {
+    style: style,
+    className: (0, _classnames.default)(className, bsPrefix, custom && "custom-" + type)
+  }, children || /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, custom ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, input, hasLabel && /*#__PURE__*/_react.default.createElement(_FormFileLabel.default, {
+    "data-browse": dataBrowse
+  }, label)) : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, hasLabel && /*#__PURE__*/_react.default.createElement(_FormFileLabel.default, null, label), input), (isValid || isInvalid) && /*#__PURE__*/_react.default.createElement(_Feedback.default, {
+    type: isValid ? 'valid' : 'invalid',
+    tooltip: feedbackTooltip
+  }, feedback))));
 });
 
 FormFile.displayName = 'FormFile';
@@ -39145,9 +39012,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["bsPrefix", "bsCustomPrefix", "type", "size", "htmlSize", "id", "className", "isValid", "isInvalid", "plaintext", "readOnly", "custom", "as"];
 
-var FormControl =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var FormControl = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       bsCustomPrefix = _ref.bsCustomPrefix,
       type = _ref.type,
@@ -39199,17 +39064,14 @@ _react.default.forwardRef(function (_ref, ref) {
   }
 
   "development" !== "production" ? (0, _warning.default)(controlId == null || !id, '`controlId` is ignored on `<FormControl>` when `id` is specified.') : void 0;
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({}, props, {
-      type: type,
-      size: htmlSize,
-      ref: ref,
-      readOnly: readOnly,
-      id: id || controlId,
-      className: (0, _classnames.default)(className, classes, isValid && "is-valid", isInvalid && "is-invalid")
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({}, props, {
+    type: type,
+    size: htmlSize,
+    ref: ref,
+    readOnly: readOnly,
+    id: id || controlId,
+    className: (0, _classnames.default)(className, classes, isValid && "is-valid", isInvalid && "is-invalid")
+  }));
 });
 
 FormControl.displayName = 'FormControl';
@@ -39247,9 +39109,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["bsPrefix", "className", "children", "controlId", "as"];
 
-var FormGroup =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var FormGroup = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       className = _ref.className,
       children = _ref.children,
@@ -39263,17 +39123,12 @@ _react.default.forwardRef(function (_ref, ref) {
       controlId: controlId
     };
   }, [controlId]);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_FormContext.default.Provider, {
-      value: context
-    },
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({}, props, {
-      ref: ref,
-      className: (0, _classnames.default)(className, bsPrefix)
-    }), children))
-  );
+  return /*#__PURE__*/_react.default.createElement(_FormContext.default.Provider, {
+    value: context
+  }, /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({}, props, {
+    ref: ref,
+    className: (0, _classnames.default)(className, bsPrefix)
+  }), children));
 });
 
 FormGroup.displayName = 'FormGroup';
@@ -39315,9 +39170,7 @@ var defaultProps = {
   srOnly: false
 };
 
-var FormLabel =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var FormLabel = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var _ref$as = _ref.as,
       Component = _ref$as === void 0 ? 'label' : _ref$as,
       bsPrefix = _ref.bsPrefix,
@@ -39336,15 +39189,12 @@ _react.default.forwardRef(function (_ref, ref) {
   var classes = (0, _classnames.default)(className, bsPrefix, srOnly && 'sr-only', column && columnClass);
   "development" !== "production" ? (0, _warning.default)(controlId == null || !htmlFor, '`controlId` is ignored on `<FormLabel>` when `htmlFor` is specified.') : void 0;
   htmlFor = htmlFor || controlId;
-  if (column) return (
-    /*#__PURE__*/
-    _react.default.createElement(_Col.default, (0, _extends2.default)({
-      ref: ref,
-      as: "label",
-      className: classes,
-      htmlFor: htmlFor
-    }, props))
-  );
+  if (column) return /*#__PURE__*/_react.default.createElement(_Col.default, (0, _extends2.default)({
+    ref: ref,
+    as: "label",
+    className: classes,
+    htmlFor: htmlFor
+  }, props));
   return (
     /*#__PURE__*/
     // eslint-disable-next-line jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control
@@ -39382,9 +39232,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["bsPrefix", "className", "as", "muted"];
 
-var FormText =
-/*#__PURE__*/
-_react.default.forwardRef( // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+var FormText = /*#__PURE__*/_react.default.forwardRef( // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
 function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       className = _ref.className,
@@ -39393,13 +39241,10 @@ function (_ref, ref) {
       muted = _ref.muted,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   bsPrefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'form-text');
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({}, props, {
-      ref: ref,
-      className: (0, _classnames.default)(className, bsPrefix, muted && 'text-muted')
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({}, props, {
+    ref: ref,
+    className: (0, _classnames.default)(className, bsPrefix, muted && 'text-muted')
+  }));
 });
 
 FormText.displayName = 'FormText';
@@ -39421,16 +39266,11 @@ var _FormCheck = _interopRequireDefault(require("./FormCheck"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Switch =
-/*#__PURE__*/
-_react.default.forwardRef(function (props, ref) {
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_FormCheck.default, (0, _extends2.default)({}, props, {
-      ref: ref,
-      type: "switch"
-    }))
-  );
+var Switch = /*#__PURE__*/_react.default.forwardRef(function (props, ref) {
+  return /*#__PURE__*/_react.default.createElement(_FormCheck.default, (0, _extends2.default)({}, props, {
+    ref: ref,
+    type: "switch"
+  }));
 });
 
 Switch.displayName = 'Switch';
@@ -39488,22 +39328,17 @@ function createWithBsPrefix(prefix, _temp) {
       Component = _ref.Component,
       defaultProps = _ref.defaultProps;
 
-  var BsComponent =
-  /*#__PURE__*/
-  _react.default.forwardRef(function (_ref2, ref) {
+  var BsComponent = /*#__PURE__*/_react.default.forwardRef(function (_ref2, ref) {
     var className = _ref2.className,
         bsPrefix = _ref2.bsPrefix,
         _ref2$as = _ref2.as,
         Tag = _ref2$as === void 0 ? Component || 'div' : _ref2$as,
         props = (0, _objectWithoutPropertiesLoose2.default)(_ref2, _excluded);
     var resolvedPrefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, prefix);
-    return (
-      /*#__PURE__*/
-      _react.default.createElement(Tag, (0, _extends2.default)({
-        ref: ref,
-        className: (0, _classnames.default)(className, resolvedPrefix)
-      }, props))
-    );
+    return /*#__PURE__*/_react.default.createElement(Tag, (0, _extends2.default)({
+      ref: ref,
+      className: (0, _classnames.default)(className, resolvedPrefix)
+    }, props));
   });
 
   BsComponent.defaultProps = defaultProps;
@@ -39552,9 +39387,7 @@ var defaultProps = {
   inline: false
 };
 
-var FormImpl =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var FormImpl = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       inline = _ref.inline,
       className = _ref.className,
@@ -39563,13 +39396,10 @@ _react.default.forwardRef(function (_ref, ref) {
       Component = _ref$as === void 0 ? 'form' : _ref$as,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   bsPrefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'form');
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({}, props, {
-      ref: ref,
-      className: (0, _classnames.default)(className, validated && 'was-validated', inline && bsPrefix + "-inline")
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({}, props, {
+    ref: ref,
+    className: (0, _classnames.default)(className, validated && 'was-validated', inline && bsPrefix + "-inline")
+  }));
 });
 
 FormImpl.displayName = 'Form';
@@ -39603,16 +39433,13 @@ var _actions = require("../../actions/actions");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function VisibilityFilterInput(props) {
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_Form.default.Control, {
-      onChange: function onChange(e) {
-        return props.setFilter(e.target.value);
-      },
-      value: props.visibilityFilter,
-      placeholder: "filter"
-    })
-  );
+  return /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
+    onChange: function onChange(e) {
+      return props.setFilter(e.target.value);
+    },
+    value: props.visibilityFilter,
+    placeholder: "filter"
+  });
 }
 
 var _default = (0, _reactRedux.connect)(null, {
@@ -39697,9 +39524,7 @@ function isTrivialHref(href) {
  */
 
 
-var SafeAnchor =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var SafeAnchor = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var _ref$as = _ref.as,
       Component = _ref$as === void 0 ? 'a' : _ref$as,
       disabled = _ref.disabled,
@@ -39743,15 +39568,12 @@ _react.default.forwardRef(function (_ref, ref) {
     props['aria-disabled'] = true;
   }
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      onClick: handleClick,
-      onKeyDown: (0, _createChainedFunction.default)(handleKeyDown, onKeyDown)
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    onClick: handleClick,
+    onKeyDown: (0, _createChainedFunction.default)(handleKeyDown, onKeyDown)
+  }));
 });
 
 SafeAnchor.displayName = 'SafeAnchor';
@@ -39786,9 +39608,7 @@ var defaultProps = {
   disabled: false
 };
 
-var Button =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var Button = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       variant = _ref.variant,
       size = _ref.size,
@@ -39802,14 +39622,11 @@ _react.default.forwardRef(function (_ref, ref) {
   var classes = (0, _classnames.default)(className, prefix, active && 'active', variant && prefix + "-" + variant, block && prefix + "-block", size && prefix + "-" + size);
 
   if (props.href) {
-    return (
-      /*#__PURE__*/
-      _react.default.createElement(_SafeAnchor.default, (0, _extends2.default)({}, props, {
-        as: as,
-        ref: ref,
-        className: (0, _classnames.default)(classes, props.disabled && 'disabled')
-      }))
-    );
+    return /*#__PURE__*/_react.default.createElement(_SafeAnchor.default, (0, _extends2.default)({}, props, {
+      as: as,
+      ref: ref,
+      className: (0, _classnames.default)(classes, props.disabled && 'disabled')
+    }));
   }
 
   if (ref) {
@@ -39823,12 +39640,9 @@ _react.default.forwardRef(function (_ref, ref) {
   }
 
   var Component = as || 'button';
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({}, props, {
-      className: classes
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({}, props, {
+    className: classes
+  }));
 });
 
 Button.displayName = 'Button';
@@ -39852,18 +39666,12 @@ var _classnames = _interopRequireDefault(require("classnames"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _default = function _default(className) {
-  return (
-    /*#__PURE__*/
-    _react.default.forwardRef(function (p, ref) {
-      return (
-        /*#__PURE__*/
-        _react.default.createElement("div", (0, _extends2.default)({}, p, {
-          ref: ref,
-          className: (0, _classnames.default)(p.className, className)
-        }))
-      );
-    })
-  );
+  return /*#__PURE__*/_react.default.forwardRef(function (p, ref) {
+    return /*#__PURE__*/_react.default.createElement("div", (0, _extends2.default)({}, p, {
+      ref: ref,
+      className: (0, _classnames.default)(p.className, className)
+    }));
+  });
 };
 
 exports.default = _default;
@@ -39879,9 +39687,7 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var context =
-/*#__PURE__*/
-_react.default.createContext(null);
+var context = /*#__PURE__*/_react.default.createContext(null);
 
 context.displayName = 'CardContext';
 var _default = context;
@@ -39911,9 +39717,7 @@ var defaultProps = {
   variant: null
 };
 
-var CardImg =
-/*#__PURE__*/
-_react.default.forwardRef( // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+var CardImg = /*#__PURE__*/_react.default.forwardRef( // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
 function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       className = _ref.className,
@@ -39922,13 +39726,10 @@ function (_ref, ref) {
       Component = _ref$as === void 0 ? 'img' : _ref$as,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   var prefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'card-img');
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({
-      ref: ref,
-      className: (0, _classnames.default)(variant ? prefix + "-" + variant : prefix, className)
-    }, props))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({
+    ref: ref,
+    className: (0, _classnames.default)(variant ? prefix + "-" + variant : prefix, className)
+  }, props));
 });
 
 CardImg.displayName = 'CardImg';
@@ -39990,9 +39791,7 @@ var defaultProps = {
   body: false
 };
 
-var Card =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var Card = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       className = _ref.className,
       bg = _ref.bg,
@@ -40009,21 +39808,16 @@ _react.default.forwardRef(function (_ref, ref) {
       cardHeaderBsPrefix: prefix + "-header"
     };
   }, [prefix]);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_CardContext.default.Provider, {
-      value: cardContext
-    },
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      className: (0, _classnames.default)(className, prefix, bg && "bg-" + bg, text && "text-" + text, border && "border-" + border)
-    }), body ?
-    /*#__PURE__*/
-    // @ts-ignore
-    _react.default.createElement(CardBody, null, children) : children))
-  );
+  return /*#__PURE__*/_react.default.createElement(_CardContext.default.Provider, {
+    value: cardContext
+  }, /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    className: (0, _classnames.default)(className, prefix, bg && "bg-" + bg, text && "text-" + text, border && "border-" + border)
+  }), body ?
+  /*#__PURE__*/
+  // @ts-ignore
+  _react.default.createElement(CardBody, null, children) : children));
 });
 
 Card.displayName = 'Card';
@@ -40073,7 +39867,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -40081,9 +39875,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var MovieCard =
-/*#__PURE__*/
-function (_React$Component) {
+var MovieCard = /*#__PURE__*/function (_React$Component) {
   _inherits(MovieCard, _React$Component);
 
   var _super = _createSuper(MovieCard);
@@ -40098,29 +39890,14 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       var movie = this.props.movie;
-      return (
-        /*#__PURE__*/
-        _react.default.createElement(_Card.default, null,
-        /*#__PURE__*/
-        _react.default.createElement(_Card.default.Img, {
-          variant: "top",
-          src: movie.ImagePath
-        }),
-        /*#__PURE__*/
-        _react.default.createElement(_Card.default.Body, null,
-        /*#__PURE__*/
-        _react.default.createElement(_Card.default.Title, null, movie.Title),
-        /*#__PURE__*/
-        _react.default.createElement(_Card.default.Text, null, movie.Description),
-        /*#__PURE__*/
-        _react.default.createElement(_reactRouterDom.Link, {
-          to: "/movies/".concat(movie._id)
-        },
-        /*#__PURE__*/
-        _react.default.createElement(_Button.default, {
-          variant: "link"
-        }, "Open"))))
-      );
+      return /*#__PURE__*/_react.default.createElement(_Card.default, null, /*#__PURE__*/_react.default.createElement(_Card.default.Img, {
+        variant: "top",
+        src: movie.ImagePath
+      }), /*#__PURE__*/_react.default.createElement(_Card.default.Body, null, /*#__PURE__*/_react.default.createElement(_Card.default.Title, null, movie.Title), /*#__PURE__*/_react.default.createElement(_Card.default.Text, null, movie.Description), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+        to: "/movies/".concat(movie._id)
+      }, /*#__PURE__*/_react.default.createElement(_Button.default, {
+        variant: "link"
+      }, "Open"))));
     }
   }]);
 
@@ -40174,39 +39951,24 @@ function MoviesList(props) {
     });
   }
 
-  if (!movies) return (
-    /*#__PURE__*/
-    _react.default.createElement("div", {
-      className: "main-view"
-    })
-  );
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_react.default.Fragment, null,
-    /*#__PURE__*/
-    _react.default.createElement(_Col.default, {
-      md: 12,
-      style: {
-        margin: '1em'
-      }
-    },
-    /*#__PURE__*/
-    _react.default.createElement(_visibilityFilterInput.default, {
-      visibilityFilter: visibilityFilter
-    })), filteredMovies.map(function (m) {
-      return (
-        /*#__PURE__*/
-        _react.default.createElement(_Col.default, {
-          md: 3,
-          key: m._id
-        },
-        /*#__PURE__*/
-        _react.default.createElement(_movieCard.MovieCard, {
-          movie: m
-        }))
-      );
-    }))
-  );
+  if (!movies) return /*#__PURE__*/_react.default.createElement("div", {
+    className: "main-view"
+  });
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_Col.default, {
+    md: 12,
+    style: {
+      margin: '1em'
+    }
+  }, /*#__PURE__*/_react.default.createElement(_visibilityFilterInput.default, {
+    visibilityFilter: visibilityFilter
+  })), filteredMovies.map(function (m) {
+    return /*#__PURE__*/_react.default.createElement(_Col.default, {
+      md: 3,
+      key: m._id
+    }, /*#__PURE__*/_react.default.createElement(_movieCard.MovieCard, {
+      movie: m
+    }));
+  }));
 }
 
 var _default = (0, _reactRedux.connect)(mapStateToProps)(MoviesList);
@@ -40244,7 +40006,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -40252,9 +40014,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var MovieView =
-/*#__PURE__*/
-function (_React$Component) {
+var MovieView = /*#__PURE__*/function (_React$Component) {
   _inherits(MovieView, _React$Component);
 
   var _super = _createSuper(MovieView);
@@ -40304,72 +40064,41 @@ function (_React$Component) {
       var _this$props = this.props,
           movie = _this$props.movie,
           onBackClick = _this$props.onBackClick;
-      return (
-        /*#__PURE__*/
-        _react.default.createElement("div", {
-          className: "movie-view"
-        },
-        /*#__PURE__*/
-        _react.default.createElement("div", {
-          className: "movie-poster"
-        },
-        /*#__PURE__*/
-        _react.default.createElement("img", {
-          src: movie.ImagePath
-        })),
-        /*#__PURE__*/
-        _react.default.createElement("div", {
-          className: "movie-title"
-        },
-        /*#__PURE__*/
-        _react.default.createElement("span", {
-          className: "label"
-        }, "Title: "),
-        /*#__PURE__*/
-        _react.default.createElement("span", {
-          className: "value"
-        }, movie.Title)),
-        /*#__PURE__*/
-        _react.default.createElement("div", {
-          className: "movie-description"
-        },
-        /*#__PURE__*/
-        _react.default.createElement("span", {
-          className: "label"
-        }, "Description: "),
-        /*#__PURE__*/
-        _react.default.createElement("span", {
-          className: "value"
-        }, movie.Description)),
-        /*#__PURE__*/
-        _react.default.createElement(_reactRouterDom.Link, {
-          to: "/directors/".concat(movie.Director.Name)
-        },
-        /*#__PURE__*/
-        _react.default.createElement(_Button.default, {
-          variant: "link"
-        }, "Director")),
-        /*#__PURE__*/
-        _react.default.createElement(_reactRouterDom.Link, {
-          to: "/genres/".concat(movie.Genre.Name)
-        },
-        /*#__PURE__*/
-        _react.default.createElement(_Button.default, {
-          variant: "link"
-        }, "Genre")),
-        /*#__PURE__*/
-        _react.default.createElement("button", {
-          onClick: function onClick() {
-            return _this.addFavorite(movie);
-          }
-        }, "Add to favorites"),
-        /*#__PURE__*/
-        _react.default.createElement("button", {
-          onClick: function onClick() {
-            onBackClick(null);
-          }
-        }, "Back"))
-      );
+      return /*#__PURE__*/_react.default.createElement("div", {
+        className: "movie-view"
+      }, /*#__PURE__*/_react.default.createElement("div", {
+        className: "movie-poster"
+      }, /*#__PURE__*/_react.default.createElement("img", {
+        src: movie.ImagePath
+      })), /*#__PURE__*/_react.default.createElement("div", {
+        className: "movie-title"
+      }, /*#__PURE__*/_react.default.createElement("span", {
+        className: "label"
+      }, "Title: "), /*#__PURE__*/_react.default.createElement("span", {
+        className: "value"
+      }, movie.Title)), /*#__PURE__*/_react.default.createElement("div", {
+        className: "movie-description"
+      }, /*#__PURE__*/_react.default.createElement("span", {
+        className: "label"
+      }, "Description: "), /*#__PURE__*/_react.default.createElement("span", {
+        className: "value"
+      }, movie.Description)), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+        to: "/directors/".concat(movie.Director.Name)
+      }, /*#__PURE__*/_react.default.createElement(_Button.default, {
+        variant: "link"
+      }, "Director")), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+        to: "/genres/".concat(movie.Genre.Name)
+      }, /*#__PURE__*/_react.default.createElement(_Button.default, {
+        variant: "link"
+      }, "Genre")), /*#__PURE__*/_react.default.createElement("button", {
+        onClick: function onClick() {
+          return _this.addFavorite(movie);
+        }
+      }, "Add to favorites"), /*#__PURE__*/_react.default.createElement("button", {
+        onClick: function onClick() {
+          onBackClick(null);
+        }
+      }, "Back"));
     }
   }]);
 
@@ -40403,9 +40132,7 @@ var defaultProps = {
   noGutters: false
 };
 
-var Row =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var Row = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       className = _ref.className,
       noGutters = _ref.noGutters,
@@ -40429,14 +40156,11 @@ _react.default.forwardRef(function (_ref, ref) {
     var infix = brkPoint !== 'xs' ? "-" + brkPoint : '';
     if (cols != null) classes.push("" + sizePrefix + infix + "-" + cols);
   });
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      className: _classnames.default.apply(void 0, [className, decoratedBsPrefix, noGutters && 'no-gutters'].concat(classes))
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    className: _classnames.default.apply(void 0, [className, decoratedBsPrefix, noGutters && 'no-gutters'].concat(classes))
+  }));
 });
 
 Row.displayName = 'Row';
@@ -40509,61 +40233,34 @@ function LoginView(props) {
     });
   };
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_Row.default, {
-      className: "main-view justify-content-md-center"
-    },
-    /*#__PURE__*/
-    _react.default.createElement(_Col.default, {
-      md: 8
-    },
-    /*#__PURE__*/
-    _react.default.createElement(_Form.default, null,
-    /*#__PURE__*/
-    _react.default.createElement(_Form.default.Group, {
-      controlId: "formUsername"
-    },
-    /*#__PURE__*/
-    _react.default.createElement(_Form.default.Label, null, "Username:"),
-    /*#__PURE__*/
-    _react.default.createElement(_Form.default.Control, {
-      type: "text",
-      onChange: function onChange(e) {
-        return setUsername(e.target.value);
-      }
-    })),
-    /*#__PURE__*/
-    _react.default.createElement(_Form.default.Group, {
-      controlId: "formPassword"
-    },
-    /*#__PURE__*/
-    _react.default.createElement(_Form.default.Label, null, "Password:"),
-    /*#__PURE__*/
-    _react.default.createElement(_Form.default.Control, {
-      type: "password",
-      onChange: function onChange(e) {
-        return setPassword(e.target.value);
-      }
-    })),
-    /*#__PURE__*/
-    _react.default.createElement("span", null,
-    /*#__PURE__*/
-    _react.default.createElement(_Button.default, {
-      variant: "primary",
-      onClick: handleSubmit
-    }, "Submit"), ' ',
-    /*#__PURE__*/
-    _react.default.createElement(_reactRouterDom.Link, {
-      to: "/register"
-    },
-    /*#__PURE__*/
-    _react.default.createElement(_Button.default, {
-      variant: "link"
-    }, "Register"))))))
-  );
+  return /*#__PURE__*/_react.default.createElement(_Row.default, {
+    className: "main-view justify-content-md-center"
+  }, /*#__PURE__*/_react.default.createElement(_Col.default, {
+    md: 8
+  }, /*#__PURE__*/_react.default.createElement(_Form.default, null, /*#__PURE__*/_react.default.createElement(_Form.default.Group, {
+    controlId: "formUsername"
+  }, /*#__PURE__*/_react.default.createElement(_Form.default.Label, null, "Username:"), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
+    type: "text",
+    onChange: function onChange(e) {
+      return setUsername(e.target.value);
+    }
+  })), /*#__PURE__*/_react.default.createElement(_Form.default.Group, {
+    controlId: "formPassword"
+  }, /*#__PURE__*/_react.default.createElement(_Form.default.Label, null, "Password:"), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
+    type: "password",
+    onChange: function onChange(e) {
+      return setPassword(e.target.value);
+    }
+  })), /*#__PURE__*/_react.default.createElement("span", null, /*#__PURE__*/_react.default.createElement(_Button.default, {
+    variant: "primary",
+    onClick: handleSubmit
+  }, "Submit"), ' ', /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: "/register"
+  }, /*#__PURE__*/_react.default.createElement(_Button.default, {
+    variant: "link"
+  }, "Register"))))));
 }
-},{"react":"../node_modules/react/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","axios":"../node_modules/axios/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js"}],"D:/nvm/v14.17.0/node_modules/parcel/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","axios":"../node_modules/axios/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js"}],"D:/nvm/v14.17.0/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -40590,12 +40287,12 @@ function getBundleURL() {
 }
 
 function getBaseURL(url) {
-  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
+  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)?\/[^/]+(?:\?.*)?$/, '$1') + '/';
 }
 
 exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
-},{}],"D:/nvm/v14.17.0/node_modules/parcel/src/builtins/css-loader.js":[function(require,module,exports) {
+},{}],"D:/nvm/v14.17.0/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
 var bundle = require('./bundle-url');
 
 function updateLink(link) {
@@ -40630,12 +40327,12 @@ function reloadCSS() {
 }
 
 module.exports = reloadCSS;
-},{"./bundle-url":"D:/nvm/v14.17.0/node_modules/parcel/src/builtins/bundle-url.js"}],"components/genre-view/genre-view.scss":[function(require,module,exports) {
+},{"./bundle-url":"D:/nvm/v14.17.0/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"components/genre-view/genre-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"D:/nvm/v14.17.0/node_modules/parcel/src/builtins/css-loader.js"}],"components/genre-view/genre-view.jsx":[function(require,module,exports) {
+},{"_css_loader":"D:/nvm/v14.17.0/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/genre-view/genre-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40665,7 +40362,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -40673,9 +40370,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var GenreView =
-/*#__PURE__*/
-function (_React$Component) {
+var GenreView = /*#__PURE__*/function (_React$Component) {
   _inherits(GenreView, _React$Component);
 
   var _super = _createSuper(GenreView);
@@ -40692,39 +40387,24 @@ function (_React$Component) {
       var _this$props = this.props,
           genre = _this$props.genre,
           onBackClick = _this$props.onBackClick;
-      return (
-        /*#__PURE__*/
-        _react.default.createElement("div", {
-          className: "genre-view"
-        },
-        /*#__PURE__*/
-        _react.default.createElement("div", {
-          className: "genre-name"
-        },
-        /*#__PURE__*/
-        _react.default.createElement("span", {
-          className: "value"
-        }, genre.Name)),
-        /*#__PURE__*/
-        _react.default.createElement("div", {
-          className: "genre-description"
-        },
-        /*#__PURE__*/
-        _react.default.createElement("span", {
-          className: "label"
-        }, "Description: "),
-        /*#__PURE__*/
-        _react.default.createElement("span", {
-          className: "value"
-        }, genre.Description)),
-        /*#__PURE__*/
-        _react.default.createElement(_Button.default, {
-          variant: "secondary",
-          onClick: function onClick() {
-            onBackClick(null);
-          }
-        }, "Back"))
-      );
+      return /*#__PURE__*/_react.default.createElement("div", {
+        className: "genre-view"
+      }, /*#__PURE__*/_react.default.createElement("div", {
+        className: "genre-name"
+      }, /*#__PURE__*/_react.default.createElement("span", {
+        className: "value"
+      }, genre.Name)), /*#__PURE__*/_react.default.createElement("div", {
+        className: "genre-description"
+      }, /*#__PURE__*/_react.default.createElement("span", {
+        className: "label"
+      }, "Description: "), /*#__PURE__*/_react.default.createElement("span", {
+        className: "value"
+      }, genre.Description)), /*#__PURE__*/_react.default.createElement(_Button.default, {
+        variant: "secondary",
+        onClick: function onClick() {
+          onBackClick(null);
+        }
+      }, "Back"));
     }
   }]);
 
@@ -40737,7 +40417,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"D:/nvm/v14.17.0/node_modules/parcel/src/builtins/css-loader.js"}],"components/director-view/director-view.jsx":[function(require,module,exports) {
+},{"_css_loader":"D:/nvm/v14.17.0/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/director-view/director-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40767,7 +40447,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -40775,9 +40455,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var DirectorView =
-/*#__PURE__*/
-function (_React$Component) {
+var DirectorView = /*#__PURE__*/function (_React$Component) {
   _inherits(DirectorView, _React$Component);
 
   var _super = _createSuper(DirectorView);
@@ -40794,51 +40472,30 @@ function (_React$Component) {
       var _this$props = this.props,
           director = _this$props.director,
           onBackClick = _this$props.onBackClick;
-      return (
-        /*#__PURE__*/
-        _react.default.createElement("div", {
-          className: "director-view"
-        },
-        /*#__PURE__*/
-        _react.default.createElement("div", {
-          className: "director-name"
-        },
-        /*#__PURE__*/
-        _react.default.createElement("span", {
-          className: "value"
-        }, director.Name)),
-        /*#__PURE__*/
-        _react.default.createElement("div", {
-          className: "director-birth"
-        },
-        /*#__PURE__*/
-        _react.default.createElement("span", {
-          className: "label"
-        }, "Birthdate: "),
-        /*#__PURE__*/
-        _react.default.createElement("span", {
-          className: "value"
-        }, director.Birth)),
-        /*#__PURE__*/
-        _react.default.createElement("div", {
-          className: "director-bio"
-        },
-        /*#__PURE__*/
-        _react.default.createElement("span", {
-          className: "label"
-        }, "Bio: "),
-        /*#__PURE__*/
-        _react.default.createElement("span", {
-          className: "value"
-        }, director.Bio)),
-        /*#__PURE__*/
-        _react.default.createElement(_Button.default, {
-          variant: "secondary",
-          onClick: function onClick() {
-            onBackClick(null);
-          }
-        }, "Back"))
-      );
+      return /*#__PURE__*/_react.default.createElement("div", {
+        className: "director-view"
+      }, /*#__PURE__*/_react.default.createElement("div", {
+        className: "director-name"
+      }, /*#__PURE__*/_react.default.createElement("span", {
+        className: "value"
+      }, director.Name)), /*#__PURE__*/_react.default.createElement("div", {
+        className: "director-birth"
+      }, /*#__PURE__*/_react.default.createElement("span", {
+        className: "label"
+      }, "Birthdate: "), /*#__PURE__*/_react.default.createElement("span", {
+        className: "value"
+      }, director.Birth)), /*#__PURE__*/_react.default.createElement("div", {
+        className: "director-bio"
+      }, /*#__PURE__*/_react.default.createElement("span", {
+        className: "label"
+      }, "Bio: "), /*#__PURE__*/_react.default.createElement("span", {
+        className: "value"
+      }, director.Bio)), /*#__PURE__*/_react.default.createElement(_Button.default, {
+        variant: "secondary",
+        onClick: function onClick() {
+          onBackClick(null);
+        }
+      }, "Back"));
     }
   }]);
 
@@ -40851,7 +40508,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"D:/nvm/v14.17.0/node_modules/parcel/src/builtins/css-loader.js"}],"components/registration-view/registration-view.jsx":[function(require,module,exports) {
+},{"_css_loader":"D:/nvm/v14.17.0/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/registration-view/registration-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40936,90 +40593,55 @@ function RegistrationView(props) {
     console.log(username, password, email, birthday);
   };
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_Row.default, {
-      className: "reg-margin-top justify-content-md-center"
-    },
-    /*#__PURE__*/
-    _react.default.createElement(_Col.default, {
-      sm: 12,
-      md: 6,
-      lg: 6,
-      xl: 4
-    },
-    /*#__PURE__*/
-    _react.default.createElement(_Form.default.Group, null,
-    /*#__PURE__*/
-    _react.default.createElement(_Form.default.Label, {
-      controlid: "username"
-    }, "Username: "),
-    /*#__PURE__*/
-    _react.default.createElement(_Form.default.Control, {
-      type: "text",
-      value: username,
-      onChange: function onChange(e) {
-        return setUsername(e.target.value);
-      }
-    })),
-    /*#__PURE__*/
-    _react.default.createElement(_Form.default.Group, null,
-    /*#__PURE__*/
-    _react.default.createElement(_Form.default.Label, {
-      controlid: "password"
-    }, "Password: "),
-    /*#__PURE__*/
-    _react.default.createElement(_Form.default.Control, {
-      type: "password",
-      value: password,
-      onChange: function onChange(e) {
-        return setPassword(e.target.value);
-      }
-    })),
-    /*#__PURE__*/
-    _react.default.createElement(_Form.default.Group, null,
-    /*#__PURE__*/
-    _react.default.createElement(_Form.default.Label, {
-      controlid: "email"
-    }, "eMail: "),
-    /*#__PURE__*/
-    _react.default.createElement(_Form.default.Control, {
-      type: "email",
-      value: email,
-      onChange: function onChange(e) {
-        return setEmail(e.target.value);
-      }
-    })),
-    /*#__PURE__*/
-    _react.default.createElement(_Form.default.Group, null,
-    /*#__PURE__*/
-    _react.default.createElement(_Form.default.Label, {
-      controlid: "birthday"
-    }, "Date of Birth: "),
-    /*#__PURE__*/
-    _react.default.createElement(_Form.default.Control, {
-      type: "date",
-      value: birthday,
-      onChange: function onChange(e) {
-        return setBirthday(e.target.value);
-      }
-    })),
-    /*#__PURE__*/
-    _react.default.createElement(_Button.default, {
-      variant: "danger",
-      type: "submit",
-      onClick: handleSubmit
-    }, "Submit"), ' ',
-    /*#__PURE__*/
-    _react.default.createElement(_reactRouterDom.Link, {
-      to: "/"
-    },
-    /*#__PURE__*/
-    _react.default.createElement(_Button.default, {
-      variant: "secondary",
-      type: "button"
-    }, "Back"))))
-  );
+  return /*#__PURE__*/_react.default.createElement(_Row.default, {
+    className: "reg-margin-top justify-content-md-center"
+  }, /*#__PURE__*/_react.default.createElement(_Col.default, {
+    sm: 12,
+    md: 6,
+    lg: 6,
+    xl: 4
+  }, /*#__PURE__*/_react.default.createElement(_Form.default.Group, null, /*#__PURE__*/_react.default.createElement(_Form.default.Label, {
+    controlid: "username"
+  }, "Username: "), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
+    type: "text",
+    value: username,
+    onChange: function onChange(e) {
+      return setUsername(e.target.value);
+    }
+  })), /*#__PURE__*/_react.default.createElement(_Form.default.Group, null, /*#__PURE__*/_react.default.createElement(_Form.default.Label, {
+    controlid: "password"
+  }, "Password: "), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
+    type: "password",
+    value: password,
+    onChange: function onChange(e) {
+      return setPassword(e.target.value);
+    }
+  })), /*#__PURE__*/_react.default.createElement(_Form.default.Group, null, /*#__PURE__*/_react.default.createElement(_Form.default.Label, {
+    controlid: "email"
+  }, "eMail: "), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
+    type: "email",
+    value: email,
+    onChange: function onChange(e) {
+      return setEmail(e.target.value);
+    }
+  })), /*#__PURE__*/_react.default.createElement(_Form.default.Group, null, /*#__PURE__*/_react.default.createElement(_Form.default.Label, {
+    controlid: "birthday"
+  }, "Date of Birth: "), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
+    type: "date",
+    value: birthday,
+    onChange: function onChange(e) {
+      return setBirthday(e.target.value);
+    }
+  })), /*#__PURE__*/_react.default.createElement(_Button.default, {
+    variant: "danger",
+    type: "submit",
+    onClick: handleSubmit
+  }, "Submit"), ' ', /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: "/"
+  }, /*#__PURE__*/_react.default.createElement(_Button.default, {
+    variant: "secondary",
+    type: "button"
+  }, "Back"))));
 }
 },{"react":"../node_modules/react/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","axios":"../node_modules/axios/index.js","./registration-view.scss":"components/registration-view/registration-view.scss"}],"../node_modules/invariant/browser.js":[function(require,module,exports) {
 /**
@@ -41392,9 +41014,7 @@ function uncontrollable(Component, controlledValues, methods) {
   var PROPS_TO_OMIT = controlledProps.map(Utils.defaultKey);
   !(canAcceptRef || !methods.length) ? "development" !== "production" ? (0, _invariant.default)(false, '[uncontrollable] stateless function components cannot pass through methods ' + 'because they have no associated instances. Check component: ' + displayName + ', ' + 'attempting to pass through methods: ' + methods.join(', ')) : (0, _invariant.default)(false) : void 0;
 
-  var UncontrolledComponent =
-  /*#__PURE__*/
-  function (_React$Component) {
+  var UncontrolledComponent = /*#__PURE__*/function (_React$Component) {
     (0, _inheritsLoose2.default)(UncontrolledComponent, _React$Component);
 
     function UncontrolledComponent() {
@@ -41595,9 +41215,7 @@ var _react = _interopRequireDefault(require("react"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // TODO (apparently this is a bare "onSelect"?)
-var SelectableContext =
-/*#__PURE__*/
-_react.default.createContext(null);
+var SelectableContext = /*#__PURE__*/_react.default.createContext(null);
 
 var makeEventKey = function makeEventKey(eventKey, href) {
   if (href === void 0) {
@@ -41623,9 +41241,7 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var context =
-/*#__PURE__*/
-_react.default.createContext(null);
+var context = /*#__PURE__*/_react.default.createContext(null);
 
 context.displayName = 'AccordionContext';
 var _default = context;
@@ -41671,9 +41287,7 @@ function useAccordionToggle(eventKey, onClick) {
   };
 }
 
-var AccordionToggle =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var AccordionToggle = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var _ref$as = _ref.as,
       Component = _ref$as === void 0 ? 'button' : _ref$as,
       children = _ref.children,
@@ -41686,13 +41300,10 @@ _react.default.forwardRef(function (_ref, ref) {
     props.type = 'button';
   }
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({
-      ref: ref,
-      onClick: accordionOnClick
-    }, props), children)
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({
+    ref: ref,
+    onClick: accordionOnClick
+  }, props), children);
 });
 
 var _default = AccordionToggle;
@@ -42032,9 +41643,7 @@ var EXITING = 'exiting';
 
 exports.EXITING = EXITING;
 
-var Transition =
-/*#__PURE__*/
-function (_React$Component) {
+var Transition = /*#__PURE__*/function (_React$Component) {
   (0, _inheritsLoose2.default)(Transition, _React$Component);
 
   function Transition(props, context) {
@@ -42591,9 +42200,9 @@ try {
     window.addEventListener('test', options, options);
     window.removeEventListener('test', options, true);
   }
-} catch (e) {}
-/* */
-
+} catch (e) {
+  /* */
+}
 /**
  * An `addEventListener` ponyfill, supports the `once` option
  * 
@@ -42863,9 +42472,7 @@ var defaultProps = {
   getDimensionValue: getDefaultDimensionValue
 };
 
-var Collapse =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var Collapse = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var onEnter = _ref.onEnter,
       onEntering = _ref.onEntering,
       onEntered = _ref.onEntered,
@@ -42912,28 +42519,22 @@ _react.default.forwardRef(function (_ref, ref) {
       elem.style[computedDimension] = null;
     }, onExiting);
   }, [computedDimension, onExiting]);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_Transition.default // @ts-ignore
-    , (0, _extends2.default)({
-      ref: ref,
-      addEndListener: _transitionEndListener.default
-    }, props, {
-      "aria-expanded": props.role ? props.in : null,
-      onEnter: handleEnter,
-      onEntering: handleEntering,
-      onEntered: handleEntered,
-      onExit: handleExit,
-      onExiting: handleExiting
-    }), function (state, innerProps) {
-      return (
-        /*#__PURE__*/
-        _react.default.cloneElement(children, (0, _extends2.default)({}, innerProps, {
-          className: (0, _classnames.default)(className, children.props.className, collapseStyles[state], computedDimension === 'width' && 'width')
-        }))
-      );
-    })
-  );
+  return /*#__PURE__*/_react.default.createElement(_Transition.default // @ts-ignore
+  , (0, _extends2.default)({
+    ref: ref,
+    addEndListener: _transitionEndListener.default
+  }, props, {
+    "aria-expanded": props.role ? props.in : null,
+    onEnter: handleEnter,
+    onEntering: handleEntering,
+    onEntered: handleEntered,
+    onExit: handleExit,
+    onExiting: handleExiting
+  }), function (state, innerProps) {
+    return /*#__PURE__*/_react.default.cloneElement(children, (0, _extends2.default)({}, innerProps, {
+      className: (0, _classnames.default)(className, children.props.className, collapseStyles[state], computedDimension === 'width' && 'width')
+    }));
+  });
 }); // @ts-ignore
 // @ts-ignore
 
@@ -42969,28 +42570,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["children", "eventKey"];
 
-var AccordionCollapse =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var AccordionCollapse = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var children = _ref.children,
       eventKey = _ref.eventKey,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   var contextEventKey = (0, _react.useContext)(_AccordionContext.default); // Empty SelectableContext is to prevent elements in the collapse
   // from collapsing the accordion when clicked.
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_SelectableContext.default.Provider, {
-      value: null
-    },
-    /*#__PURE__*/
-    _react.default.createElement(_Collapse.default, (0, _extends2.default)({
-      ref: ref,
-      in: contextEventKey === eventKey
-    }, props),
-    /*#__PURE__*/
-    _react.default.createElement("div", null, _react.default.Children.only(children))))
-  );
+  return /*#__PURE__*/_react.default.createElement(_SelectableContext.default.Provider, {
+    value: null
+  }, /*#__PURE__*/_react.default.createElement(_Collapse.default, (0, _extends2.default)({
+    ref: ref,
+    in: contextEventKey === eventKey
+  }, props), /*#__PURE__*/_react.default.createElement("div", null, _react.default.Children.only(children))));
 });
 
 AccordionCollapse.displayName = 'AccordionCollapse';
@@ -43028,9 +42620,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["as", "activeKey", "bsPrefix", "children", "className", "onSelect"];
 
-var Accordion =
-/*#__PURE__*/
-_react.default.forwardRef(function (props, ref) {
+var Accordion = /*#__PURE__*/_react.default.forwardRef(function (props, ref) {
   var _useUncontrolled = (0, _uncontrollable.useUncontrolled)(props, {
     activeKey: 'onSelect'
   }),
@@ -43044,22 +42634,15 @@ _react.default.forwardRef(function (props, ref) {
       controlledProps = (0, _objectWithoutPropertiesLoose2.default)(_useUncontrolled, _excluded);
 
   var finalClassName = (0, _classnames.default)(className, (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'accordion'));
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_AccordionContext.default.Provider, {
-      value: activeKey || null
-    },
-    /*#__PURE__*/
-    _react.default.createElement(_SelectableContext.default.Provider, {
-      value: onSelect || null
-    },
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({
-      ref: ref
-    }, controlledProps, {
-      className: finalClassName
-    }), children)))
-  );
+  return /*#__PURE__*/_react.default.createElement(_AccordionContext.default.Provider, {
+    value: activeKey || null
+  }, /*#__PURE__*/_react.default.createElement(_SelectableContext.default.Provider, {
+    value: onSelect || null
+  }, /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({
+    ref: ref
+  }, controlledProps, {
+    className: finalClassName
+  }), children)));
 });
 
 Accordion.displayName = 'Accordion';
@@ -43157,9 +42740,7 @@ var defaultProps = {
 };
 var fadeStyles = (_fadeStyles = {}, _fadeStyles[_Transition.ENTERING] = 'show', _fadeStyles[_Transition.ENTERED] = 'show', _fadeStyles);
 
-var Fade =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var Fade = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var className = _ref.className,
       children = _ref.children,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
@@ -43167,22 +42748,16 @@ _react.default.forwardRef(function (_ref, ref) {
     (0, _triggerBrowserReflow.default)(node);
     if (props.onEnter) props.onEnter(node);
   }, [props]);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_Transition.default, (0, _extends2.default)({
-      ref: ref,
-      addEndListener: _transitionEndListener.default
-    }, props, {
-      onEnter: handleEnter
-    }), function (status, innerProps) {
-      return (
-        /*#__PURE__*/
-        _react.default.cloneElement(children, (0, _extends2.default)({}, innerProps, {
-          className: (0, _classnames.default)('fade', className, children.props.className, fadeStyles[status])
-        }))
-      );
-    })
-  );
+  return /*#__PURE__*/_react.default.createElement(_Transition.default, (0, _extends2.default)({
+    ref: ref,
+    addEndListener: _transitionEndListener.default
+  }, props, {
+    onEnter: handleEnter
+  }), function (status, innerProps) {
+    return /*#__PURE__*/_react.default.cloneElement(children, (0, _extends2.default)({}, innerProps, {
+      className: (0, _classnames.default)('fade', className, children.props.className, fadeStyles[status])
+    }));
+  });
 });
 
 Fade.defaultProps = defaultProps;
@@ -43218,30 +42793,21 @@ var defaultProps = {
   label: 'Close'
 };
 
-var CloseButton =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var CloseButton = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var label = _ref.label,
       onClick = _ref.onClick,
       className = _ref.className,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement("button", (0, _extends2.default)({
-      ref: ref,
-      type: "button",
-      className: (0, _classnames.default)('close', className),
-      onClick: onClick
-    }, props),
-    /*#__PURE__*/
-    _react.default.createElement("span", {
-      "aria-hidden": "true"
-    }, "\xD7"),
-    /*#__PURE__*/
-    _react.default.createElement("span", {
-      className: "sr-only"
-    }, label))
-  );
+  return /*#__PURE__*/_react.default.createElement("button", (0, _extends2.default)({
+    ref: ref,
+    type: "button",
+    className: (0, _classnames.default)('close', className),
+    onClick: onClick
+  }, props), /*#__PURE__*/_react.default.createElement("span", {
+    "aria-hidden": "true"
+  }, "\xD7"), /*#__PURE__*/_react.default.createElement("span", {
+    className: "sr-only"
+  }, label));
 });
 
 CloseButton.displayName = 'CloseButton';
@@ -43298,9 +42864,7 @@ var defaultProps = {
   closeLabel: 'Close alert'
 };
 
-var Alert =
-/*#__PURE__*/
-_react.default.forwardRef(function (uncontrolledProps, ref) {
+var Alert = /*#__PURE__*/_react.default.forwardRef(function (uncontrolledProps, ref) {
   var _useUncontrolled = (0, _uncontrollable.useUncontrolled)(uncontrolledProps, {
     show: 'onClose'
   }),
@@ -43323,30 +42887,23 @@ _react.default.forwardRef(function (uncontrolledProps, ref) {
   });
   var Transition = transition === true ? _Fade.default : transition;
 
-  var alert =
-  /*#__PURE__*/
-  _react.default.createElement("div", (0, _extends2.default)({
+  var alert = /*#__PURE__*/_react.default.createElement("div", (0, _extends2.default)({
     role: "alert"
   }, !Transition ? props : undefined, {
     ref: ref,
     className: (0, _classnames.default)(className, prefix, variant && prefix + "-" + variant, dismissible && prefix + "-dismissible")
-  }), dismissible &&
-  /*#__PURE__*/
-  _react.default.createElement(_CloseButton.default, {
+  }), dismissible && /*#__PURE__*/_react.default.createElement(_CloseButton.default, {
     onClick: handleClose,
     label: closeLabel
   }), children);
 
   if (!Transition) return show ? alert : null;
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Transition, (0, _extends2.default)({
-      unmountOnExit: true
-    }, props, {
-      ref: undefined,
-      in: show
-    }), alert)
-  );
+  return /*#__PURE__*/_react.default.createElement(Transition, (0, _extends2.default)({
+    unmountOnExit: true
+  }, props, {
+    ref: undefined,
+    in: show
+  }), alert);
 });
 
 Alert.displayName = 'Alert';
@@ -43380,9 +42937,7 @@ var defaultProps = {
   pill: false
 };
 
-var Badge =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var Badge = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       variant = _ref.variant,
       pill = _ref.pill,
@@ -43391,14 +42946,11 @@ _react.default.forwardRef(function (_ref, ref) {
       Component = _ref$as === void 0 ? 'span' : _ref$as,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   var prefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'badge');
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      className: (0, _classnames.default)(className, prefix, pill && prefix + "-pill", variant && prefix + "-" + variant)
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    className: (0, _classnames.default)(className, prefix, pill && prefix + "-pill", variant && prefix + "-" + variant)
+  }));
 });
 
 Badge.displayName = 'Badge';
@@ -43433,9 +42985,7 @@ var defaultProps = {
   linkProps: {}
 };
 
-var BreadcrumbItem =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var BreadcrumbItem = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       active = _ref.active,
       children = _ref.children,
@@ -43450,23 +43000,18 @@ _react.default.forwardRef(function (_ref, ref) {
       target = _ref.target,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   var prefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'breadcrumb-item');
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      className: (0, _classnames.default)(prefix, className, {
-        active: active
-      }),
-      "aria-current": active ? 'page' : undefined
-    }), active ? children :
-    /*#__PURE__*/
-    _react.default.createElement(LinkComponent, (0, _extends2.default)({}, linkProps, {
-      href: href,
-      title: title,
-      target: target
-    }), children))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    className: (0, _classnames.default)(prefix, className, {
+      active: active
+    }),
+    "aria-current": active ? 'page' : undefined
+  }), active ? children : /*#__PURE__*/_react.default.createElement(LinkComponent, (0, _extends2.default)({}, linkProps, {
+    href: href,
+    title: title,
+    target: target
+  }), children));
 });
 
 BreadcrumbItem.displayName = 'BreadcrumbItem';
@@ -43501,9 +43046,7 @@ var defaultProps = {
   listProps: {}
 };
 
-var Breadcrumb =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var Breadcrumb = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       className = _ref.className,
       listProps = _ref.listProps,
@@ -43513,18 +43056,13 @@ _react.default.forwardRef(function (_ref, ref) {
       Component = _ref$as === void 0 ? 'nav' : _ref$as,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   var prefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'breadcrumb');
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({
-      "aria-label": label,
-      className: className,
-      ref: ref
-    }, props),
-    /*#__PURE__*/
-    _react.default.createElement("ol", (0, _extends2.default)({}, listProps, {
-      className: (0, _classnames.default)(prefix, listProps == null ? void 0 : listProps.className)
-    }), children))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({
+    "aria-label": label,
+    className: className,
+    ref: ref
+  }, props), /*#__PURE__*/_react.default.createElement("ol", (0, _extends2.default)({}, listProps, {
+    className: (0, _classnames.default)(prefix, listProps == null ? void 0 : listProps.className)
+  }), children));
 });
 
 Breadcrumb.displayName = 'Breadcrumb';
@@ -43559,9 +43097,7 @@ var defaultProps = {
   role: 'group'
 };
 
-var ButtonGroup =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var ButtonGroup = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       size = _ref.size,
       toggle = _ref.toggle,
@@ -43573,13 +43109,10 @@ _react.default.forwardRef(function (_ref, ref) {
   var prefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'btn-group');
   var baseClass = prefix;
   if (vertical) baseClass = prefix + "-vertical";
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({}, rest, {
-      ref: ref,
-      className: (0, _classnames.default)(className, baseClass, size && prefix + "-" + size, toggle && prefix + "-toggle")
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({}, rest, {
+    ref: ref,
+    className: (0, _classnames.default)(className, baseClass, size && prefix + "-" + size, toggle && prefix + "-toggle")
+  }));
 });
 
 ButtonGroup.displayName = 'ButtonGroup';
@@ -43611,20 +43144,15 @@ var defaultProps = {
   role: 'toolbar'
 };
 
-var ButtonToolbar =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var ButtonToolbar = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       className = _ref.className,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   var prefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'btn-toolbar');
-  return (
-    /*#__PURE__*/
-    _react.default.createElement("div", (0, _extends2.default)({}, props, {
-      ref: ref,
-      className: (0, _classnames.default)(className, prefix)
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement("div", (0, _extends2.default)({}, props, {
+    ref: ref,
+    className: (0, _classnames.default)(className, prefix)
+  }));
 });
 
 ButtonToolbar.displayName = 'ButtonToolbar';
@@ -43934,9 +43462,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["as", "bsPrefix", "children", "className"];
 
-var CarouselItem =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var CarouselItem = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var _ref$as = _ref.as,
       Component = _ref$as === void 0 ? 'div' : _ref$as,
       bsPrefix = _ref.bsPrefix,
@@ -43944,14 +43470,11 @@ _react.default.forwardRef(function (_ref, ref) {
       className = _ref.className,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   var finalClassName = (0, _classnames.default)(className, (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'carousel-item'));
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      className: finalClassName
-    }), children)
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    className: finalClassName
+  }), children);
 });
 
 CarouselItem.displayName = 'CarouselItem';
@@ -43981,10 +43504,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function map(children, func) {
   var index = 0;
   return _react.default.Children.map(children, function (child) {
-    return (
-      /*#__PURE__*/
-      _react.default.isValidElement(child) ? func(child, index++) : child
-    );
+    return /*#__PURE__*/_react.default.isValidElement(child) ? func(child, index++) : child;
   });
 }
 /**
@@ -43999,9 +43519,7 @@ function forEach(children, func) {
   var index = 0;
 
   _react.default.Children.forEach(children, function (child) {
-    if (
-    /*#__PURE__*/
-    _react.default.isValidElement(child)) func(child, index++);
+    if ( /*#__PURE__*/_react.default.isValidElement(child)) func(child, index++);
   });
 }
 },{"react":"../node_modules/react/index.js"}],"../node_modules/react-bootstrap/esm/Carousel.js":[function(require,module,exports) {
@@ -44169,16 +43687,12 @@ var defaultProps = {
   pause: 'hover',
   wrap: true,
   touch: true,
-  prevIcon:
-  /*#__PURE__*/
-  _react.default.createElement("span", {
+  prevIcon: /*#__PURE__*/_react.default.createElement("span", {
     "aria-hidden": "true",
     className: "carousel-control-prev-icon"
   }),
   prevLabel: 'Previous',
-  nextIcon:
-  /*#__PURE__*/
-  _react.default.createElement("span", {
+  nextIcon: /*#__PURE__*/_react.default.createElement("span", {
     "aria-hidden": "true",
     className: "carousel-control-next-icon"
   }),
@@ -44479,83 +43993,54 @@ function CarouselFunc(uncontrolledProps, ref) {
       };
     });
   }, [indicators, numChildren, onSelect]);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({
-      ref: elementRef
-    }, props, {
-      onKeyDown: handleKeyDown,
-      onMouseOver: handleMouseOver,
-      onMouseOut: handleMouseOut,
-      onTouchStart: handleTouchStart,
-      onTouchMove: handleTouchMove,
-      onTouchEnd: handleTouchEnd,
-      className: (0, _classnames.default)(className, prefix, slide && 'slide', fade && prefix + "-fade")
-    }), indicators &&
-    /*#__PURE__*/
-    _react.default.createElement("ol", {
-      className: prefix + "-indicators"
-    }, (0, _ElementChildren.map)(children, function (_child, index) {
-      return (
-        /*#__PURE__*/
-        _react.default.createElement("li", {
-          key: index,
-          className: index === renderedActiveIndex ? 'active' : undefined,
-          onClick: indicatorOnClicks ? indicatorOnClicks[index] : undefined
-        })
-      );
-    })),
-    /*#__PURE__*/
-    _react.default.createElement("div", {
-      className: prefix + "-inner"
-    }, (0, _ElementChildren.map)(children, function (child, index) {
-      var isActive = index === renderedActiveIndex;
-      return slide ?
-      /*#__PURE__*/
-      _react.default.createElement(_Transition.default, {
-        in: isActive,
-        onEnter: isActive ? handleEnter : undefined,
-        onEntered: isActive ? handleEntered : undefined,
-        addEndListener: _transitionEndListener.default
-      }, function (status) {
-        return (
-          /*#__PURE__*/
-          _react.default.cloneElement(child, {
-            className: (0, _classnames.default)(child.props.className, isActive && status !== 'entered' && orderClassName, (status === 'entered' || status === 'exiting') && 'active', (status === 'entering' || status === 'exiting') && directionalClassName)
-          })
-        );
-      }) :
-      /*#__PURE__*/
-      _react.default.cloneElement(child, {
-        className: (0, _classnames.default)(child.props.className, isActive && 'active')
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({
+    ref: elementRef
+  }, props, {
+    onKeyDown: handleKeyDown,
+    onMouseOver: handleMouseOver,
+    onMouseOut: handleMouseOut,
+    onTouchStart: handleTouchStart,
+    onTouchMove: handleTouchMove,
+    onTouchEnd: handleTouchEnd,
+    className: (0, _classnames.default)(className, prefix, slide && 'slide', fade && prefix + "-fade")
+  }), indicators && /*#__PURE__*/_react.default.createElement("ol", {
+    className: prefix + "-indicators"
+  }, (0, _ElementChildren.map)(children, function (_child, index) {
+    return /*#__PURE__*/_react.default.createElement("li", {
+      key: index,
+      className: index === renderedActiveIndex ? 'active' : undefined,
+      onClick: indicatorOnClicks ? indicatorOnClicks[index] : undefined
+    });
+  })), /*#__PURE__*/_react.default.createElement("div", {
+    className: prefix + "-inner"
+  }, (0, _ElementChildren.map)(children, function (child, index) {
+    var isActive = index === renderedActiveIndex;
+    return slide ? /*#__PURE__*/_react.default.createElement(_Transition.default, {
+      in: isActive,
+      onEnter: isActive ? handleEnter : undefined,
+      onEntered: isActive ? handleEntered : undefined,
+      addEndListener: _transitionEndListener.default
+    }, function (status) {
+      return /*#__PURE__*/_react.default.cloneElement(child, {
+        className: (0, _classnames.default)(child.props.className, isActive && status !== 'entered' && orderClassName, (status === 'entered' || status === 'exiting') && 'active', (status === 'entering' || status === 'exiting') && directionalClassName)
       });
-    })), controls &&
-    /*#__PURE__*/
-    _react.default.createElement(_react.default.Fragment, null, (wrap || activeIndex !== 0) &&
-    /*#__PURE__*/
-    _react.default.createElement(_SafeAnchor.default, {
-      className: prefix + "-control-prev",
-      onClick: prev
-    }, prevIcon, prevLabel &&
-    /*#__PURE__*/
-    _react.default.createElement("span", {
-      className: "sr-only"
-    }, prevLabel)), (wrap || activeIndex !== numChildren - 1) &&
-    /*#__PURE__*/
-    _react.default.createElement(_SafeAnchor.default, {
-      className: prefix + "-control-next",
-      onClick: next
-    }, nextIcon, nextLabel &&
-    /*#__PURE__*/
-    _react.default.createElement("span", {
-      className: "sr-only"
-    }, nextLabel))))
-  );
+    }) : /*#__PURE__*/_react.default.cloneElement(child, {
+      className: (0, _classnames.default)(child.props.className, isActive && 'active')
+    });
+  })), controls && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, (wrap || activeIndex !== 0) && /*#__PURE__*/_react.default.createElement(_SafeAnchor.default, {
+    className: prefix + "-control-prev",
+    onClick: prev
+  }, prevIcon, prevLabel && /*#__PURE__*/_react.default.createElement("span", {
+    className: "sr-only"
+  }, prevLabel)), (wrap || activeIndex !== numChildren - 1) && /*#__PURE__*/_react.default.createElement(_SafeAnchor.default, {
+    className: prefix + "-control-next",
+    onClick: next
+  }, nextIcon, nextLabel && /*#__PURE__*/_react.default.createElement("span", {
+    className: "sr-only"
+  }, nextLabel))));
 }
 
-var Carousel =
-/*#__PURE__*/
-_react.default.forwardRef(CarouselFunc);
+var Carousel = /*#__PURE__*/_react.default.forwardRef(CarouselFunc);
 
 Carousel.displayName = 'Carousel';
 Carousel.propTypes = propTypes;
@@ -44766,9 +44251,7 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var DropdownContext =
-/*#__PURE__*/
-_react.default.createContext(null);
+var DropdownContext = /*#__PURE__*/_react.default.createContext(null);
 
 var _default = DropdownContext;
 exports.default = _default;
@@ -44864,15 +44347,11 @@ var popper = 'popper';
 exports.popper = popper;
 var reference = 'reference';
 exports.reference = reference;
-var variationPlacements =
-/*#__PURE__*/
-basePlacements.reduce(function (acc, placement) {
+var variationPlacements = /*#__PURE__*/basePlacements.reduce(function (acc, placement) {
   return acc.concat([placement + "-" + start, placement + "-" + end]);
 }, []);
 exports.variationPlacements = variationPlacements;
-var placements =
-/*#__PURE__*/
-[].concat(basePlacements, [auto]).reduce(function (acc, placement) {
+var placements = /*#__PURE__*/[].concat(basePlacements, [auto]).reduce(function (acc, placement) {
   return acc.concat([placement, placement + "-" + start, placement + "-" + end]);
 }, []); // modifiers that need to read the DOM
 
@@ -44912,64 +44391,7 @@ var _enums = require("../enums.js");
 function getBasePlacement(placement) {
   return placement.split('-')[0];
 }
-},{"../enums.js":"../node_modules/@popperjs/core/lib/enums.js"}],"../node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = getBoundingClientRect;
-
-function getBoundingClientRect(element) {
-  var rect = element.getBoundingClientRect();
-  return {
-    width: rect.width,
-    height: rect.height,
-    top: rect.top,
-    right: rect.right,
-    bottom: rect.bottom,
-    left: rect.left,
-    x: rect.left,
-    y: rect.top
-  };
-}
-},{}],"../node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = getLayoutRect;
-
-var _getBoundingClientRect = _interopRequireDefault(require("./getBoundingClientRect.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// Returns the layout rect of an element relative to its offsetParent. Layout
-// means it doesn't take into account transforms.
-function getLayoutRect(element) {
-  var clientRect = (0, _getBoundingClientRect.default)(element); // Use the clientRect sizes if it's not been transformed.
-  // Fixes https://github.com/popperjs/popper-core/issues/1223
-
-  var width = element.offsetWidth;
-  var height = element.offsetHeight;
-
-  if (Math.abs(clientRect.width - width) <= 1) {
-    width = clientRect.width;
-  }
-
-  if (Math.abs(clientRect.height - height) <= 1) {
-    height = clientRect.height;
-  }
-
-  return {
-    x: element.offsetLeft,
-    y: element.offsetTop,
-    width: width,
-    height: height
-  };
-}
-},{"./getBoundingClientRect.js":"../node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js"}],"../node_modules/@popperjs/core/lib/dom-utils/getWindow.js":[function(require,module,exports) {
+},{"../enums.js":"../node_modules/@popperjs/core/lib/enums.js"}],"../node_modules/@popperjs/core/lib/dom-utils/getWindow.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -45022,7 +44444,81 @@ function isShadowRoot(node) {
   var OwnElement = (0, _getWindow.default)(node).ShadowRoot;
   return node instanceof OwnElement || node instanceof ShadowRoot;
 }
-},{"./getWindow.js":"../node_modules/@popperjs/core/lib/dom-utils/getWindow.js"}],"../node_modules/@popperjs/core/lib/dom-utils/contains.js":[function(require,module,exports) {
+},{"./getWindow.js":"../node_modules/@popperjs/core/lib/dom-utils/getWindow.js"}],"../node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getBoundingClientRect;
+
+var _instanceOf = require("./instanceOf.js");
+
+var round = Math.round;
+
+function getBoundingClientRect(element, includeScale) {
+  if (includeScale === void 0) {
+    includeScale = false;
+  }
+
+  var rect = element.getBoundingClientRect();
+  var scaleX = 1;
+  var scaleY = 1;
+
+  if ((0, _instanceOf.isHTMLElement)(element) && includeScale) {
+    // Fallback to 1 in case both values are `0`
+    scaleX = rect.width / element.offsetWidth || 1;
+    scaleY = rect.height / element.offsetHeight || 1;
+  }
+
+  return {
+    width: round(rect.width / scaleX),
+    height: round(rect.height / scaleY),
+    top: round(rect.top / scaleY),
+    right: round(rect.right / scaleX),
+    bottom: round(rect.bottom / scaleY),
+    left: round(rect.left / scaleX),
+    x: round(rect.left / scaleX),
+    y: round(rect.top / scaleY)
+  };
+}
+},{"./instanceOf.js":"../node_modules/@popperjs/core/lib/dom-utils/instanceOf.js"}],"../node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getLayoutRect;
+
+var _getBoundingClientRect = _interopRequireDefault(require("./getBoundingClientRect.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Returns the layout rect of an element relative to its offsetParent. Layout
+// means it doesn't take into account transforms.
+function getLayoutRect(element) {
+  var clientRect = (0, _getBoundingClientRect.default)(element); // Use the clientRect sizes if it's not been transformed.
+  // Fixes https://github.com/popperjs/popper-core/issues/1223
+
+  var width = element.offsetWidth;
+  var height = element.offsetHeight;
+
+  if (Math.abs(clientRect.width - width) <= 1) {
+    width = clientRect.width;
+  }
+
+  if (Math.abs(clientRect.height - height) <= 1) {
+    height = clientRect.height;
+  }
+
+  return {
+    x: element.offsetLeft,
+    y: element.offsetTop,
+    width: width,
+    height: height
+  };
+}
+},{"./getBoundingClientRect.js":"../node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js"}],"../node_modules/@popperjs/core/lib/dom-utils/contains.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -45039,17 +44535,17 @@ function contains(parent, child) {
     return true;
   } // then fallback to custom implementation with Shadow DOM support
   else if (rootNode && (0, _instanceOf.isShadowRoot)(rootNode)) {
-      var next = child;
+    var next = child;
 
-      do {
-        if (next && parent.isSameNode(next)) {
-          return true;
-        } // $FlowFixMe[prop-missing]: need a better way to handle this...
+    do {
+      if (next && parent.isSameNode(next)) {
+        return true;
+      } // $FlowFixMe[prop-missing]: need a better way to handle this...
 
 
-        next = next.parentNode || next.host;
-      } while (next);
-    } // Give up, the result is false
+      next = next.parentNode || next.host;
+    } while (next);
+  } // Give up, the result is false
 
 
   return false;
@@ -46840,16 +46336,24 @@ var _isScrollParent = _interopRequireDefault(require("./isScrollParent.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Returns the composite rect of an element relative to its offsetParent.
+function isElementScaled(element) {
+  var rect = element.getBoundingClientRect();
+  var scaleX = rect.width / element.offsetWidth || 1;
+  var scaleY = rect.height / element.offsetHeight || 1;
+  return scaleX !== 1 || scaleY !== 1;
+} // Returns the composite rect of an element relative to its offsetParent.
 // Composite means it takes into account transforms as well as layout.
+
+
 function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
   if (isFixed === void 0) {
     isFixed = false;
   }
 
-  var documentElement = (0, _getDocumentElement.default)(offsetParent);
-  var rect = (0, _getBoundingClientRect.default)(elementOrVirtualElement);
   var isOffsetParentAnElement = (0, _instanceOf.isHTMLElement)(offsetParent);
+  var offsetParentIsScaled = (0, _instanceOf.isHTMLElement)(offsetParent) && isElementScaled(offsetParent);
+  var documentElement = (0, _getDocumentElement.default)(offsetParent);
+  var rect = (0, _getBoundingClientRect.default)(elementOrVirtualElement, offsetParentIsScaled);
   var scroll = {
     scrollLeft: 0,
     scrollTop: 0
@@ -46866,7 +46370,7 @@ function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
     }
 
     if ((0, _instanceOf.isHTMLElement)(offsetParent)) {
-      offsets = (0, _getBoundingClientRect.default)(offsetParent);
+      offsets = (0, _getBoundingClientRect.default)(offsetParent, true);
       offsets.x += offsetParent.clientLeft;
       offsets.y += offsetParent.clientTop;
     } else if (documentElement) {
@@ -47391,9 +46895,7 @@ function popperGenerator(generatorOptions) {
   };
 }
 
-var createPopper =
-/*#__PURE__*/
-popperGenerator(); // eslint-disable-next-line import/no-unused-modules
+var createPopper = /*#__PURE__*/popperGenerator(); // eslint-disable-next-line import/no-unused-modules
 
 exports.createPopper = createPopper;
 },{"./dom-utils/getCompositeRect.js":"../node_modules/@popperjs/core/lib/dom-utils/getCompositeRect.js","./dom-utils/getLayoutRect.js":"../node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js","./dom-utils/listScrollParents.js":"../node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js","./dom-utils/getOffsetParent.js":"../node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js","./dom-utils/getComputedStyle.js":"../node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js","./utils/orderModifiers.js":"../node_modules/@popperjs/core/lib/utils/orderModifiers.js","./utils/debounce.js":"../node_modules/@popperjs/core/lib/utils/debounce.js","./utils/validateModifiers.js":"../node_modules/@popperjs/core/lib/utils/validateModifiers.js","./utils/uniqueBy.js":"../node_modules/@popperjs/core/lib/utils/uniqueBy.js","./utils/getBasePlacement.js":"../node_modules/@popperjs/core/lib/utils/getBasePlacement.js","./utils/mergeByName.js":"../node_modules/@popperjs/core/lib/utils/mergeByName.js","./utils/detectOverflow.js":"../node_modules/@popperjs/core/lib/utils/detectOverflow.js","./dom-utils/instanceOf.js":"../node_modules/@popperjs/core/lib/dom-utils/instanceOf.js","./enums.js":"../node_modules/@popperjs/core/lib/enums.js"}],"../node_modules/@popperjs/core/lib/popper-base.js":[function(require,module,exports) {
@@ -48122,10 +47624,7 @@ function DropdownMenu(_ref2) {
       props = _useDropdownMenu[0],
       meta = _useDropdownMenu[1];
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_react.default.Fragment, null, meta.hasShown ? children(props, meta) : null)
-  );
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, meta.hasShown ? children(props, meta) : null);
 }
 
 DropdownMenu.displayName = 'ReactOverlaysDropdownMenu';
@@ -48219,10 +47718,7 @@ function DropdownToggle(_ref2) {
       props = _useDropdownToggle[0],
       meta = _useDropdownToggle[1];
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_react.default.Fragment, null, children(props, meta))
-  );
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, children(props, meta));
 }
 
 DropdownToggle.displayName = 'ReactOverlaysDropdownToggle';
@@ -48518,12 +48014,9 @@ function Dropdown(_ref) {
       default:
     }
   });
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_DropdownContext.default.Provider, {
-      value: context
-    }, children)
-  );
+  return /*#__PURE__*/_react.default.createElement(_DropdownContext.default.Provider, {
+    value: context
+  }, children);
 }
 
 Dropdown.displayName = 'ReactOverlaysDropdown';
@@ -48545,9 +48038,7 @@ var _react = _interopRequireDefault(require("react"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // TODO: check this
-var NavContext =
-/*#__PURE__*/
-_react.default.createContext(null);
+var NavContext = /*#__PURE__*/_react.default.createContext(null);
 
 NavContext.displayName = 'NavContext';
 var _default = NavContext;
@@ -48590,9 +48081,7 @@ var defaultProps = {
   disabled: false
 };
 
-var DropdownItem =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var DropdownItem = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       className = _ref.className,
       children = _ref.children,
@@ -48703,9 +48192,7 @@ var _react = _interopRequireDefault(require("react"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // TODO: check
-var context =
-/*#__PURE__*/
-_react.default.createContext(null);
+var context = /*#__PURE__*/_react.default.createContext(null);
 
 context.displayName = 'NavbarContext';
 var _default = context;
@@ -48956,9 +48443,7 @@ var defaultProps = {
   flip: true
 };
 
-var DropdownMenu =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var DropdownMenu = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       className = _ref.className,
       align = _ref.align,
@@ -49039,13 +48524,10 @@ _react.default.forwardRef(function (_ref, ref) {
     props['x-placement'] = popper.placement;
   }
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({}, props, menuProps, {
-      style: style,
-      className: _classnames.default.apply(void 0, [className, prefix, show && 'show', alignEnd && prefix + "-right"].concat(alignClasses))
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({}, props, menuProps, {
+    style: style,
+    className: _classnames.default.apply(void 0, [className, prefix, show && 'show', alignEnd && prefix + "-right"].concat(alignClasses))
+  }));
 });
 
 DropdownMenu.displayName = 'DropdownMenu';
@@ -49108,9 +48590,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["bsPrefix", "split", "className", "childBsPrefix", "as"];
 
-var DropdownToggle =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var DropdownToggle = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       split = _ref.split,
       className = _ref.className,
@@ -49130,12 +48610,9 @@ _react.default.forwardRef(function (_ref, ref) {
   toggleProps.ref = (0, _useMergedRefs.default)(toggleProps.ref, (0, _useWrappedRefWithWarning.default)(ref, 'DropdownToggle')); // This intentionally forwards size and variant (if set) to the
   // underlying component, to allow it to render size and style variants.
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({
-      className: (0, _classnames.default)(className, prefix, split && prefix + "-split")
-    }, toggleProps, props))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({
+    className: (0, _classnames.default)(className, prefix, split && prefix + "-split")
+  }, toggleProps, props));
 });
 
 DropdownToggle.displayName = 'DropdownToggle';
@@ -49199,9 +48676,7 @@ var defaultProps = {
   navbar: false
 };
 
-var Dropdown =
-/*#__PURE__*/
-_react.default.forwardRef(function (pProps, ref) {
+var Dropdown = /*#__PURE__*/_react.default.forwardRef(function (pProps, ref) {
   var _useUncontrolled = (0, _uncontrollable.useUncontrolled)(pProps, {
     show: 'onToggle'
   }),
@@ -49238,26 +48713,19 @@ _react.default.forwardRef(function (pProps, ref) {
     if (onSelect) onSelect(key, event);
     handleToggle(false, event, 'select');
   });
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_SelectableContext.default.Provider, {
-      value: handleSelect
-    },
-    /*#__PURE__*/
-    _react.default.createElement(_Dropdown.default, {
-      drop: drop,
-      show: show,
-      alignEnd: alignRight,
-      onToggle: handleToggle,
-      focusFirstItemOnShow: focusFirstItemOnShow,
-      itemSelector: "." + prefix + "-item:not(.disabled):not(:disabled)"
-    },
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({}, props, {
-      ref: ref,
-      className: (0, _classnames.default)(className, show && 'show', (!drop || drop === 'down') && prefix, drop === 'up' && 'dropup', drop === 'right' && 'dropright', drop === 'left' && 'dropleft')
-    }))))
-  );
+  return /*#__PURE__*/_react.default.createElement(_SelectableContext.default.Provider, {
+    value: handleSelect
+  }, /*#__PURE__*/_react.default.createElement(_Dropdown.default, {
+    drop: drop,
+    show: show,
+    alignEnd: alignRight,
+    onToggle: handleToggle,
+    focusFirstItemOnShow: focusFirstItemOnShow,
+    itemSelector: "." + prefix + "-item:not(.disabled):not(:disabled)"
+  }, /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({}, props, {
+    ref: ref,
+    className: (0, _classnames.default)(className, show && 'show', (!drop || drop === 'down') && prefix, drop === 'up' && 'dropup', drop === 'right' && 'dropright', drop === 'left' && 'dropleft')
+  }))));
 });
 
 Dropdown.displayName = 'Dropdown';
@@ -49360,9 +48828,7 @@ var propTypes = {
  * along with menu-related props are passed to the `Dropdown.Menu`
  */
 
-var DropdownButton =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var DropdownButton = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var title = _ref.title,
       children = _ref.children,
       bsPrefix = _ref.bsPrefix,
@@ -49376,28 +48842,21 @@ _react.default.forwardRef(function (_ref, ref) {
       href = _ref.href,
       id = _ref.id,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_Dropdown.default, (0, _extends2.default)({
-      ref: ref
-    }, props),
-    /*#__PURE__*/
-    _react.default.createElement(_DropdownToggle.default, {
-      id: id,
-      href: href,
-      size: size,
-      variant: variant,
-      disabled: disabled,
-      childBsPrefix: bsPrefix
-    }, title),
-    /*#__PURE__*/
-    _react.default.createElement(_DropdownMenu.default, {
-      align: menuAlign,
-      role: menuRole,
-      renderOnMount: renderMenuOnMount,
-      rootCloseEvent: rootCloseEvent
-    }, children))
-  );
+  return /*#__PURE__*/_react.default.createElement(_Dropdown.default, (0, _extends2.default)({
+    ref: ref
+  }, props), /*#__PURE__*/_react.default.createElement(_DropdownToggle.default, {
+    id: id,
+    href: href,
+    size: size,
+    variant: variant,
+    disabled: disabled,
+    childBsPrefix: bsPrefix
+  }, title), /*#__PURE__*/_react.default.createElement(_DropdownMenu.default, {
+    align: menuAlign,
+    role: menuRole,
+    renderOnMount: renderMenuOnMount,
+    rootCloseEvent: rootCloseEvent
+  }, children));
 });
 
 DropdownButton.displayName = 'DropdownButton';
@@ -49461,9 +48920,7 @@ var defaultProps = {
   thumbnail: false
 };
 
-var Image =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var Image = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       className = _ref.className,
       fluid = _ref.fluid,
@@ -49473,15 +48930,12 @@ _react.default.forwardRef(function (_ref, ref) {
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   bsPrefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'img');
   var classes = (0, _classnames.default)(fluid && bsPrefix + "-fluid", rounded && "rounded", roundedCircle && "rounded-circle", thumbnail && bsPrefix + "-thumbnail");
-  return (
-    /*#__PURE__*/
-    _react.default.createElement("img", (0, _extends2.default)({
-      // eslint-disable-line jsx-a11y/alt-text
-      ref: ref
-    }, props, {
-      className: (0, _classnames.default)(className, classes)
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement("img", (0, _extends2.default)({
+    // eslint-disable-line jsx-a11y/alt-text
+    ref: ref
+  }, props, {
+    className: (0, _classnames.default)(className, classes)
+  }));
 });
 
 Image.displayName = 'Image';
@@ -49517,19 +48971,14 @@ var defaultProps = {
   fluid: true
 };
 
-var FigureImage =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var FigureImage = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var className = _ref.className,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_Image.default, (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      className: (0, _classnames.default)(className, 'figure-img')
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(_Image.default, (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    className: (0, _classnames.default)(className, 'figure-img')
+  }));
 });
 
 FigureImage.displayName = 'FigureImage';
@@ -49607,25 +49056,15 @@ var InputGroupText = (0, _createWithBsPrefix.default)('input-group-text', {
 });
 
 var InputGroupCheckbox = function InputGroupCheckbox(props) {
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(InputGroupText, null,
-    /*#__PURE__*/
-    _react.default.createElement("input", (0, _extends2.default)({
-      type: "checkbox"
-    }, props)))
-  );
+  return /*#__PURE__*/_react.default.createElement(InputGroupText, null, /*#__PURE__*/_react.default.createElement("input", (0, _extends2.default)({
+    type: "checkbox"
+  }, props)));
 };
 
 var InputGroupRadio = function InputGroupRadio(props) {
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(InputGroupText, null,
-    /*#__PURE__*/
-    _react.default.createElement("input", (0, _extends2.default)({
-      type: "radio"
-    }, props)))
-  );
+  return /*#__PURE__*/_react.default.createElement(InputGroupText, null, /*#__PURE__*/_react.default.createElement("input", (0, _extends2.default)({
+    type: "radio"
+  }, props)));
 };
 /**
  *
@@ -49637,9 +49076,7 @@ var InputGroupRadio = function InputGroupRadio(props) {
  */
 
 
-var InputGroup =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var InputGroup = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       size = _ref.size,
       hasValidation = _ref.hasValidation,
@@ -49648,14 +49085,11 @@ _react.default.forwardRef(function (_ref, ref) {
       Component = _ref$as === void 0 ? 'div' : _ref$as,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   bsPrefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'input-group');
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      className: (0, _classnames.default)(className, bsPrefix, size && bsPrefix + "-" + size, hasValidation && 'has-validation')
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    className: (0, _classnames.default)(className, bsPrefix, size && bsPrefix + "-" + size, hasValidation && 'has-validation')
+  }));
 });
 
 InputGroup.displayName = 'InputGroup';
@@ -49693,9 +49127,7 @@ var defaultProps = {
   fluid: false
 };
 
-var Jumbotron =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var Jumbotron = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var _classes;
 
   var _ref$as = _ref.as,
@@ -49706,14 +49138,11 @@ _react.default.forwardRef(function (_ref, ref) {
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   bsPrefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'jumbotron');
   var classes = (_classes = {}, _classes[bsPrefix] = true, _classes[bsPrefix + "-fluid"] = fluid, _classes);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      className: (0, _classnames.default)(className, classes)
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    className: (0, _classnames.default)(className, classes)
+  }));
 });
 
 Jumbotron.defaultProps = defaultProps;
@@ -49732,9 +49161,7 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var TabContext =
-/*#__PURE__*/
-_react.default.createContext(null);
+var TabContext = /*#__PURE__*/_react.default.createContext(null);
 
 var _default = TabContext;
 exports.default = _default;
@@ -49775,9 +49202,7 @@ var _excluded = ["as", "onSelect", "activeKey", "role", "onKeyDown"];
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 var noop = function noop() {};
 
-var AbstractNav =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var AbstractNav = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var _ref$as = _ref.as,
       Component = _ref$as === void 0 ? 'ul' : _ref$as,
       onSelect = _ref.onSelect,
@@ -49857,28 +49282,21 @@ _react.default.forwardRef(function (_ref, ref) {
     needsRefocusRef.current = false;
   });
   var mergedRef = (0, _useMergedRefs.default)(ref, listNode);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_SelectableContext.default.Provider, {
-      value: handleSelect
-    },
-    /*#__PURE__*/
-    _react.default.createElement(_NavContext.default.Provider, {
-      value: {
-        role: role,
-        // used by NavLink to determine it's role
-        activeKey: (0, _SelectableContext.makeEventKey)(activeKey),
-        getControlledId: getControlledId || noop,
-        getControllerId: getControllerId || noop
-      }
-    },
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({}, props, {
-      onKeyDown: handleKeyDown,
-      ref: mergedRef,
-      role: role
-    }))))
-  );
+  return /*#__PURE__*/_react.default.createElement(_SelectableContext.default.Provider, {
+    value: handleSelect
+  }, /*#__PURE__*/_react.default.createElement(_NavContext.default.Provider, {
+    value: {
+      role: role,
+      // used by NavLink to determine it's role
+      activeKey: (0, _SelectableContext.makeEventKey)(activeKey),
+      getControlledId: getControlledId || noop,
+      getControllerId: getControllerId || noop
+    }
+  }, /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({}, props, {
+    onKeyDown: handleKeyDown,
+    ref: mergedRef,
+    role: role
+  }))));
 });
 
 var _default = AbstractNav;
@@ -49918,9 +49336,7 @@ var defaultProps = {
   disabled: false
 };
 
-var AbstractNavItem =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var AbstractNavItem = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var active = _ref.active,
       className = _ref.className,
       eventKey = _ref.eventKey,
@@ -49960,14 +49376,11 @@ _react.default.forwardRef(function (_ref, ref) {
     if (onSelect) onSelect(navKey, e);
     if (parentOnSelect) parentOnSelect(navKey, e);
   });
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({}, props, {
-      ref: ref,
-      onClick: handleOnclick,
-      className: (0, _classnames.default)(className, isActive && 'active')
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({}, props, {
+    ref: ref,
+    onClick: handleOnclick,
+    className: (0, _classnames.default)(className, isActive && 'active')
+  }));
 });
 
 AbstractNavItem.defaultProps = defaultProps;
@@ -50006,9 +49419,7 @@ var defaultProps = {
   disabled: false
 };
 
-var ListGroupItem =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var ListGroupItem = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       active = _ref.active,
       disabled = _ref.disabled,
@@ -50034,17 +49445,14 @@ _react.default.forwardRef(function (_ref, ref) {
     props['aria-disabled'] = true;
   }
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_AbstractNavItem.default, (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      // eslint-disable-next-line no-nested-ternary
-      as: as || (action ? props.href ? 'a' : 'button' : 'div'),
-      onClick: handleClick,
-      className: (0, _classnames.default)(className, bsPrefix, active && 'active', disabled && 'disabled', variant && bsPrefix + "-" + variant, action && bsPrefix + "-action")
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(_AbstractNavItem.default, (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    // eslint-disable-next-line no-nested-ternary
+    as: as || (action ? props.href ? 'a' : 'button' : 'div'),
+    onClick: handleClick,
+    className: (0, _classnames.default)(className, bsPrefix, active && 'active', disabled && 'disabled', variant && bsPrefix + "-" + variant, action && bsPrefix + "-action")
+  }));
 });
 
 ListGroupItem.defaultProps = defaultProps;
@@ -50085,9 +49493,7 @@ var defaultProps = {
   horizontal: undefined
 };
 
-var ListGroup =
-/*#__PURE__*/
-_react.default.forwardRef(function (props, ref) {
+var ListGroup = /*#__PURE__*/_react.default.forwardRef(function (props, ref) {
   var _useUncontrolled = (0, _uncontrollable.useUncontrolled)(props, {
     activeKey: 'onSelect'
   }),
@@ -50109,15 +49515,12 @@ _react.default.forwardRef(function (props, ref) {
   }
 
   "development" !== "production" ? (0, _warning.default)(!(horizontal && variant === 'flush'), '`variant="flush"` and `horizontal` should not be used together.') : void 0;
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_AbstractNav.default, (0, _extends2.default)({
-      ref: ref
-    }, controlledProps, {
-      as: as,
-      className: (0, _classnames.default)(className, bsPrefix, variant && bsPrefix + "-" + variant, horizontalVariant && bsPrefix + "-" + horizontalVariant)
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(_AbstractNav.default, (0, _extends2.default)({
+    ref: ref
+  }, controlledProps, {
+    as: as,
+    className: (0, _classnames.default)(className, bsPrefix, variant && bsPrefix + "-" + variant, horizontalVariant && bsPrefix + "-" + horizontalVariant)
+  }));
 });
 
 ListGroup.defaultProps = defaultProps;
@@ -50150,9 +49553,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var _excluded = ["bsPrefix", "className", "as"];
 var MediaBody = (0, _createWithBsPrefix.default)('media-body');
 
-var Media =
-/*#__PURE__*/
-_react.default.forwardRef( // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+var Media = /*#__PURE__*/_react.default.forwardRef( // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
 function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       className = _ref.className,
@@ -50160,13 +49561,10 @@ function (_ref, ref) {
       Component = _ref$as === void 0 ? 'div' : _ref$as,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   var prefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'media');
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({}, props, {
-      ref: ref,
-      className: (0, _classnames.default)(className, prefix)
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({}, props, {
+    ref: ref,
+    className: (0, _classnames.default)(className, prefix)
+  }));
 });
 
 Media.displayName = 'Media';
@@ -50435,9 +49833,7 @@ function findIndexOf(arr, cb) {
  */
 
 
-var ModalManager =
-/*#__PURE__*/
-function () {
+var ModalManager = /*#__PURE__*/function () {
   function ModalManager(_temp) {
     var _ref = _temp === void 0 ? {} : _temp,
         _ref$hideSiblingNodes = _ref.hideSiblingNodes,
@@ -50710,9 +50106,7 @@ function useModalManager(provided) {
   });
 }
 
-var Modal =
-/*#__PURE__*/
-(0, _react.forwardRef)(function (_ref, ref) {
+var Modal = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
   var _ref$show = _ref.show,
       show = _ref$show === void 0 ? false : _ref$show,
       _ref$role = _ref.role,
@@ -50738,10 +50132,7 @@ var Modal =
       renderDialog = _ref.renderDialog,
       _ref$renderBackdrop = _ref.renderBackdrop,
       renderBackdrop = _ref$renderBackdrop === void 0 ? function (props) {
-    return (
-      /*#__PURE__*/
-      _react.default.createElement("div", props)
-    );
+    return /*#__PURE__*/_react.default.createElement("div", props);
   } : _ref$renderBackdrop,
       providedManager = _ref.manager,
       containerRef = _ref.container,
@@ -50897,18 +50288,12 @@ var Modal =
     className: className,
     tabIndex: -1
   });
-  var dialog = renderDialog ? renderDialog(dialogProps) :
-  /*#__PURE__*/
-  _react.default.createElement("div", dialogProps,
-  /*#__PURE__*/
-  _react.default.cloneElement(children, {
+  var dialog = renderDialog ? renderDialog(dialogProps) : /*#__PURE__*/_react.default.createElement("div", dialogProps, /*#__PURE__*/_react.default.cloneElement(children, {
     role: 'document'
   }));
 
   if (Transition) {
-    dialog =
-    /*#__PURE__*/
-    _react.default.createElement(Transition, {
+    dialog = /*#__PURE__*/_react.default.createElement(Transition, {
       appear: true,
       unmountOnExit: true,
       "in": !!show,
@@ -50931,23 +50316,14 @@ var Modal =
     });
 
     if (BackdropTransition) {
-      backdropElement =
-      /*#__PURE__*/
-      _react.default.createElement(BackdropTransition, {
+      backdropElement = /*#__PURE__*/_react.default.createElement(BackdropTransition, {
         appear: true,
         "in": !!show
       }, backdropElement);
     }
   }
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_react.default.Fragment, null,
-    /*#__PURE__*/
-    _reactDom.default.createPortal(
-    /*#__PURE__*/
-    _react.default.createElement(_react.default.Fragment, null, backdropElement, dialog), container))
-  );
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_reactDom.default.createPortal( /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, backdropElement, dialog), container));
 });
 var propTypes = {
   /**
@@ -51139,9 +50515,7 @@ var Selector = {
   NAVBAR_TOGGLER: '.navbar-toggler'
 };
 
-var BootstrapModalManager =
-/*#__PURE__*/
-function (_ModalManager) {
+var BootstrapModalManager = /*#__PURE__*/function (_ModalManager) {
   (0, _inheritsLoose2.default)(BootstrapModalManager, _ModalManager);
 
   function BootstrapModalManager() {
@@ -51236,9 +50610,7 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ModalContext =
-/*#__PURE__*/
-_react.default.createContext({
+var ModalContext = /*#__PURE__*/_react.default.createContext({
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onHide: function onHide() {}
 });
@@ -51267,9 +50639,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["bsPrefix", "className", "contentClassName", "centered", "size", "children", "scrollable"];
 
-var ModalDialog =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var ModalDialog = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       className = _ref.className,
       contentClassName = _ref.contentClassName,
@@ -51280,17 +50650,12 @@ _react.default.forwardRef(function (_ref, ref) {
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   bsPrefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'modal');
   var dialogClass = bsPrefix + "-dialog";
-  return (
-    /*#__PURE__*/
-    _react.default.createElement("div", (0, _extends2.default)({}, props, {
-      ref: ref,
-      className: (0, _classnames.default)(dialogClass, className, size && bsPrefix + "-" + size, centered && dialogClass + "-centered", scrollable && dialogClass + "-scrollable")
-    }),
-    /*#__PURE__*/
-    _react.default.createElement("div", {
-      className: (0, _classnames.default)(bsPrefix + "-content", contentClassName)
-    }, children))
-  );
+  return /*#__PURE__*/_react.default.createElement("div", (0, _extends2.default)({}, props, {
+    ref: ref,
+    className: (0, _classnames.default)(dialogClass, className, size && bsPrefix + "-" + size, centered && dialogClass + "-centered", scrollable && dialogClass + "-scrollable")
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: (0, _classnames.default)(bsPrefix + "-content", contentClassName)
+  }, children));
 });
 
 ModalDialog.displayName = 'ModalDialog';
@@ -51347,9 +50712,7 @@ var defaultProps = {
   closeButton: false
 };
 
-var ModalHeader =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var ModalHeader = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       closeLabel = _ref.closeLabel,
       closeButton = _ref.closeButton,
@@ -51363,19 +50726,14 @@ _react.default.forwardRef(function (_ref, ref) {
     if (context) context.onHide();
     if (onHide) onHide();
   });
-  return (
-    /*#__PURE__*/
-    _react.default.createElement("div", (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      className: (0, _classnames.default)(className, bsPrefix)
-    }), children, closeButton &&
-    /*#__PURE__*/
-    _react.default.createElement(_CloseButton.default, {
-      label: closeLabel,
-      onClick: handleClick
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement("div", (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    className: (0, _classnames.default)(className, bsPrefix)
+  }), children, closeButton && /*#__PURE__*/_react.default.createElement(_CloseButton.default, {
+    label: closeLabel,
+    onClick: handleClick
+  }));
 });
 
 ModalHeader.displayName = 'ModalHeader';
@@ -51480,28 +50838,20 @@ var defaultProps = {
 /* eslint-disable no-use-before-define, react/no-multi-comp */
 
 function DialogTransition(props) {
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_Fade.default, (0, _extends2.default)({}, props, {
-      timeout: null
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(_Fade.default, (0, _extends2.default)({}, props, {
+    timeout: null
+  }));
 }
 
 function BackdropTransition(props) {
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_Fade.default, (0, _extends2.default)({}, props, {
-      timeout: null
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(_Fade.default, (0, _extends2.default)({}, props, {
+    timeout: null
+  }));
 }
 /* eslint-enable no-use-before-define */
 
 
-var Modal =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var Modal = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       className = _ref.className,
       style = _ref.style,
@@ -51696,12 +51046,9 @@ _react.default.forwardRef(function (_ref, ref) {
   };
 
   var renderBackdrop = (0, _react.useCallback)(function (backdropProps) {
-    return (
-      /*#__PURE__*/
-      _react.default.createElement("div", (0, _extends2.default)({}, backdropProps, {
-        className: (0, _classnames.default)(bsPrefix + "-backdrop", backdropClassName, !animation && 'show')
-      }))
-    );
+    return /*#__PURE__*/_react.default.createElement("div", (0, _extends2.default)({}, backdropProps, {
+      className: (0, _classnames.default)(bsPrefix + "-backdrop", backdropClassName, !animation && 'show')
+    }));
   }, [animation, backdropClassName, bsPrefix]);
   var baseModalStyle = (0, _extends2.default)({}, style, modalStyle); // Sets `display` always block when `animation` is false
 
@@ -51710,60 +51057,50 @@ _react.default.forwardRef(function (_ref, ref) {
   }
 
   var renderDialog = function renderDialog(dialogProps) {
-    return (
-      /*#__PURE__*/
-      _react.default.createElement("div", (0, _extends2.default)({
-        role: "dialog"
-      }, dialogProps, {
-        style: baseModalStyle,
-        className: (0, _classnames.default)(className, bsPrefix, animateStaticModal && bsPrefix + "-static"),
-        onClick: backdrop ? handleClick : undefined,
-        onMouseUp: handleMouseUp,
-        "aria-labelledby": ariaLabelledby
-      }),
-      /*#__PURE__*/
-      _react.default.createElement(Dialog, (0, _extends2.default)({}, props, {
-        onMouseDown: handleDialogMouseDown,
-        className: dialogClassName,
-        contentClassName: contentClassName
-      }), children))
-    );
+    return /*#__PURE__*/_react.default.createElement("div", (0, _extends2.default)({
+      role: "dialog"
+    }, dialogProps, {
+      style: baseModalStyle,
+      className: (0, _classnames.default)(className, bsPrefix, animateStaticModal && bsPrefix + "-static"),
+      onClick: backdrop ? handleClick : undefined,
+      onMouseUp: handleMouseUp,
+      "aria-labelledby": ariaLabelledby
+    }), /*#__PURE__*/_react.default.createElement(Dialog, (0, _extends2.default)({}, props, {
+      onMouseDown: handleDialogMouseDown,
+      className: dialogClassName,
+      contentClassName: contentClassName
+    }), children));
   };
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_ModalContext.default.Provider, {
-      value: modalContext
-    },
-    /*#__PURE__*/
-    _react.default.createElement(_Modal.default, {
-      show: show,
-      ref: setModalRef,
-      backdrop: backdrop,
-      container: container,
-      keyboard: true // Always set true - see handleEscapeKeyDown
-      ,
-      autoFocus: autoFocus,
-      enforceFocus: enforceFocus,
-      restoreFocus: restoreFocus,
-      restoreFocusOptions: restoreFocusOptions,
-      onEscapeKeyDown: handleEscapeKeyDown,
-      onShow: onShow,
-      onHide: onHide,
-      onEnter: handleEnter,
-      onEntering: handleEntering,
-      onEntered: onEntered,
-      onExit: handleExit,
-      onExiting: onExiting,
-      onExited: handleExited,
-      manager: getModalManager(),
-      containerClassName: bsPrefix + "-open",
-      transition: animation ? DialogTransition : undefined,
-      backdropTransition: animation ? BackdropTransition : undefined,
-      renderBackdrop: renderBackdrop,
-      renderDialog: renderDialog
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(_ModalContext.default.Provider, {
+    value: modalContext
+  }, /*#__PURE__*/_react.default.createElement(_Modal.default, {
+    show: show,
+    ref: setModalRef,
+    backdrop: backdrop,
+    container: container,
+    keyboard: true // Always set true - see handleEscapeKeyDown
+    ,
+    autoFocus: autoFocus,
+    enforceFocus: enforceFocus,
+    restoreFocus: restoreFocus,
+    restoreFocusOptions: restoreFocusOptions,
+    onEscapeKeyDown: handleEscapeKeyDown,
+    onShow: onShow,
+    onHide: onHide,
+    onEnter: handleEnter,
+    onEntering: handleEntering,
+    onEntered: onEntered,
+    onExit: handleExit,
+    onExiting: onExiting,
+    onExited: handleExited,
+    manager: getModalManager(),
+    containerClassName: bsPrefix + "-open",
+    transition: animation ? DialogTransition : undefined,
+    backdropTransition: animation ? BackdropTransition : undefined,
+    renderBackdrop: renderBackdrop,
+    renderDialog: renderDialog
+  }));
 });
 
 Modal.displayName = 'Modal';
@@ -51799,9 +51136,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["bsPrefix", "className", "children", "as"];
 
-var NavItem =
-/*#__PURE__*/
-_react.default.forwardRef( // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+var NavItem = /*#__PURE__*/_react.default.forwardRef( // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
 function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       className = _ref.className,
@@ -51810,13 +51145,10 @@ function (_ref, ref) {
       Component = _ref$as === void 0 ? 'div' : _ref$as,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   bsPrefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'nav-item');
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({}, props, {
-      ref: ref,
-      className: (0, _classnames.default)(className, bsPrefix)
-    }), children)
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({}, props, {
+    ref: ref,
+    className: (0, _classnames.default)(className, bsPrefix)
+  }), children);
 });
 
 NavItem.displayName = 'NavItem';
@@ -51852,9 +51184,7 @@ var defaultProps = {
   as: _SafeAnchor.default
 };
 
-var NavLink =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var NavLink = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       disabled = _ref.disabled,
       className = _ref.className,
@@ -51864,18 +51194,15 @@ _react.default.forwardRef(function (_ref, ref) {
       as = _ref.as,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   bsPrefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'nav-link');
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_AbstractNavItem.default, (0, _extends2.default)({}, props, {
-      href: href,
-      ref: ref,
-      eventKey: eventKey,
-      as: as,
-      disabled: disabled,
-      onSelect: onSelect,
-      className: (0, _classnames.default)(className, bsPrefix, disabled && 'disabled')
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(_AbstractNavItem.default, (0, _extends2.default)({}, props, {
+    href: href,
+    ref: ref,
+    eventKey: eventKey,
+    as: as,
+    disabled: disabled,
+    onSelect: onSelect,
+    className: (0, _classnames.default)(className, bsPrefix, disabled && 'disabled')
+  }));
 });
 
 NavLink.displayName = 'NavLink';
@@ -51926,9 +51253,7 @@ var defaultProps = {
   fill: false
 };
 
-var Nav =
-/*#__PURE__*/
-_react.default.forwardRef(function (uncontrolledProps, ref) {
+var Nav = /*#__PURE__*/_react.default.forwardRef(function (uncontrolledProps, ref) {
   var _classNames;
 
   var _useUncontrolled = (0, _uncontrollable.useUncontrolled)(uncontrolledProps, {
@@ -51961,15 +51286,12 @@ _react.default.forwardRef(function (uncontrolledProps, ref) {
     cardHeaderBsPrefix = cardContext.cardHeaderBsPrefix;
   }
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_AbstractNav.default, (0, _extends2.default)({
-      as: as,
-      ref: ref,
-      activeKey: activeKey,
-      className: (0, _classnames.default)(className, (_classNames = {}, _classNames[bsPrefix] = !isNavbar, _classNames[navbarBsPrefix + "-nav"] = isNavbar, _classNames[navbarBsPrefix + "-nav-scroll"] = isNavbar && navbarScroll, _classNames[cardHeaderBsPrefix + "-" + variant] = !!cardHeaderBsPrefix, _classNames[bsPrefix + "-" + variant] = !!variant, _classNames[bsPrefix + "-fill"] = fill, _classNames[bsPrefix + "-justified"] = justify, _classNames))
-    }, props), children)
-  );
+  return /*#__PURE__*/_react.default.createElement(_AbstractNav.default, (0, _extends2.default)({
+    as: as,
+    ref: ref,
+    activeKey: activeKey,
+    className: (0, _classnames.default)(className, (_classNames = {}, _classNames[bsPrefix] = !isNavbar, _classNames[navbarBsPrefix + "-nav"] = isNavbar, _classNames[navbarBsPrefix + "-nav-scroll"] = isNavbar && navbarScroll, _classNames[cardHeaderBsPrefix + "-" + variant] = !!cardHeaderBsPrefix, _classNames[bsPrefix + "-" + variant] = !!variant, _classNames[bsPrefix + "-fill"] = fill, _classNames[bsPrefix + "-justified"] = justify, _classNames))
+  }, props), children);
 });
 
 Nav.displayName = 'Nav';
@@ -52000,22 +51322,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["bsPrefix", "className", "as"];
 
-var NavbarBrand =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var NavbarBrand = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       className = _ref.className,
       as = _ref.as,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   bsPrefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'navbar-brand');
   var Component = as || (props.href ? 'a' : 'span');
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({}, props, {
-      ref: ref,
-      className: (0, _classnames.default)(className, bsPrefix)
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({}, props, {
+    ref: ref,
+    className: (0, _classnames.default)(className, bsPrefix)
+  }));
 });
 
 NavbarBrand.displayName = 'NavbarBrand';
@@ -52045,29 +51362,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["children", "bsPrefix"];
 
-var NavbarCollapse =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var NavbarCollapse = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var children = _ref.children,
       bsPrefix = _ref.bsPrefix,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   bsPrefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'navbar-collapse');
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_NavbarContext.default.Consumer, null, function (context) {
-      return (
-        /*#__PURE__*/
-        _react.default.createElement(_Collapse.default, (0, _extends2.default)({
-          in: !!(context && context.expanded)
-        }, props),
-        /*#__PURE__*/
-        _react.default.createElement("div", {
-          ref: ref,
-          className: bsPrefix
-        }, children))
-      );
-    })
-  );
+  return /*#__PURE__*/_react.default.createElement(_NavbarContext.default.Consumer, null, function (context) {
+    return /*#__PURE__*/_react.default.createElement(_Collapse.default, (0, _extends2.default)({
+      in: !!(context && context.expanded)
+    }, props), /*#__PURE__*/_react.default.createElement("div", {
+      ref: ref,
+      className: bsPrefix
+    }, children));
+  });
 });
 
 NavbarCollapse.displayName = 'NavbarCollapse';
@@ -52106,9 +51413,7 @@ var defaultProps = {
   label: 'Toggle navigation'
 };
 
-var NavbarToggle =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var NavbarToggle = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       className = _ref.className,
       children = _ref.children,
@@ -52132,19 +51437,14 @@ _react.default.forwardRef(function (_ref, ref) {
     props.type = 'button';
   }
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({}, props, {
-      ref: ref,
-      onClick: handleClick,
-      "aria-label": label,
-      className: (0, _classnames.default)(className, bsPrefix, !expanded && 'collapsed')
-    }), children ||
-    /*#__PURE__*/
-    _react.default.createElement("span", {
-      className: bsPrefix + "-icon"
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({}, props, {
+    ref: ref,
+    onClick: handleClick,
+    "aria-label": label,
+    className: (0, _classnames.default)(className, bsPrefix, !expanded && 'collapsed')
+  }), children || /*#__PURE__*/_react.default.createElement("span", {
+    className: bsPrefix + "-icon"
+  }));
 });
 
 NavbarToggle.displayName = 'NavbarToggle';
@@ -52199,9 +51499,7 @@ var defaultProps = {
   collapseOnSelect: false
 };
 
-var Navbar =
-/*#__PURE__*/
-_react.default.forwardRef(function (props, ref) {
+var Navbar = /*#__PURE__*/_react.default.forwardRef(function (props, ref) {
   var _useUncontrolled = (0, _uncontrollable.useUncontrolled)(props, {
     expanded: 'onToggle'
   }),
@@ -52249,22 +51547,15 @@ _react.default.forwardRef(function (props, ref) {
       expanded: !!expanded
     };
   }, [bsPrefix, expanded, _onToggle]);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_NavbarContext.default.Provider, {
-      value: navbarContext
-    },
-    /*#__PURE__*/
-    _react.default.createElement(_SelectableContext.default.Provider, {
-      value: handleCollapse
-    },
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({
-      ref: ref
-    }, controlledProps, {
-      className: (0, _classnames.default)(className, bsPrefix, expand && expandClass, variant && bsPrefix + "-" + variant, bg && "bg-" + bg, sticky && "sticky-" + sticky, fixed && "fixed-" + fixed)
-    }), children)))
-  );
+  return /*#__PURE__*/_react.default.createElement(_NavbarContext.default.Provider, {
+    value: navbarContext
+  }, /*#__PURE__*/_react.default.createElement(_SelectableContext.default.Provider, {
+    value: handleCollapse
+  }, /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({
+    ref: ref
+  }, controlledProps, {
+    className: (0, _classnames.default)(className, bsPrefix, expand && expandClass, variant && bsPrefix + "-" + variant, bg && "bg-" + bg, sticky && "sticky-" + sticky, fixed && "fixed-" + fixed)
+  }), children)));
 });
 
 Navbar.defaultProps = defaultProps;
@@ -52301,9 +51592,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["id", "title", "children", "bsPrefix", "className", "rootCloseEvent", "menuRole", "disabled", "active", "renderMenuOnMount"];
 
-var NavDropdown =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var NavDropdown = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var id = _ref.id,
       title = _ref.title,
       children = _ref.children,
@@ -52318,29 +51607,22 @@ _react.default.forwardRef(function (_ref, ref) {
   /* NavItem has no additional logic, it's purely presentational. Can set nav item class here to support "as" */
 
   var navItemPrefix = (0, _ThemeProvider.useBootstrapPrefix)(undefined, 'nav-item');
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_Dropdown.default, (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      className: (0, _classnames.default)(className, navItemPrefix)
-    }),
-    /*#__PURE__*/
-    _react.default.createElement(_Dropdown.default.Toggle, {
-      id: id,
-      eventKey: null,
-      active: active,
-      disabled: disabled,
-      childBsPrefix: bsPrefix,
-      as: _NavLink.default
-    }, title),
-    /*#__PURE__*/
-    _react.default.createElement(_Dropdown.default.Menu, {
-      role: menuRole,
-      renderOnMount: renderMenuOnMount,
-      rootCloseEvent: rootCloseEvent
-    }, children))
-  );
+  return /*#__PURE__*/_react.default.createElement(_Dropdown.default, (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    className: (0, _classnames.default)(className, navItemPrefix)
+  }), /*#__PURE__*/_react.default.createElement(_Dropdown.default.Toggle, {
+    id: id,
+    eventKey: null,
+    active: active,
+    disabled: disabled,
+    childBsPrefix: bsPrefix,
+    as: _NavLink.default
+  }, title), /*#__PURE__*/_react.default.createElement(_Dropdown.default.Menu, {
+    role: menuRole,
+    renderOnMount: renderMenuOnMount,
+    rootCloseEvent: rootCloseEvent
+  }, children));
 });
 
 NavDropdown.displayName = 'NavDropdown';
@@ -52392,9 +51674,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Built on top of `Popper.js`, the overlay component is
  * great for custom tooltip overlays.
  */
-var Overlay =
-/*#__PURE__*/
-_react.default.forwardRef(function (props, outerRef) {
+var Overlay = /*#__PURE__*/_react.default.forwardRef(function (props, outerRef) {
   var flip = props.flip,
       offset = props.offset,
       placement = props.placement,
@@ -52477,9 +51757,7 @@ _react.default.forwardRef(function (props, outerRef) {
         onEnter = props.onEnter,
         onEntering = props.onEntering,
         onEntered = props.onEntered;
-    child =
-    /*#__PURE__*/
-    _react.default.createElement(Transition, {
+    child = /*#__PURE__*/_react.default.createElement(Transition, {
       "in": props.show,
       appear: true,
       onExit: onExit,
@@ -52491,9 +51769,7 @@ _react.default.forwardRef(function (props, outerRef) {
     }, child);
   }
 
-  return container ?
-  /*#__PURE__*/
-  _reactDom.default.createPortal(child, container) : null;
+  return container ? /*#__PURE__*/_reactDom.default.createPortal(child, container) : null;
 });
 
 Overlay.displayName = 'Overlay';
@@ -52700,53 +51976,47 @@ function Overlay(_ref) {
       marginModifiers = _usePopperMarginModif[1];
 
   var actualTransition = transition === true ? _Fade.default : transition || null;
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_Overlay.default, (0, _extends2.default)({}, outerProps, {
-      ref: ref,
-      popperConfig: (0, _extends2.default)({}, popperConfig, {
-        modifiers: marginModifiers.concat(popperConfig.modifiers || [])
-      }),
-      transition: actualTransition
-    }), function (_ref2) {
-      var _state$modifiersData$;
+  return /*#__PURE__*/_react.default.createElement(_Overlay.default, (0, _extends2.default)({}, outerProps, {
+    ref: ref,
+    popperConfig: (0, _extends2.default)({}, popperConfig, {
+      modifiers: marginModifiers.concat(popperConfig.modifiers || [])
+    }),
+    transition: actualTransition
+  }), function (_ref2) {
+    var _state$modifiersData$;
 
-      var overlayProps = _ref2.props,
-          arrowProps = _ref2.arrowProps,
-          show = _ref2.show,
-          update = _ref2.update,
-          _ = _ref2.forceUpdate,
-          placement = _ref2.placement,
-          state = _ref2.state,
-          props = (0, _objectWithoutPropertiesLoose2.default)(_ref2, _excluded2);
-      wrapRefs(overlayProps, arrowProps);
-      var popper = Object.assign(popperRef.current, {
-        state: state,
-        scheduleUpdate: update,
-        placement: placement,
-        outOfBoundaries: (state == null ? void 0 : (_state$modifiersData$ = state.modifiersData.hide) == null ? void 0 : _state$modifiersData$.isReferenceHidden) || false
-      });
-      if (typeof overlay === 'function') return overlay((0, _extends2.default)({}, props, overlayProps, {
-        placement: placement,
-        show: show
-      }, !transition && show && {
-        className: 'show'
-      }, {
-        popper: popper,
-        arrowProps: arrowProps
-      }));
-      return (
-        /*#__PURE__*/
-        _react.default.cloneElement(overlay, (0, _extends2.default)({}, props, overlayProps, {
-          placement: placement,
-          arrowProps: arrowProps,
-          popper: popper,
-          className: (0, _classnames.default)(overlay.props.className, !transition && show && 'show'),
-          style: (0, _extends2.default)({}, overlay.props.style, overlayProps.style)
-        }))
-      );
-    })
-  );
+    var overlayProps = _ref2.props,
+        arrowProps = _ref2.arrowProps,
+        show = _ref2.show,
+        update = _ref2.update,
+        _ = _ref2.forceUpdate,
+        placement = _ref2.placement,
+        state = _ref2.state,
+        props = (0, _objectWithoutPropertiesLoose2.default)(_ref2, _excluded2);
+    wrapRefs(overlayProps, arrowProps);
+    var popper = Object.assign(popperRef.current, {
+      state: state,
+      scheduleUpdate: update,
+      placement: placement,
+      outOfBoundaries: (state == null ? void 0 : (_state$modifiersData$ = state.modifiersData.hide) == null ? void 0 : _state$modifiersData$.isReferenceHidden) || false
+    });
+    if (typeof overlay === 'function') return overlay((0, _extends2.default)({}, props, overlayProps, {
+      placement: placement,
+      show: show
+    }, !transition && show && {
+      className: 'show'
+    }, {
+      popper: popper,
+      arrowProps: arrowProps
+    }));
+    return /*#__PURE__*/_react.default.cloneElement(overlay, (0, _extends2.default)({}, props, overlayProps, {
+      placement: placement,
+      arrowProps: arrowProps,
+      popper: popper,
+      className: (0, _classnames.default)(overlay.props.className, !transition && show && 'show'),
+      style: (0, _extends2.default)({}, overlay.props.style, overlayProps.style)
+    }));
+  });
 }
 
 Overlay.defaultProps = defaultProps;
@@ -52788,9 +52058,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["trigger", "overlay", "children", "popperConfig", "show", "defaultShow", "onToggle", "delay", "placement", "flip"];
 
-var RefHolder =
-/*#__PURE__*/
-function (_React$Component) {
+var RefHolder = /*#__PURE__*/function (_React$Component) {
   (0, _inheritsLoose2.default)(RefHolder, _React$Component);
 
   function RefHolder() {
@@ -52946,27 +52214,18 @@ function OverlayTrigger(_ref) {
     triggerProps.onMouseOut = handleMouseOut;
   }
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_react.default.Fragment, null, typeof children === 'function' ? children((0, _extends2.default)({}, triggerProps, {
-      ref: triggerNodeRef
-    })) :
-    /*#__PURE__*/
-    _react.default.createElement(RefHolder, {
-      ref: triggerNodeRef
-    },
-    /*#__PURE__*/
-    (0, _react.cloneElement)(children, triggerProps)),
-    /*#__PURE__*/
-    _react.default.createElement(_Overlay.default, (0, _extends2.default)({}, props, {
-      show: show,
-      onHide: handleHide,
-      flip: flip,
-      placement: placement,
-      popperConfig: popperConfig,
-      target: getTarget
-    }), overlay))
-  );
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, typeof children === 'function' ? children((0, _extends2.default)({}, triggerProps, {
+    ref: triggerNodeRef
+  })) : /*#__PURE__*/_react.default.createElement(RefHolder, {
+    ref: triggerNodeRef
+  }, /*#__PURE__*/(0, _react.cloneElement)(children, triggerProps)), /*#__PURE__*/_react.default.createElement(_Overlay.default, (0, _extends2.default)({}, props, {
+    show: show,
+    onHide: handleHide,
+    flip: flip,
+    placement: placement,
+    popperConfig: popperConfig,
+    target: getTarget
+  }), overlay));
 }
 
 OverlayTrigger.defaultProps = defaultProps;
@@ -53002,9 +52261,7 @@ var defaultProps = {
   activeLabel: '(current)'
 };
 
-var PageItem =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var PageItem = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var active = _ref.active,
       disabled = _ref.disabled,
       className = _ref.className,
@@ -53013,26 +52270,19 @@ _react.default.forwardRef(function (_ref, ref) {
       children = _ref.children,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   var Component = active || disabled ? 'span' : _SafeAnchor.default;
-  return (
-    /*#__PURE__*/
-    _react.default.createElement("li", {
-      ref: ref,
-      style: style,
-      className: (0, _classnames.default)(className, 'page-item', {
-        active: active,
-        disabled: disabled
-      })
-    },
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({
-      className: "page-link",
+  return /*#__PURE__*/_react.default.createElement("li", {
+    ref: ref,
+    style: style,
+    className: (0, _classnames.default)(className, 'page-item', {
+      active: active,
       disabled: disabled
-    }, props), children, active && activeLabel &&
-    /*#__PURE__*/
-    _react.default.createElement("span", {
-      className: "sr-only"
-    }, activeLabel)))
-  );
+    })
+  }, /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({
+    className: "page-link",
+    disabled: disabled
+  }, props), children, active && activeLabel && /*#__PURE__*/_react.default.createElement("span", {
+    className: "sr-only"
+  }, activeLabel)));
 });
 
 PageItem.defaultProps = defaultProps;
@@ -53048,18 +52298,11 @@ function createButton(name, defaultValue, label) {
   function Button(_ref2) {
     var children = _ref2.children,
         props = (0, _objectWithoutPropertiesLoose2.default)(_ref2, _excluded2);
-    return (
-      /*#__PURE__*/
-      _react.default.createElement(PageItem, props,
-      /*#__PURE__*/
-      _react.default.createElement("span", {
-        "aria-hidden": "true"
-      }, children || defaultValue),
-      /*#__PURE__*/
-      _react.default.createElement("span", {
-        className: "sr-only"
-      }, label))
-    );
+    return /*#__PURE__*/_react.default.createElement(PageItem, props, /*#__PURE__*/_react.default.createElement("span", {
+      "aria-hidden": "true"
+    }, children || defaultValue), /*#__PURE__*/_react.default.createElement("span", {
+      className: "sr-only"
+    }, label));
   }
 
   Button.displayName = name;
@@ -53112,23 +52355,18 @@ var _excluded = ["bsPrefix", "className", "children", "size"];
  * @property {PageItem} Next
  * @property {PageItem} Last
  */
-var Pagination =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var Pagination = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       className = _ref.className,
       children = _ref.children,
       size = _ref.size,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   var decoratedBsPrefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'pagination');
-  return (
-    /*#__PURE__*/
-    _react.default.createElement("ul", (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      className: (0, _classnames.default)(className, decoratedBsPrefix, size && decoratedBsPrefix + "-" + size)
-    }), children)
-  );
+  return /*#__PURE__*/_react.default.createElement("ul", (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    className: (0, _classnames.default)(className, decoratedBsPrefix, size && decoratedBsPrefix + "-" + size)
+  }), children);
 });
 
 Pagination.First = _PageItem.First;
@@ -53161,9 +52399,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["as", "bsPrefix", "className", "children"];
 
-var PopoverTitle =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var PopoverTitle = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var _ref$as = _ref.as,
       Component = _ref$as === void 0 ? 'div' : _ref$as,
       bsPrefix = _ref.bsPrefix,
@@ -53171,14 +52407,11 @@ _react.default.forwardRef(function (_ref, ref) {
       children = _ref.children,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   bsPrefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'popover-header');
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      className: (0, _classnames.default)(bsPrefix, className)
-    }), children)
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    className: (0, _classnames.default)(bsPrefix, className)
+  }), children);
 });
 
 var _default = PopoverTitle;
@@ -53205,9 +52438,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["as", "bsPrefix", "className", "children"];
 
-var PopoverContent =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var PopoverContent = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var _ref$as = _ref.as,
       Component = _ref$as === void 0 ? 'div' : _ref$as,
       bsPrefix = _ref.bsPrefix,
@@ -53215,14 +52446,11 @@ _react.default.forwardRef(function (_ref, ref) {
       children = _ref.children,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   bsPrefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'popover-body');
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      className: (0, _classnames.default)(className, bsPrefix)
-    }), children)
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    className: (0, _classnames.default)(className, bsPrefix)
+  }), children);
 });
 
 var _default = PopoverContent;
@@ -53258,9 +52486,7 @@ var defaultProps = {
   placement: 'right'
 };
 
-var Popover =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var Popover = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       placement = _ref.placement,
       className = _ref.className,
@@ -53276,22 +52502,15 @@ _react.default.forwardRef(function (_ref, ref) {
   var _ref2 = (placement == null ? void 0 : placement.split('-')) || [],
       primaryPlacement = _ref2[0];
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement("div", (0, _extends2.default)({
-      ref: ref,
-      role: "tooltip",
-      style: style,
-      "x-placement": primaryPlacement,
-      className: (0, _classnames.default)(className, decoratedBsPrefix, primaryPlacement && "bs-popover-" + primaryPlacement)
-    }, props),
-    /*#__PURE__*/
-    _react.default.createElement("div", (0, _extends2.default)({
-      className: "arrow"
-    }, arrowProps)), content ?
-    /*#__PURE__*/
-    _react.default.createElement(_PopoverContent.default, null, children) : children)
-  );
+  return /*#__PURE__*/_react.default.createElement("div", (0, _extends2.default)({
+    ref: ref,
+    role: "tooltip",
+    style: style,
+    "x-placement": primaryPlacement,
+    className: (0, _classnames.default)(className, decoratedBsPrefix, primaryPlacement && "bs-popover-" + primaryPlacement)
+  }, props), /*#__PURE__*/_react.default.createElement("div", (0, _extends2.default)({
+    className: "arrow"
+  }, arrowProps)), content ? /*#__PURE__*/_react.default.createElement(_PopoverContent.default, null, children) : children);
 });
 
 Popover.defaultProps = defaultProps;
@@ -53355,15 +52574,11 @@ function onlyProgressBar(props, propName, componentName) {
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
 
 
-    var element =
-    /*#__PURE__*/
-    _react.default.createElement(ProgressBar, null);
+    var element = /*#__PURE__*/_react.default.createElement(ProgressBar, null);
 
     if (child.type === element.type) return;
     var childType = child.type;
-    var childIdentifier =
-    /*#__PURE__*/
-    _react.default.isValidElement(child) ? childType.displayName || childType.name || childType : child;
+    var childIdentifier = /*#__PURE__*/_react.default.isValidElement(child) ? childType.displayName || childType.name || childType : child;
     error = new Error("Children of " + componentName + " can contain only ProgressBar " + ("components. Found " + childIdentifier + "."));
   });
 
@@ -53399,30 +52614,23 @@ function renderProgressBar(_ref, ref) {
       variant = _ref.variant,
       bsPrefix = _ref.bsPrefix,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement("div", (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      role: "progressbar",
-      className: (0, _classnames.default)(className, bsPrefix + "-bar", (_classNames = {}, _classNames["bg-" + variant] = variant, _classNames[bsPrefix + "-bar-animated"] = animated, _classNames[bsPrefix + "-bar-striped"] = animated || striped, _classNames)),
-      style: (0, _extends2.default)({
-        width: getPercentage(now, min, max) + "%"
-      }, style),
-      "aria-valuenow": now,
-      "aria-valuemin": min,
-      "aria-valuemax": max
-    }), srOnly ?
-    /*#__PURE__*/
-    _react.default.createElement("span", {
-      className: "sr-only"
-    }, label) : label)
-  );
+  return /*#__PURE__*/_react.default.createElement("div", (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    role: "progressbar",
+    className: (0, _classnames.default)(className, bsPrefix + "-bar", (_classNames = {}, _classNames["bg-" + variant] = variant, _classNames[bsPrefix + "-bar-animated"] = animated, _classNames[bsPrefix + "-bar-striped"] = animated || striped, _classNames)),
+    style: (0, _extends2.default)({
+      width: getPercentage(now, min, max) + "%"
+    }, style),
+    "aria-valuenow": now,
+    "aria-valuemin": min,
+    "aria-valuemax": max
+  }), srOnly ? /*#__PURE__*/_react.default.createElement("span", {
+    className: "sr-only"
+  }, label) : label);
 }
 
-var ProgressBar =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref2, ref) {
+var ProgressBar = /*#__PURE__*/_react.default.forwardRef(function (_ref2, ref) {
   var isChild = _ref2.isChild,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref2, _excluded2);
   props.bsPrefix = (0, _ThemeProvider.useBootstrapPrefix)(props.bsPrefix, 'progress');
@@ -53443,31 +52651,25 @@ _react.default.forwardRef(function (_ref2, ref) {
       className = props.className,
       children = props.children,
       wrapperProps = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded3);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement("div", (0, _extends2.default)({
-      ref: ref
-    }, wrapperProps, {
-      className: (0, _classnames.default)(className, bsPrefix)
-    }), children ? (0, _ElementChildren.map)(children, function (child) {
-      return (
-        /*#__PURE__*/
-        (0, _react.cloneElement)(child, {
-          isChild: true
-        })
-      );
-    }) : renderProgressBar({
-      min: min,
-      now: now,
-      max: max,
-      label: label,
-      srOnly: srOnly,
-      striped: striped,
-      animated: animated,
-      bsPrefix: bsPrefix,
-      variant: variant
-    }, ref))
-  );
+  return /*#__PURE__*/_react.default.createElement("div", (0, _extends2.default)({
+    ref: ref
+  }, wrapperProps, {
+    className: (0, _classnames.default)(className, bsPrefix)
+  }), children ? (0, _ElementChildren.map)(children, function (child) {
+    return /*#__PURE__*/(0, _react.cloneElement)(child, {
+      isChild: true
+    });
+  }) : renderProgressBar({
+    min: min,
+    now: now,
+    max: max,
+    label: label,
+    srOnly: srOnly,
+    striped: striped,
+    animated: animated,
+    bsPrefix: bsPrefix,
+    variant: variant
+  }, ref));
 });
 
 ProgressBar.displayName = 'ProgressBar';
@@ -53499,9 +52701,7 @@ var defaultProps = {
   aspectRatio: '1by1'
 };
 
-var ResponsiveEmbed =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var ResponsiveEmbed = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       className = _ref.className,
       children = _ref.children,
@@ -53511,18 +52711,13 @@ _react.default.forwardRef(function (_ref, ref) {
 
   var child = _react.default.Children.only(children);
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement("div", (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      className: (0, _classnames.default)(decoratedBsPrefix, className, aspectRatio && decoratedBsPrefix + "-" + aspectRatio)
-    }),
-    /*#__PURE__*/
-    _react.default.cloneElement(child, {
-      className: (0, _classnames.default)(child.props.className, decoratedBsPrefix + "-item")
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement("div", (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    className: (0, _classnames.default)(decoratedBsPrefix, className, aspectRatio && decoratedBsPrefix + "-" + aspectRatio)
+  }), /*#__PURE__*/_react.default.cloneElement(child, {
+    className: (0, _classnames.default)(child.props.className, decoratedBsPrefix + "-item")
+  }));
 });
 
 ResponsiveEmbed.defaultProps = defaultProps;
@@ -53550,9 +52745,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["bsPrefix", "variant", "animation", "size", "children", "as", "className"];
 
-var Spinner =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var Spinner = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       variant = _ref.variant,
       animation = _ref.animation,
@@ -53564,14 +52757,11 @@ _react.default.forwardRef(function (_ref, ref) {
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   bsPrefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'spinner');
   var bsSpinnerPrefix = bsPrefix + "-" + animation;
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      className: (0, _classnames.default)(className, bsSpinnerPrefix, size && bsSpinnerPrefix + "-" + size, variant && "text-" + variant)
-    }), children)
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    className: (0, _classnames.default)(className, bsSpinnerPrefix, size && bsSpinnerPrefix + "-" + size, variant && "text-" + variant)
+  }), children);
 });
 
 Spinner.displayName = 'Spinner';
@@ -53681,9 +52871,7 @@ var defaultProps = {
  * and menu-related props are passed to the `Dropdown.Menu`
  */
 
-var SplitButton =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var SplitButton = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var id = _ref.id,
       bsPrefix = _ref.bsPrefix,
       size = _ref.size,
@@ -53700,45 +52888,34 @@ _react.default.forwardRef(function (_ref, ref) {
       renderMenuOnMount = _ref.renderMenuOnMount,
       rootCloseEvent = _ref.rootCloseEvent,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_Dropdown.default, (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      as: _ButtonGroup.default
-    }),
-    /*#__PURE__*/
-    _react.default.createElement(_Button.default, {
-      size: size,
-      variant: variant,
-      disabled: props.disabled,
-      bsPrefix: bsPrefix,
-      href: href,
-      target: target,
-      onClick: onClick,
-      type: type
-    }, title),
-    /*#__PURE__*/
-    _react.default.createElement(_Dropdown.default.Toggle, {
-      split: true,
-      id: id ? id.toString() : undefined,
-      size: size,
-      variant: variant,
-      disabled: props.disabled,
-      childBsPrefix: bsPrefix
-    },
-    /*#__PURE__*/
-    _react.default.createElement("span", {
-      className: "sr-only"
-    }, toggleLabel)),
-    /*#__PURE__*/
-    _react.default.createElement(_Dropdown.default.Menu, {
-      align: menuAlign,
-      role: menuRole,
-      renderOnMount: renderMenuOnMount,
-      rootCloseEvent: rootCloseEvent
-    }, children))
-  );
+  return /*#__PURE__*/_react.default.createElement(_Dropdown.default, (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    as: _ButtonGroup.default
+  }), /*#__PURE__*/_react.default.createElement(_Button.default, {
+    size: size,
+    variant: variant,
+    disabled: props.disabled,
+    bsPrefix: bsPrefix,
+    href: href,
+    target: target,
+    onClick: onClick,
+    type: type
+  }, title), /*#__PURE__*/_react.default.createElement(_Dropdown.default.Toggle, {
+    split: true,
+    id: id ? id.toString() : undefined,
+    size: size,
+    variant: variant,
+    disabled: props.disabled,
+    childBsPrefix: bsPrefix
+  }, /*#__PURE__*/_react.default.createElement("span", {
+    className: "sr-only"
+  }, toggleLabel)), /*#__PURE__*/_react.default.createElement(_Dropdown.default.Menu, {
+    align: menuAlign,
+    role: menuRole,
+    renderOnMount: renderMenuOnMount,
+    rootCloseEvent: rootCloseEvent
+  }, children));
 });
 
 SplitButton.propTypes = propTypes;
@@ -53801,16 +52978,11 @@ var TabContainer = function TabContainer(props) {
       }
     };
   }, [onSelect, activeKey, transition, mountOnEnter, unmountOnExit, generateChildId]);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_TabContext.default.Provider, {
-      value: tabContext
-    },
-    /*#__PURE__*/
-    _react.default.createElement(_SelectableContext.default.Provider, {
-      value: onSelect || null
-    }, children))
-  );
+  return /*#__PURE__*/_react.default.createElement(_TabContext.default.Provider, {
+    value: tabContext
+  }, /*#__PURE__*/_react.default.createElement(_SelectableContext.default.Provider, {
+    value: onSelect || null
+  }, children));
 };
 
 var _default = TabContainer;
@@ -53837,23 +53009,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["bsPrefix", "as", "className"];
 
-var TabContent =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var TabContent = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       _ref$as = _ref.as,
       Component = _ref$as === void 0 ? 'div' : _ref$as,
       className = _ref.className,
       props = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
   var decoratedBsPrefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'tab-content');
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(Component, (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      className: (0, _classnames.default)(className, decoratedBsPrefix)
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    className: (0, _classnames.default)(className, decoratedBsPrefix)
+  }));
 });
 
 var _default = TabContent;
@@ -53910,9 +53077,7 @@ function useTabContext(props) {
   });
 }
 
-var TabPane =
-/*#__PURE__*/
-_react.default.forwardRef(function (props, ref) {
+var TabPane = /*#__PURE__*/_react.default.forwardRef(function (props, ref) {
   var _useTabContext = useTabContext(props),
       bsPrefix = _useTabContext.bsPrefix,
       className = _useTabContext.className,
@@ -53934,9 +53099,7 @@ _react.default.forwardRef(function (props, ref) {
   var prefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'tab-pane');
   if (!active && !Transition && unmountOnExit) return null;
 
-  var pane =
-  /*#__PURE__*/
-  _react.default.createElement(Component, (0, _extends2.default)({}, rest, {
+  var pane = /*#__PURE__*/_react.default.createElement(Component, (0, _extends2.default)({}, rest, {
     ref: ref,
     role: "tabpanel",
     "aria-hidden": !active,
@@ -53945,9 +53108,7 @@ _react.default.forwardRef(function (props, ref) {
     })
   }));
 
-  if (Transition) pane =
-  /*#__PURE__*/
-  _react.default.createElement(Transition, {
+  if (Transition) pane = /*#__PURE__*/_react.default.createElement(Transition, {
     in: active,
     onEnter: onEnter,
     onEntering: onEntering,
@@ -53960,16 +53121,11 @@ _react.default.forwardRef(function (props, ref) {
   }, pane); // We provide an empty the TabContext so `<Nav>`s in `<TabPane>`s don't
   // conflict with the top level one.
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_TabContext.default.Provider, {
-      value: null
-    },
-    /*#__PURE__*/
-    _react.default.createElement(_SelectableContext.default.Provider, {
-      value: null
-    }, pane))
-  );
+  return /*#__PURE__*/_react.default.createElement(_TabContext.default.Provider, {
+    value: null
+  }, /*#__PURE__*/_react.default.createElement(_SelectableContext.default.Provider, {
+    value: null
+  }, pane));
 });
 
 TabPane.displayName = 'TabPane';
@@ -53996,9 +53152,7 @@ var _TabPane = _interopRequireDefault(require("./TabPane"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* eslint-disable react/require-render-return, react/no-unused-prop-types */
-var Tab =
-/*#__PURE__*/
-function (_React$Component) {
+var Tab = /*#__PURE__*/function (_React$Component) {
   (0, _inheritsLoose2.default)(Tab, _React$Component);
 
   function Tab() {
@@ -54042,9 +53196,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["bsPrefix", "className", "striped", "bordered", "borderless", "hover", "size", "variant", "responsive"];
 
-var Table =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var Table = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       className = _ref.className,
       striped = _ref.striped,
@@ -54058,9 +53210,7 @@ _react.default.forwardRef(function (_ref, ref) {
   var decoratedBsPrefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'table');
   var classes = (0, _classnames.default)(className, decoratedBsPrefix, variant && decoratedBsPrefix + "-" + variant, size && decoratedBsPrefix + "-" + size, striped && decoratedBsPrefix + "-striped", bordered && decoratedBsPrefix + "-bordered", borderless && decoratedBsPrefix + "-borderless", hover && decoratedBsPrefix + "-hover");
 
-  var table =
-  /*#__PURE__*/
-  _react.default.createElement("table", (0, _extends2.default)({}, props, {
+  var table = /*#__PURE__*/_react.default.createElement("table", (0, _extends2.default)({}, props, {
     className: classes,
     ref: ref
   }));
@@ -54072,12 +53222,9 @@ _react.default.forwardRef(function (_ref, ref) {
       responsiveClass = responsiveClass + "-" + responsive;
     }
 
-    return (
-      /*#__PURE__*/
-      _react.default.createElement("div", {
-        className: responsiveClass
-      }, table)
-    );
+    return /*#__PURE__*/_react.default.createElement("div", {
+      className: responsiveClass
+    }, table);
   }
 
   return table;
@@ -54148,16 +53295,13 @@ function renderTab(child) {
     return null;
   }
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_NavItem.default, {
-      as: _NavLink.default,
-      eventKey: eventKey,
-      disabled: disabled,
-      id: id,
-      className: tabClassName
-    }, title)
-  );
+  return /*#__PURE__*/_react.default.createElement(_NavItem.default, {
+    as: _NavLink.default,
+    eventKey: eventKey,
+    disabled: disabled,
+    id: id,
+    className: tabClassName
+  }, title);
 }
 
 var Tabs = function Tabs(props) {
@@ -54174,33 +53318,23 @@ var Tabs = function Tabs(props) {
       activeKey = _useUncontrolled$acti === void 0 ? getDefaultActiveKey(children) : _useUncontrolled$acti,
       controlledProps = (0, _objectWithoutPropertiesLoose2.default)(_useUncontrolled, _excluded);
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_TabContainer.default, {
-      id: id,
-      activeKey: activeKey,
-      onSelect: onSelect,
-      transition: transition,
-      mountOnEnter: mountOnEnter,
-      unmountOnExit: unmountOnExit
-    },
-    /*#__PURE__*/
-    _react.default.createElement(_Nav.default, (0, _extends2.default)({}, controlledProps, {
-      role: "tablist",
-      as: "nav"
-    }), (0, _ElementChildren.map)(children, renderTab)),
-    /*#__PURE__*/
-    _react.default.createElement(_TabContent.default, null, (0, _ElementChildren.map)(children, function (child) {
-      var childProps = (0, _extends2.default)({}, child.props);
-      delete childProps.title;
-      delete childProps.disabled;
-      delete childProps.tabClassName;
-      return (
-        /*#__PURE__*/
-        _react.default.createElement(_TabPane.default, childProps)
-      );
-    })))
-  );
+  return /*#__PURE__*/_react.default.createElement(_TabContainer.default, {
+    id: id,
+    activeKey: activeKey,
+    onSelect: onSelect,
+    transition: transition,
+    mountOnEnter: mountOnEnter,
+    unmountOnExit: unmountOnExit
+  }, /*#__PURE__*/_react.default.createElement(_Nav.default, (0, _extends2.default)({}, controlledProps, {
+    role: "tablist",
+    as: "nav"
+  }), (0, _ElementChildren.map)(children, renderTab)), /*#__PURE__*/_react.default.createElement(_TabContent.default, null, (0, _ElementChildren.map)(children, function (child) {
+    var childProps = (0, _extends2.default)({}, child.props);
+    delete childProps.title;
+    delete childProps.disabled;
+    delete childProps.tabClassName;
+    return /*#__PURE__*/_react.default.createElement(_TabPane.default, childProps);
+  })));
 };
 
 Tabs.defaultProps = defaultProps;
@@ -54220,9 +53354,7 @@ var _react = _interopRequireDefault(require("react"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // TODO: check
-var ToastContext =
-/*#__PURE__*/
-_react.default.createContext({
+var ToastContext = /*#__PURE__*/_react.default.createContext({
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onClose: function onClose() {}
 });
@@ -54265,9 +53397,7 @@ var defaultProps = {
   closeButton: true
 };
 
-var ToastHeader =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var ToastHeader = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       closeLabel = _ref.closeLabel,
       closeButton = _ref.closeButton,
@@ -54281,21 +53411,16 @@ _react.default.forwardRef(function (_ref, ref) {
       context.onClose(e);
     }
   });
-  return (
-    /*#__PURE__*/
-    _react.default.createElement("div", (0, _extends2.default)({
-      ref: ref
-    }, props, {
-      className: (0, _classnames.default)(bsPrefix, className)
-    }), children, closeButton &&
-    /*#__PURE__*/
-    _react.default.createElement(_CloseButton.default, {
-      label: closeLabel,
-      onClick: handleClick,
-      className: "ml-2 mb-1",
-      "data-dismiss": "toast"
-    }))
-  );
+  return /*#__PURE__*/_react.default.createElement("div", (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    className: (0, _classnames.default)(bsPrefix, className)
+  }), children, closeButton && /*#__PURE__*/_react.default.createElement(_CloseButton.default, {
+    label: closeLabel,
+    onClick: handleClick,
+    className: "ml-2 mb-1",
+    "data-dismiss": "toast"
+  }));
 });
 
 ToastHeader.displayName = 'ToastHeader';
@@ -54353,9 +53478,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _excluded = ["bsPrefix", "className", "children", "transition", "show", "animation", "delay", "autohide", "onClose"];
 
-var Toast =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var Toast = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       className = _ref.className,
       children = _ref.children,
@@ -54398,9 +53521,7 @@ _react.default.forwardRef(function (_ref, ref) {
   }, [onClose]);
   var hasAnimation = !!(Transition && animation);
 
-  var toast =
-  /*#__PURE__*/
-  _react.default.createElement("div", (0, _extends2.default)({}, props, {
+  var toast = /*#__PURE__*/_react.default.createElement("div", (0, _extends2.default)({}, props, {
     ref: ref,
     className: (0, _classnames.default)(bsPrefix, className, !hasAnimation && (show ? 'show' : 'hide')),
     role: "alert",
@@ -54408,17 +53529,12 @@ _react.default.forwardRef(function (_ref, ref) {
     "aria-atomic": "true"
   }), children);
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_ToastContext.default.Provider, {
-      value: toastContext
-    }, hasAnimation && Transition ?
-    /*#__PURE__*/
-    _react.default.createElement(Transition, {
-      in: show,
-      unmountOnExit: true
-    }, toast) : toast)
-  );
+  return /*#__PURE__*/_react.default.createElement(_ToastContext.default.Provider, {
+    value: toastContext
+  }, hasAnimation && Transition ? /*#__PURE__*/_react.default.createElement(Transition, {
+    in: show,
+    unmountOnExit: true
+  }, toast) : toast);
 });
 
 Toast.displayName = 'Toast';
@@ -54459,9 +53575,7 @@ var noop = function noop() {
   return undefined;
 };
 
-var ToggleButton =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var ToggleButton = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var children = _ref.children,
       name = _ref.name,
       className = _ref.className,
@@ -54483,29 +53597,24 @@ _react.default.forwardRef(function (_ref, ref) {
   var handleBlur = (0, _react.useCallback)(function (e) {
     if (e.target.tagName === 'INPUT') setFocused(false);
   }, []);
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_Button.default, (0, _extends2.default)({}, props, {
-      ref: ref,
-      className: (0, _classnames.default)(className, focused && 'focus', disabled && 'disabled'),
-      type: undefined,
-      active: !!checked,
-      as: "label"
-    }),
-    /*#__PURE__*/
-    _react.default.createElement("input", {
-      name: name,
-      type: type,
-      value: value,
-      ref: inputRef,
-      autoComplete: "off",
-      checked: !!checked,
-      disabled: !!disabled,
-      onFocus: handleFocus,
-      onBlur: handleBlur,
-      onChange: onChange || noop
-    }), children)
-  );
+  return /*#__PURE__*/_react.default.createElement(_Button.default, (0, _extends2.default)({}, props, {
+    ref: ref,
+    className: (0, _classnames.default)(className, focused && 'focus', disabled && 'disabled'),
+    type: undefined,
+    active: !!checked,
+    as: "label"
+  }), /*#__PURE__*/_react.default.createElement("input", {
+    name: name,
+    type: type,
+    value: value,
+    ref: inputRef,
+    autoComplete: "off",
+    checked: !!checked,
+    disabled: !!disabled,
+    onFocus: handleFocus,
+    onBlur: handleBlur,
+    onChange: onChange || noop
+  }), children);
 });
 
 ToggleButton.displayName = 'ToggleButton';
@@ -54545,9 +53654,7 @@ var defaultProps = {
   vertical: false
 };
 
-var ToggleButtonGroup =
-/*#__PURE__*/
-_react.default.forwardRef(function (props, ref) {
+var ToggleButtonGroup = /*#__PURE__*/_react.default.forwardRef(function (props, ref) {
   var _useUncontrolled = (0, _uncontrollable.useUncontrolled)(props, {
     value: 'onChange'
   }),
@@ -54585,32 +53692,26 @@ _react.default.forwardRef(function (props, ref) {
   };
 
   !(type !== 'radio' || !!name) ? "development" !== "production" ? (0, _invariant.default)(false, 'A `name` is required to group the toggle buttons when the `type` ' + 'is set to "radio"') : (0, _invariant.default)(false) : void 0;
-  return (
-    /*#__PURE__*/
-    _react.default.createElement(_ButtonGroup.default, (0, _extends2.default)({}, controlledProps, {
-      ref: ref,
-      toggle: true
-    }), (0, _ElementChildren.map)(children, function (child) {
-      var values = getValues();
-      var _child$props = child.props,
-          childVal = _child$props.value,
-          childOnChange = _child$props.onChange;
+  return /*#__PURE__*/_react.default.createElement(_ButtonGroup.default, (0, _extends2.default)({}, controlledProps, {
+    ref: ref,
+    toggle: true
+  }), (0, _ElementChildren.map)(children, function (child) {
+    var values = getValues();
+    var _child$props = child.props,
+        childVal = _child$props.value,
+        childOnChange = _child$props.onChange;
 
-      var handler = function handler(e) {
-        return handleToggle(childVal, e);
-      };
+    var handler = function handler(e) {
+      return handleToggle(childVal, e);
+    };
 
-      return (
-        /*#__PURE__*/
-        _react.default.cloneElement(child, {
-          type: type,
-          name: child.name || name,
-          checked: values.indexOf(childVal) !== -1,
-          onChange: (0, _createChainedFunction.default)(childOnChange, handler)
-        })
-      );
-    }))
-  );
+    return /*#__PURE__*/_react.default.cloneElement(child, {
+      type: type,
+      name: child.name || name,
+      checked: values.indexOf(childVal) !== -1,
+      onChange: (0, _createChainedFunction.default)(childOnChange, handler)
+    });
+  }));
 });
 
 ToggleButtonGroup.defaultProps = defaultProps;
@@ -54644,9 +53745,7 @@ var defaultProps = {
   placement: 'right'
 };
 
-var Tooltip =
-/*#__PURE__*/
-_react.default.forwardRef(function (_ref, ref) {
+var Tooltip = /*#__PURE__*/_react.default.forwardRef(function (_ref, ref) {
   var bsPrefix = _ref.bsPrefix,
       placement = _ref.placement,
       className = _ref.className,
@@ -54661,24 +53760,17 @@ _react.default.forwardRef(function (_ref, ref) {
   var _ref2 = (placement == null ? void 0 : placement.split('-')) || [],
       primaryPlacement = _ref2[0];
 
-  return (
-    /*#__PURE__*/
-    _react.default.createElement("div", (0, _extends2.default)({
-      ref: ref,
-      style: style,
-      role: "tooltip",
-      "x-placement": primaryPlacement,
-      className: (0, _classnames.default)(className, bsPrefix, "bs-tooltip-" + primaryPlacement)
-    }, props),
-    /*#__PURE__*/
-    _react.default.createElement("div", (0, _extends2.default)({
-      className: "arrow"
-    }, arrowProps)),
-    /*#__PURE__*/
-    _react.default.createElement("div", {
-      className: bsPrefix + "-inner"
-    }, children))
-  );
+  return /*#__PURE__*/_react.default.createElement("div", (0, _extends2.default)({
+    ref: ref,
+    style: style,
+    role: "tooltip",
+    "x-placement": primaryPlacement,
+    className: (0, _classnames.default)(className, bsPrefix, "bs-tooltip-" + primaryPlacement)
+  }, props), /*#__PURE__*/_react.default.createElement("div", (0, _extends2.default)({
+    className: "arrow"
+  }, arrowProps)), /*#__PURE__*/_react.default.createElement("div", {
+    className: bsPrefix + "-inner"
+  }, children));
 });
 
 Tooltip.defaultProps = defaultProps;
@@ -55316,7 +54408,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"D:/nvm/v14.17.0/node_modules/parcel/src/builtins/css-loader.js"}],"components/profile-view/profile-view.jsx":[function(require,module,exports) {
+},{"_css_loader":"D:/nvm/v14.17.0/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/profile-view/profile-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -55360,7 +54452,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -55368,9 +54460,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var ProfileView =
-/*#__PURE__*/
-function (_React$Component) {
+var ProfileView = /*#__PURE__*/function (_React$Component) {
   _inherits(ProfileView, _React$Component);
 
   var _super = _createSuper(ProfileView);
@@ -55559,245 +54649,155 @@ function (_React$Component) {
       var FavoriteMovieList = movies.filter(function (movie) {
         return _this4.state.FavoriteMovies.includes(movie._id);
       });
-      return (
-        /*#__PURE__*/
-        _react.default.createElement("div", {
-          className: "userProfile",
-          style: {
-            display: "flex"
-          }
-        },
-        /*#__PURE__*/
-        _react.default.createElement(_Container.default, null,
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.Row, {
-          className: "justify-content-md-center"
-        },
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.Col, {
-          md: 12
-        },
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.Jumbotron, null,
-        /*#__PURE__*/
-        _react.default.createElement("div", {
-          className: "favoriteMovies",
-          style: {
-            float: "center",
-            textAlign: "center"
-          }
-        },
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.Card.Text, {
-          className: "mt-200",
-          as: "h3"
-        }, "Favorite Movies:"),
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.Row, {
+      return /*#__PURE__*/_react.default.createElement("div", {
+        className: "userProfile",
+        style: {
+          display: "flex"
+        }
+      }, /*#__PURE__*/_react.default.createElement(_Container.default, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, {
+        className: "justify-content-md-center"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
+        md: 12
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Jumbotron, null, /*#__PURE__*/_react.default.createElement("div", {
+        className: "favoriteMovies",
+        style: {
+          float: "center",
+          textAlign: "center"
+        }
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Card.Text, {
+        className: "mt-200",
+        as: "h3"
+      }, "Favorite Movies:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, {
+        className: "mb-20"
+      }, FavoriteMovieList.map(function (movie) {
+        return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, {
+          md: 3,
+          key: movie._id
+        }, /*#__PURE__*/_react.default.createElement("div", {
+          key: movie._id
+        }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Card, {
           className: "mb-20"
-        }, FavoriteMovieList.map(function (movie) {
-          return (
-            /*#__PURE__*/
-            _react.default.createElement(_reactBootstrap.Col, {
-              md: 3,
-              key: movie._id
-            },
-            /*#__PURE__*/
-            _react.default.createElement("div", {
-              key: movie._id
-            },
-            /*#__PURE__*/
-            _react.default.createElement(_reactBootstrap.Card, {
-              className: "mb-20"
-            },
-            /*#__PURE__*/
-            _react.default.createElement(_reactBootstrap.Card.Img, {
-              variant: "top",
-              src: movie.ImagePath
-            }),
-            /*#__PURE__*/
-            _react.default.createElement(_reactBootstrap.Card.Body, null,
-            /*#__PURE__*/
-            _react.default.createElement(_reactRouterDom.Link, {
-              to: "/movies/".concat(movie._id)
-            },
-            /*#__PURE__*/
-            _react.default.createElement(_reactBootstrap.Card.Title, {
-              as: "h6"
-            }, movie.Title)),
-            /*#__PURE__*/
-            _react.default.createElement(_reactBootstrap.Button, {
-              className: "mb-30",
-              onClick: function onClick() {
-                return _this4.removeFavorite(movie);
-              }
-            }, "Remove")))))
-          );
-        })))),
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.Jumbotron, {
-          className: "profile-view"
-        },
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.Form, {
-          className: "justify-content-md-center"
-        },
-        /*#__PURE__*/
-        _react.default.createElement("h1", {
-          style: {
-            textAlign: "center"
-          }
-        }, "Update Profile Details"),
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.Form.Group, {
-          controlId: "formUsername"
-        },
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.Form.Label, null, "Username: "),
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.FormControl, {
-          size: "sm",
-          type: "text",
-          name: "Username",
-          value: this.state.Username,
-          onChange: function onChange(e) {
-            return _this4.handleChange(e);
-          },
-          placeholder: "Change username"
-        }), Object.keys(UsernameError).map(function (key) {
-          return (
-            /*#__PURE__*/
-            _react.default.createElement("div", {
-              key: key,
-              style: {
-                color: "red"
-              }
-            }, UsernameError[key])
-          );
-        })),
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.Form.Group, {
-          controlId: "formPassword"
-        },
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.Form.Label, null, "Password: "),
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.FormControl, {
-          size: "sm",
-          type: "password",
-          name: "Password",
-          value: this.state.Password,
-          onChange: function onChange(e) {
-            return _this4.handleChange(e);
-          },
-          placeholder: "Enter current password or Change password"
-        }), Object.keys(PasswordError).map(function (key) {
-          return (
-            /*#__PURE__*/
-            _react.default.createElement("div", {
-              key: key,
-              style: {
-                color: "red"
-              }
-            }, PasswordError[key])
-          );
-        })),
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.Form.Group, {
-          controlId: "formEmail"
-        },
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.Form.Label, null, "Email: "),
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.FormControl, {
-          size: "sm",
-          type: "email",
-          name: "Email",
-          value: this.state.Email,
-          onChange: function onChange(e) {
-            return _this4.handleChange(e);
-          },
-          placeholder: "Change Email"
-        }), Object.keys(EmailError).map(function (key) {
-          return (
-            /*#__PURE__*/
-            _react.default.createElement("div", {
-              key: key,
-              style: {
-                color: "red"
-              }
-            }, EmailError[key])
-          );
-        })),
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.Form.Group, {
-          controlId: "formBirthdate"
-        },
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.Form.Label, null, "Date of Birth: "),
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.FormControl, {
-          size: "sm",
-          type: "date",
-          name: "Birthdate",
-          value: this.state.Birthdate,
-          onChange: function onChange(e) {
-            return _this4.handleChange(e);
-          },
-          placeholder: "Change Birthdate"
-        }), Object.keys(BirthdateError).map(function (key) {
-          return (
-            /*#__PURE__*/
-            _react.default.createElement("div", {
-              key: key,
-              style: {
-                color: "red"
-              }
-            }, BirthdateError[key])
-          );
-        })),
-        /*#__PURE__*/
-        _react.default.createElement(_reactRouterDom.Link, {
-          to: "/users/".concat(this.state.Username)
-        },
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.Button, {
-          className: "mb-2",
-          variant: "success",
-          type: "link",
-          size: "md",
-          block: true,
-          onClick: function onClick(e) {
-            return _this4.handleUpdate(e);
-          }
-        }, "Save changes")))),
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.Jumbotron, null,
-        /*#__PURE__*/
-        _react.default.createElement("h1", {
-          style: {
-            textAlign: "center"
-          }
-        }, "Delete Account"),
-        /*#__PURE__*/
-        _react.default.createElement("h3", {
-          style: {
-            textAlign: "center"
-          }
-        }, "There is no undoing this action."),
-        /*#__PURE__*/
-        _react.default.createElement("br", null),
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.Button, {
-          className: "mb-2",
-          variant: "danger",
-          size: "lg",
-          block: true,
+        }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Card.Img, {
+          variant: "top",
+          src: movie.ImagePath
+        }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Card.Body, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+          to: "/movies/".concat(movie._id)
+        }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Card.Title, {
+          as: "h6"
+        }, movie.Title)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+          className: "mb-30",
           onClick: function onClick() {
-            return _this4.handleDelete();
+            return _this4.removeFavorite(movie);
           }
-        }, " Delete Account"))))))
-      );
+        }, "Remove")))));
+      })))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Jumbotron, {
+        className: "profile-view"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form, {
+        className: "justify-content-md-center"
+      }, /*#__PURE__*/_react.default.createElement("h1", {
+        style: {
+          textAlign: "center"
+        }
+      }, "Update Profile Details"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Group, {
+        controlId: "formUsername"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Username: "), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        size: "sm",
+        type: "text",
+        name: "Username",
+        value: this.state.Username,
+        onChange: function onChange(e) {
+          return _this4.handleChange(e);
+        },
+        placeholder: "Change username"
+      }), Object.keys(UsernameError).map(function (key) {
+        return /*#__PURE__*/_react.default.createElement("div", {
+          key: key,
+          style: {
+            color: "red"
+          }
+        }, UsernameError[key]);
+      })), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Group, {
+        controlId: "formPassword"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Password: "), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        size: "sm",
+        type: "password",
+        name: "Password",
+        value: this.state.Password,
+        onChange: function onChange(e) {
+          return _this4.handleChange(e);
+        },
+        placeholder: "Enter current password or Change password"
+      }), Object.keys(PasswordError).map(function (key) {
+        return /*#__PURE__*/_react.default.createElement("div", {
+          key: key,
+          style: {
+            color: "red"
+          }
+        }, PasswordError[key]);
+      })), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Group, {
+        controlId: "formEmail"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Email: "), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        size: "sm",
+        type: "email",
+        name: "Email",
+        value: this.state.Email,
+        onChange: function onChange(e) {
+          return _this4.handleChange(e);
+        },
+        placeholder: "Change Email"
+      }), Object.keys(EmailError).map(function (key) {
+        return /*#__PURE__*/_react.default.createElement("div", {
+          key: key,
+          style: {
+            color: "red"
+          }
+        }, EmailError[key]);
+      })), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Group, {
+        controlId: "formBirthdate"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Date of Birth: "), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        size: "sm",
+        type: "date",
+        name: "Birthdate",
+        value: this.state.Birthdate,
+        onChange: function onChange(e) {
+          return _this4.handleChange(e);
+        },
+        placeholder: "Change Birthdate"
+      }), Object.keys(BirthdateError).map(function (key) {
+        return /*#__PURE__*/_react.default.createElement("div", {
+          key: key,
+          style: {
+            color: "red"
+          }
+        }, BirthdateError[key]);
+      })), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+        to: "/users/".concat(this.state.Username)
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+        className: "mb-2",
+        variant: "success",
+        type: "link",
+        size: "md",
+        block: true,
+        onClick: function onClick(e) {
+          return _this4.handleUpdate(e);
+        }
+      }, "Save changes")))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Jumbotron, null, /*#__PURE__*/_react.default.createElement("h1", {
+        style: {
+          textAlign: "center"
+        }
+      }, "Delete Account"), /*#__PURE__*/_react.default.createElement("h3", {
+        style: {
+          textAlign: "center"
+        }
+      }, "There is no undoing this action."), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+        className: "mb-2",
+        variant: "danger",
+        size: "lg",
+        block: true,
+        onClick: function onClick() {
+          return _this4.handleDelete();
+        }
+      }, " Delete Account"))))));
     }
   }]);
 
@@ -55826,7 +54826,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"D:/nvm/v14.17.0/node_modules/parcel/src/builtins/css-loader.js"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
+},{"_css_loader":"D:/nvm/v14.17.0/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -55884,7 +54884,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -55892,9 +54892,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var MainView =
-/*#__PURE__*/
-function (_React$Component) {
+var MainView = /*#__PURE__*/function (_React$Component) {
   _inherits(MainView, _React$Component);
 
   var _super = _createSuper(MainView);
@@ -56015,265 +55013,157 @@ function (_React$Component) {
           movies = _this$props.movies,
           user = _this$props.user,
           userData = _this$props.userData;
-      return (
-        /*#__PURE__*/
-        _react.default.createElement(_reactRouterDom.BrowserRouter, null,
-        /*#__PURE__*/
-        _react.default.createElement(_Row.default, {
-          className: "main-view justify-content-md-center"
-        },
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.Container, null,
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.Navbar, {
-          bg: "dark",
-          variant: "dark"
-        },
-        /*#__PURE__*/
-        _react.default.createElement(_reactBootstrap.Navbar.Brand, null, "Welcome to MyFlix!"),
-        /*#__PURE__*/
-        _react.default.createElement("ul", null, user &&
-        /*#__PURE__*/
-        _react.default.createElement(_reactRouterDom.Link, {
-          to: "/"
-        },
-        /*#__PURE__*/
-        _react.default.createElement(_Button.default, {
-          variant: "link",
-          className: "navbar-link text-light"
-        }, "Movies")), user &&
-        /*#__PURE__*/
-        _react.default.createElement(_reactRouterDom.Link, {
-          to: "/users/".concat(user)
-        },
-        /*#__PURE__*/
-        _react.default.createElement(_Button.default, {
-          variant: "link",
-          className: "navbar-link text-light"
-        }, "Profile")), user &&
-        /*#__PURE__*/
-        _react.default.createElement(_reactRouterDom.Link, {
-          to: "/"
-        },
-        /*#__PURE__*/
-        _react.default.createElement(_Button.default, {
-          variant: "link",
-          className: "navbar-link text-light",
-          onClick: function onClick() {
-            return _this4.onLoggedOut();
-          }
-        }, "Logout"))))),
-        /*#__PURE__*/
-        _react.default.createElement(_reactRouterDom.Route, {
-          exact: true,
-          path: "/",
-          render: function render() {
-            if (!user) return (
-              /*#__PURE__*/
-              _react.default.createElement(_Col.default, null,
-              /*#__PURE__*/
-              _react.default.createElement(_loginView.LoginView, {
-                onLoggedIn: function onLoggedIn(user) {
-                  return _this4.onLoggedIn(user);
-                }
-              }))
-            );
-            if (movies.length === 0) return (
-              /*#__PURE__*/
-              _react.default.createElement("div", {
-                className: "main-view"
-              })
-            );
-            /* return movies.map(m => (
-              <Col md={3} key={m._id}>
-                <MovieCard movie={m} />
-              </Col>
-            )) */
+      return /*#__PURE__*/_react.default.createElement(_reactRouterDom.BrowserRouter, null, /*#__PURE__*/_react.default.createElement(_Row.default, {
+        className: "main-view justify-content-md-center"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Container, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Navbar, {
+        bg: "dark",
+        variant: "dark"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Navbar.Brand, null, "Welcome to MyFlix!"), /*#__PURE__*/_react.default.createElement("ul", null, user && /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+        to: "/"
+      }, /*#__PURE__*/_react.default.createElement(_Button.default, {
+        variant: "link",
+        className: "navbar-link text-light"
+      }, "Movies")), user && /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+        to: "/users/".concat(user)
+      }, /*#__PURE__*/_react.default.createElement(_Button.default, {
+        variant: "link",
+        className: "navbar-link text-light"
+      }, "Profile")), user && /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+        to: "/"
+      }, /*#__PURE__*/_react.default.createElement(_Button.default, {
+        variant: "link",
+        className: "navbar-link text-light",
+        onClick: function onClick() {
+          return _this4.onLoggedOut();
+        }
+      }, "Logout"))))), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+        exact: true,
+        path: "/",
+        render: function render() {
+          if (!user) return /*#__PURE__*/_react.default.createElement(_Col.default, null, /*#__PURE__*/_react.default.createElement(_loginView.LoginView, {
+            onLoggedIn: function onLoggedIn(user) {
+              return _this4.onLoggedIn(user);
+            }
+          }));
+          if (movies.length === 0) return /*#__PURE__*/_react.default.createElement("div", {
+            className: "main-view"
+          });
+          /* return movies.map(m => (
+            <Col md={3} key={m._id}>
+              <MovieCard movie={m} />
+            </Col>
+          )) */
 
-            return (
-              /*#__PURE__*/
-              _react.default.createElement(_moviesList.default, {
-                movies: movies
-              })
-            );
-          }
-        }),
-        /*#__PURE__*/
-        _react.default.createElement(_reactRouterDom.Route, {
-          path: "/register",
-          render: function render() {
-            if (user) return (
-              /*#__PURE__*/
-              _react.default.createElement(_reactRouterDom.Redirect, {
-                to: "/"
-              })
-            );
-            return (
-              /*#__PURE__*/
-              _react.default.createElement(_Col.default, null,
-              /*#__PURE__*/
-              _react.default.createElement(_registrationView.RegistrationView, null))
-            );
-          }
-        }),
-        /*#__PURE__*/
-        _react.default.createElement(_reactRouterDom.Route, {
-          path: "/movies/:movieId",
-          render: function render(_ref) {
-            var match = _ref.match,
-                history = _ref.history;
-            if (movies.length === 0) return (
-              /*#__PURE__*/
-              _react.default.createElement("div", {
-                className: "main-view"
-              })
-            );
-            if (!user) return (
-              /*#__PURE__*/
-              _react.default.createElement(_Col.default, null,
-              /*#__PURE__*/
-              _react.default.createElement(_loginView.LoginView, {
-                onLoggedIn: function onLoggedIn(user) {
-                  return _this4.onLoggedIn(user);
-                }
-              }))
-            );
-            return (
-              /*#__PURE__*/
-              _react.default.createElement(_Col.default, {
-                md: 8
-              },
-              /*#__PURE__*/
-              _react.default.createElement(_movieView.MovieView, {
-                movie: movies.find(function (m) {
-                  return m._id === match.params.movieId;
-                }),
-                onBackClick: function onBackClick() {
-                  return history.goBack();
-                }
-              }))
-            );
-          }
-        }),
-        /*#__PURE__*/
-        _react.default.createElement(_reactRouterDom.Route, {
-          path: "/directors/:name",
-          render: function render(_ref2) {
-            var match = _ref2.match,
-                history = _ref2.history;
-            if (movies.length === 0) return (
-              /*#__PURE__*/
-              _react.default.createElement("div", {
-                className: "main-view"
-              })
-            );
-            if (!user) return (
-              /*#__PURE__*/
-              _react.default.createElement(_Col.default, null,
-              /*#__PURE__*/
-              _react.default.createElement(_loginView.LoginView, {
-                onLoggedIn: function onLoggedIn(user) {
-                  return _this4.onLoggedIn(user);
-                }
-              }))
-            );
-            return (
-              /*#__PURE__*/
-              _react.default.createElement(_Col.default, {
-                md: 8
-              },
-              /*#__PURE__*/
-              _react.default.createElement(_directorView.DirectorView, {
-                director: movies.find(function (m) {
-                  return m.Director.Name === match.params.name;
-                }).Director,
-                onBackClick: function onBackClick() {
-                  return history.goBack();
-                }
-              }))
-            );
-          }
-        }),
-        /*#__PURE__*/
-        _react.default.createElement(_reactRouterDom.Route, {
-          path: "/users/:username",
-          render: function render() {
-            if (movies.length === 0) return (
-              /*#__PURE__*/
-              _react.default.createElement("div", {
-                className: "main-view"
-              })
-            );
-            if (!user) return (
-              /*#__PURE__*/
-              _react.default.createElement(_Col.default, null,
-              /*#__PURE__*/
-              _react.default.createElement(_loginView.LoginView, {
-                onLoggedIn: function onLoggedIn(user) {
-                  return _this4.onLoggedIn(user);
-                }
-              }))
-            );
-            return (
-              /*#__PURE__*/
-              _react.default.createElement(_Col.default, null,
-              /*#__PURE__*/
-              _react.default.createElement(_profileView.ProfileView, {
-                movies: movies,
-                user: user,
-                token: token,
-                history: history,
-                userData: userData,
-                onNewUser: function onNewUser(newData) {
-                  _this4.newUser(newData);
-                },
-                onLoggedOut: function onLoggedOut(signState) {
-                  _this4.onLoggedOut(signState);
-                }
-              }))
-            );
-          }
-        }),
-        /*#__PURE__*/
-        _react.default.createElement(_reactRouterDom.Route, {
-          path: "/genres/:name",
-          render: function render(_ref3) {
-            var match = _ref3.match,
-                history = _ref3.history;
-            if (movies.length === 0) return (
-              /*#__PURE__*/
-              _react.default.createElement("div", {
-                className: "main-view"
-              })
-            );
-            if (!user) return (
-              /*#__PURE__*/
-              _react.default.createElement(_Col.default, null,
-              /*#__PURE__*/
-              _react.default.createElement(_loginView.LoginView, {
-                onLoggedIn: function onLoggedIn(user) {
-                  return _this4.onLoggedIn(user);
-                }
-              }))
-            );
-            return (
-              /*#__PURE__*/
-              _react.default.createElement(_Col.default, {
-                md: 8
-              },
-              /*#__PURE__*/
-              _react.default.createElement(_genreView.GenreView, {
-                genre: movies.find(function (m) {
-                  return m.Genre.Name === match.params.name;
-                }).Genre,
-                onBackClick: function onBackClick() {
-                  return history.goBack();
-                }
-              }))
-            );
-          }
-        })))
-      );
+          return /*#__PURE__*/_react.default.createElement(_moviesList.default, {
+            movies: movies
+          });
+        }
+      }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+        path: "/register",
+        render: function render() {
+          if (user) return /*#__PURE__*/_react.default.createElement(_reactRouterDom.Redirect, {
+            to: "/"
+          });
+          return /*#__PURE__*/_react.default.createElement(_Col.default, null, /*#__PURE__*/_react.default.createElement(_registrationView.RegistrationView, null));
+        }
+      }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+        path: "/movies/:movieId",
+        render: function render(_ref) {
+          var match = _ref.match,
+              history = _ref.history;
+          if (movies.length === 0) return /*#__PURE__*/_react.default.createElement("div", {
+            className: "main-view"
+          });
+          if (!user) return /*#__PURE__*/_react.default.createElement(_Col.default, null, /*#__PURE__*/_react.default.createElement(_loginView.LoginView, {
+            onLoggedIn: function onLoggedIn(user) {
+              return _this4.onLoggedIn(user);
+            }
+          }));
+          return /*#__PURE__*/_react.default.createElement(_Col.default, {
+            md: 8
+          }, /*#__PURE__*/_react.default.createElement(_movieView.MovieView, {
+            movie: movies.find(function (m) {
+              return m._id === match.params.movieId;
+            }),
+            onBackClick: function onBackClick() {
+              return history.goBack();
+            }
+          }));
+        }
+      }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+        path: "/directors/:name",
+        render: function render(_ref2) {
+          var match = _ref2.match,
+              history = _ref2.history;
+          if (movies.length === 0) return /*#__PURE__*/_react.default.createElement("div", {
+            className: "main-view"
+          });
+          if (!user) return /*#__PURE__*/_react.default.createElement(_Col.default, null, /*#__PURE__*/_react.default.createElement(_loginView.LoginView, {
+            onLoggedIn: function onLoggedIn(user) {
+              return _this4.onLoggedIn(user);
+            }
+          }));
+          return /*#__PURE__*/_react.default.createElement(_Col.default, {
+            md: 8
+          }, /*#__PURE__*/_react.default.createElement(_directorView.DirectorView, {
+            director: movies.find(function (m) {
+              return m.Director.Name === match.params.name;
+            }).Director,
+            onBackClick: function onBackClick() {
+              return history.goBack();
+            }
+          }));
+        }
+      }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+        path: "/users/:username",
+        render: function render() {
+          if (movies.length === 0) return /*#__PURE__*/_react.default.createElement("div", {
+            className: "main-view"
+          });
+          if (!user) return /*#__PURE__*/_react.default.createElement(_Col.default, null, /*#__PURE__*/_react.default.createElement(_loginView.LoginView, {
+            onLoggedIn: function onLoggedIn(user) {
+              return _this4.onLoggedIn(user);
+            }
+          }));
+          return /*#__PURE__*/_react.default.createElement(_Col.default, null, /*#__PURE__*/_react.default.createElement(_profileView.ProfileView, {
+            movies: movies,
+            user: user,
+            token: token,
+            history: history,
+            userData: userData,
+            onNewUser: function onNewUser(newData) {
+              _this4.newUser(newData);
+            },
+            onLoggedOut: function onLoggedOut(signState) {
+              _this4.onLoggedOut(signState);
+            }
+          }));
+        }
+      }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+        path: "/genres/:name",
+        render: function render(_ref3) {
+          var match = _ref3.match,
+              history = _ref3.history;
+          if (movies.length === 0) return /*#__PURE__*/_react.default.createElement("div", {
+            className: "main-view"
+          });
+          if (!user) return /*#__PURE__*/_react.default.createElement(_Col.default, null, /*#__PURE__*/_react.default.createElement(_loginView.LoginView, {
+            onLoggedIn: function onLoggedIn(user) {
+              return _this4.onLoggedIn(user);
+            }
+          }));
+          return /*#__PURE__*/_react.default.createElement(_Col.default, {
+            md: 8
+          }, /*#__PURE__*/_react.default.createElement(_genreView.GenreView, {
+            genre: movies.find(function (m) {
+              return m.Genre.Name === match.params.name;
+            }).Genre,
+            onBackClick: function onBackClick() {
+              return history.goBack();
+            }
+          }));
+        }
+      })));
     }
   }]);
 
@@ -56302,7 +55192,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"D:/nvm/v14.17.0/node_modules/parcel/src/builtins/css-loader.js"}],"index.jsx":[function(require,module,exports) {
+},{"_css_loader":"D:/nvm/v14.17.0/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"index.jsx":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -56339,7 +55229,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -56349,9 +55239,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var store = (0, _redux.createStore)(_reducers.default, (0, _reduxDevtoolsExtension.devToolsEnhancer)()); // Main component (will eventually use all the others)
 
-var MyFlixApplication =
-/*#__PURE__*/
-function (_React$Component) {
+var MyFlixApplication = /*#__PURE__*/function (_React$Component) {
   _inherits(MyFlixApplication, _React$Component);
 
   var _super = _createSuper(MyFlixApplication);
@@ -56365,16 +55253,9 @@ function (_React$Component) {
   _createClass(MyFlixApplication, [{
     key: "render",
     value: function render() {
-      return (
-        /*#__PURE__*/
-        _react.default.createElement(_reactRedux.Provider, {
-          store: store
-        },
-        /*#__PURE__*/
-        _react.default.createElement(_Container.default, null,
-        /*#__PURE__*/
-        _react.default.createElement(_mainView.default, null)))
-      );
+      return /*#__PURE__*/_react.default.createElement(_reactRedux.Provider, {
+        store: store
+      }, /*#__PURE__*/_react.default.createElement(_Container.default, null, /*#__PURE__*/_react.default.createElement(_mainView.default, null)));
     }
   }]);
 
@@ -56384,10 +55265,8 @@ function (_React$Component) {
 
 var container = document.getElementsByClassName('app-container')[0]; // Tell React to render our app in the root DOM element
 
-_reactDom.default.render(
-/*#__PURE__*/
-_react.default.createElement(MyFlixApplication), container);
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","redux":"../node_modules/redux/es/redux.js","react-redux":"../node_modules/react-redux/es/index.js","./reducers/reducers":"reducers/reducers.js","redux-devtools-extension":"../node_modules/redux-devtools-extension/index.js","./components/main-view/main-view":"components/main-view/main-view.jsx","./index.scss":"index.scss"}],"D:/nvm/v14.17.0/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+_reactDom.default.render( /*#__PURE__*/_react.default.createElement(MyFlixApplication), container);
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","redux":"../node_modules/redux/es/redux.js","react-redux":"../node_modules/react-redux/es/index.js","./reducers/reducers":"reducers/reducers.js","redux-devtools-extension":"../node_modules/redux-devtools-extension/index.js","./components/main-view/main-view":"components/main-view/main-view.jsx","./index.scss":"index.scss"}],"D:/nvm/v14.17.0/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -56415,7 +55294,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60833" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52406" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -56446,8 +55325,9 @@ if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
         assetsToAccept.forEach(function (v) {
           hmrAcceptRun(v[0], v[1]);
         });
-      } else {
-        window.location.reload();
+      } else if (location.reload) {
+        // `location` global exists in a web worker context but lacks `.reload()` function.
+        location.reload();
       }
     }
 
@@ -56590,5 +55470,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["D:/nvm/v14.17.0/node_modules/parcel/src/builtins/hmr-runtime.js","index.jsx"], null)
+},{}]},{},["D:/nvm/v14.17.0/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.jsx"], null)
 //# sourceMappingURL=/src.78399e21.js.map
